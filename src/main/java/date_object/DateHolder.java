@@ -9,6 +9,7 @@ public class DateHolder implements Comparable<DateHolder>{
 
     private Date dateObject;
     private String originalString;
+    public static String DEFAULT_FORMAT = "yyyy-MM-dd HH:mm:ss,SSS";
 
 
     public Date getDateObject() {
@@ -31,7 +32,7 @@ public class DateHolder implements Comparable<DateHolder>{
         }
 
         if(format == null || format.isEmpty()){
-            format = "yyyy-MM-dd HH:mm:ss,SSS";
+            format = DEFAULT_FORMAT;
         }
 
         SimpleDateFormat formatter = new SimpleDateFormat(format);

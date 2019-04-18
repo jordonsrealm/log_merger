@@ -30,6 +30,7 @@ public class Merger {
 
         mergeBtn = new JButton("Merge Files");
         format = new JTextArea(1, 50);
+        format.setText(DateHolder.DEFAULT_FORMAT);
         unOrganizedText = new JTextArea(1, 45);
         organizedText   = new JTextArea(1,45);
         unOrganizedText.setPreferredSize(new Dimension(60,100));
