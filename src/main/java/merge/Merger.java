@@ -13,6 +13,7 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Collections;
 
+
 public class Merger {
 
     private static JButton mergeBtn;
@@ -26,21 +27,28 @@ public class Merger {
 
     public static void main(String[] args){
         JFrame frame = new JFrame(MAIN_TITLE);
-
         frame.setLayout(new BorderLayout());
-        JPanel panel = new JPanel();
-        panel.setLayout(new BorderLayout());
+
+        JPanel bottomPanel = new JPanel();
+        bottomPanel.setLayout(new BorderLayout());
 
         mergeBtn = new JButton(BTN_TITLE);
         format = new JTextArea(1, 50);
-        format.setText(DateHolder.DEFAULT_FORMAT);
-        unOrganizedText = new JTextArea(1, 45);
-        organizedText   = new JTextArea(1,45);
-        unOrganizedText.setPreferredSize(new Dimension(60,100));
-        organizedText.setPreferredSize(new Dimension(60,100));
+        unOrganizedText = new JTextArea("",5,45);
+        organizedText   = new JTextArea("",5,45);
 
-        panel.add(unOrganizedText, BorderLayout.WEST);
-        panel.add(organizedText,   BorderLayout.EAST);
+        JScrollPane unOrganizedScrollPane = new JScrollPane(unOrganizedText);
+        JScrollPane organizedScrollPane   = new JScrollPane(organizedText);
+
+        unOrganizedScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        unOrganizedScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        organizedScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        organizedScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+
+        format.setText(DateHolder.DEFAULT_FORMAT);
+
+        bottomPanel.add(unOrganizedScrollPane, BorderLayout.WEST);
+        bottomPanel.add(organizedScrollPane,   BorderLayout.EAST);
 
         mergeBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -79,7 +87,7 @@ public class Merger {
         topPanel.add(format, BorderLayout.SOUTH);
 
         frame.add(topPanel, BorderLayout.NORTH);
-        frame.add(panel, BorderLayout.CENTER);
+        frame.add(bottomPanel, BorderLayout.CENTER);
 
         frame.setVisible(true);
         frame.setResizable(false);

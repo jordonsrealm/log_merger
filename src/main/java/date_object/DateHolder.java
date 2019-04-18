@@ -9,7 +9,7 @@ public class DateHolder implements Comparable<DateHolder>{
 
     private Date dateObject;
     private String originalString;
-    public static String DEFAULT_FORMAT = "yyyy-MM-dd HH:mm:ss,SSS";
+    public static String DEFAULT_FORMAT = "yyyy-MM-dd HH:mm:ss.SSS";
 
 
     public Date getDateObject() {

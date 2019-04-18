@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="fdc15ebb-0138-44d0-b448-a3aba1e1c3c9" name="Default Changelist" comment="">
+    <list default="true" id="fdc15ebb-0138-44d0-b448-a3aba1e1c3c9" name="Default Changelist" comment="Correct default string format and added scrollable panes.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/merger.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/date_object/DateHolder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/date_object/DateHolder.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/merge/Merger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/merge/Merger.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/merge/Merger$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/merge/Merger$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/merge/Merger.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/merge/Merger.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-archiver/pom.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
@@ -23,11 +23,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/merge/Merger.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="561">
-              <caret line="33" lean-forward="true" selection-start-line="33" selection-end-line="33" />
+            <state relative-caret-position="-638">
+              <caret line="15" lean-forward="true" selection-start-line="15" selection-end-line="15" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -35,7 +35,7 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/date_object/DateHolder.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="78">
@@ -129,7 +129,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1555600052984" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1555600202079" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
   <component name="RunDashboard">
@@ -208,12 +208,25 @@
       <option name="project" value="LOCAL" />
       <updated>1555564722833</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Correct default string format and added scrollable panes.">
+      <created>1555600084131</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1555600084131</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Correct default string format and added scrollable panes.">
+      <created>1555600156441</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1555600156441</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="1912" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.1444563" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -224,14 +237,14 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32936078" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.32936078" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Terminal" order="7" />
       <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" />
-      <window_info anchor="bottom" id="Version Control" order="9" weight="0.26218852" />
+      <window_info active="true" anchor="bottom" id="Version Control" order="9" visible="true" weight="0.26218852" />
       <window_info anchor="bottom" id="Messages" order="10" weight="0.30985916" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -288,7 +301,8 @@
     <MESSAGE value="Added default string format for parsing string dates." />
     <MESSAGE value="Added strings used for configurations for application." />
     <MESSAGE value="Removed system out logging." />
-    <option name="LAST_COMMIT_MESSAGE" value="Removed system out logging." />
+    <MESSAGE value="Correct default string format and added scrollable panes." />
+    <option name="LAST_COMMIT_MESSAGE" value="Correct default string format and added scrollable panes." />
   </component>
   <component name="editorHistoryManager">
     <entry file="jar://C:/Program Files/Java/jdk-11.0.2/lib/src.zip!/java.base/java/text/DateFormat.java">
@@ -344,20 +358,20 @@
     <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/merge/Merger.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/date_object/DateHolder.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="561">
-          <caret line="33" lean-forward="true" selection-start-line="33" selection-end-line="33" />
+        <state relative-caret-position="78">
+          <caret line="11" column="63" selection-start-line="11" selection-start-column="63" selection-end-line="11" selection-end-column="63" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/date_object/DateHolder.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/merge/Merger.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="78">
-          <caret line="11" column="63" selection-start-line="11" selection-start-column="63" selection-end-line="11" selection-end-column="63" />
+        <state relative-caret-position="-638">
+          <caret line="15" lean-forward="true" selection-start-line="15" selection-end-line="15" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
