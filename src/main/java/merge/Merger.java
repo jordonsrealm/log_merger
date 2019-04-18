@@ -20,15 +20,18 @@ public class Merger {
     private static JTextArea unOrganizedText;
     private static JTextArea organizedText;
 
+    private static final String MAIN_TITLE = "FILE MERGER";
+    private static final String BTN_TITLE = "Merge Files";
+
 
     public static void main(String[] args){
-        JFrame frame = new JFrame("Merge Files");
+        JFrame frame = new JFrame(MAIN_TITLE);
 
         frame.setLayout(new BorderLayout());
         JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());
 
-        mergeBtn = new JButton("Merge Files");
+        mergeBtn = new JButton(BTN_TITLE);
         format = new JTextArea(1, 50);
         format.setText(DateHolder.DEFAULT_FORMAT);
         unOrganizedText = new JTextArea(1, 45);
