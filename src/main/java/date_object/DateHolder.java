@@ -41,14 +41,10 @@ public class DateHolder implements Comparable<DateHolder>{
         try {
             dateFromString = formatter.parse(assembleDateString);
         } catch (ParseException e) {
-            dateFromString = null;
         }
 
         this.dateObject     = dateFromString;
         this.originalString = strToConvert;
-
-        System.out.println(dateObject);
-        System.out.println(originalString);
     }
 
     @Override
