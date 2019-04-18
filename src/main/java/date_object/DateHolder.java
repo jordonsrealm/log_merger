@@ -54,7 +54,7 @@ public class DateHolder implements Comparable<DateHolder>{
 
     @Override
     public int compareTo(DateHolder o) {
-        if(this.getDateObject() == null){
+        if(this.getDateObject() == null || o.getDateObject() == null){
             return 0;
         }else{
             return this.getDateObject().compareTo(o.getDateObject());

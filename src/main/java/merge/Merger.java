@@ -52,7 +52,7 @@ public class Merger {
                 String lineRead = "";
                 StringBuilder builder = new StringBuilder();
 
-                ArrayList<DateHolder> dateHolder = new ArrayList<DateHolder>();
+                ArrayList<DateHolder> dateHolder = new ArrayList<>();
 
                 try {
                     while((lineRead = bufferedReader.readLine()) != null){
