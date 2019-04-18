@@ -1,3 +1,4 @@
-merge\Merger$1.class
-merge\Merger.class
+components\MainWindow.class
+listeners\MergeBtnListener.class
 date_object\DateHolder.class
+merge\Merger.class
