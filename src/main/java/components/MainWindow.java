@@ -4,6 +4,7 @@ import date_object.DateHolder;
 import listeners.MergeBtnListener;
 
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
 import java.awt.*;
 
 
@@ -15,6 +16,8 @@ public class MainWindow extends JFrame {
     private JTextArea organizedText;
     private final String MAIN_TITLE = "FILE MERGER";
     private final String BTN_TITLE = "Merge Files";
+    private final String UN_ORDERED_TEXT = "UN-ORDERED TEXT";
+    private final String ORDERED_TEXT    = "ORDERED TEXT";
     private static Dimension MINIMUM_DIMENSION = new Dimension(600,400);
     private static Dimension PREFERRED_SIZE = new Dimension(1000,600);
 
@@ -27,6 +30,12 @@ public class MainWindow extends JFrame {
         format          = new JTextField(50);
         unOrganizedText = new JTextArea("",5,45);
         organizedText   = new JTextArea("",5,45);
+
+        TitledBorder unOrganizedTitledBorder   = BorderFactory.createTitledBorder(UN_ORDERED_TEXT);
+        TitledBorder organizedTextTitledBorder = BorderFactory.createTitledBorder(ORDERED_TEXT);
+
+        unOrganizedText.setBorder(unOrganizedTitledBorder);
+        organizedText.setBorder(organizedTextTitledBorder);
 
         format.setText(DateHolder.DEFAULT_FORMAT);
 
