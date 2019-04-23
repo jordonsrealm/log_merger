@@ -2,6 +2,8 @@ package components;
 
 import date_object.DateHolder;
 import listeners.MergeBtnListener;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -10,12 +12,15 @@ import java.awt.*;
 
 public class MainWindow extends JFrame {
 
+    private static final Logger logger = LoggerFactory.getLogger(MainWindow.class);
+
     private JButton mergeBtn;
-    private JTextField format;
+    private JTextField patternTextField;
     private JTextArea unOrganizedText;
     private JTextArea organizedText;
+    private JCheckBox ascendDescendOrder;
     private final String MAIN_TITLE = "FILE MERGER";
-    private final String BTN_TITLE = "Merge Files";
+    private final String BTN_TITLE  = "Merge Files";
     private final String UN_ORDERED_TEXT = "UN-ORDERED TEXT";
     private final String ORDERED_TEXT    = "ORDERED TEXT";
     private static Dimension MINIMUM_DIMENSION = new Dimension(600,400);
@@ -26,28 +31,32 @@ public class MainWindow extends JFrame {
         setTitle(MAIN_TITLE);
         setLayout(new BorderLayout());
 
-        mergeBtn        = new JButton(BTN_TITLE);
-        format          = new JTextField(50);
-        unOrganizedText = new JTextArea("",5,45);
-        organizedText   = new JTextArea("",5,45);
+        mergeBtn           = new JButton(BTN_TITLE);
+        patternTextField   = new JTextField(50);
+        unOrganizedText    = new JTextArea("",5,45);
+        organizedText      = new JTextArea("",5,45);
+        ascendDescendOrder = new JCheckBox("Descending?");
 
         TitledBorder unOrganizedTitledBorder   = BorderFactory.createTitledBorder(UN_ORDERED_TEXT);
         TitledBorder organizedTextTitledBorder = BorderFactory.createTitledBorder(ORDERED_TEXT);
 
+        // Set the title border for the two text areas
         unOrganizedText.setBorder(unOrganizedTitledBorder);
         organizedText.setBorder(organizedTextTitledBorder);
 
-        format.setText(DateHolder.DEFAULT_FORMAT);
+        // Set default pattern
+        patternTextField.setText(DateHolder.DEFAULT_FORMAT);
 
-        MergeBtnListener listener = new MergeBtnListener(format, unOrganizedText, organizedText);
+        MergeBtnListener listener = new MergeBtnListener(patternTextField, unOrganizedText, organizedText, ascendDescendOrder);
         mergeBtn.addActionListener(listener);
 
         // Top Panel Construction
         JPanel topPanel = new JPanel();
         topPanel.setLayout(new BorderLayout());
-        topPanel.add(mergeBtn, BorderLayout.WEST);
-        format.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        topPanel.add(format, BorderLayout.CENTER);
+        topPanel.add(mergeBtn, BorderLayout.EAST);
+        patternTextField.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        topPanel.add(patternTextField, BorderLayout.CENTER);
+        topPanel.add(ascendDescendOrder, BorderLayout.WEST);
 
         // Bottom Panel Construction
         JScrollPane unOrganizedScrollPane = new JScrollPane(unOrganizedText);
@@ -64,6 +73,11 @@ public class MainWindow extends JFrame {
         // Add to JFrame
         this.add(topPanel, BorderLayout.NORTH);
         this.add(splitPaneBottomPanel, BorderLayout.CENTER);
+
+        // Change the icon image
+        ImageIcon img = new ImageIcon("../../app_icon.png");
+        logger.info("Logger user directory: {}" ,System.getProperty("user.dir"));
+        setIconImage(img.getImage());
     }
 
     public void setFrameConstraints(){
@@ -73,29 +87,5 @@ public class MainWindow extends JFrame {
         this.setSize(this.PREFERRED_SIZE);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-    }
-
-    public JButton getMergeBtn() {
-        return mergeBtn;
-    }
-
-    public JTextField getFormat() {
-        return format;
-    }
-
-    public JTextArea getUnOrganizedText() {
-        return unOrganizedText;
-    }
-
-    public JTextArea getOrganizedText() {
-        return organizedText;
-    }
-
-    public String getMAIN_TITLE() {
-        return MAIN_TITLE;
-    }
-
-    public String getBTN_TITLE() {
-        return BTN_TITLE;
     }
 }

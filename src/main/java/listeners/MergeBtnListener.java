@@ -18,16 +18,19 @@ public class MergeBtnListener implements ActionListener {
     private JTextField format;
     private JTextArea unOrganizedText;
     private JTextArea organizedText;
+    private JCheckBox checkBox;
 
 
-    public MergeBtnListener(JTextField format, JTextArea notOrganizedText, JTextArea organizedText){
+    public MergeBtnListener(JTextField format, JTextArea notOrganizedText, JTextArea organizedText, JCheckBox checkBox){
         this.format = format;
         this.unOrganizedText = notOrganizedText;
         this.organizedText = organizedText;
+        this.checkBox = checkBox;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        organizedText.setText("");
         String inputStr = unOrganizedText.getText();
 
         Reader inputString = new StringReader(inputStr);
@@ -45,7 +48,11 @@ public class MergeBtnListener implements ActionListener {
             e1.printStackTrace();
         }
 
-        Collections.sort(dateHolder);
+        if(checkBox.isSelected()){
+            Collections.reverse(dateHolder);
+        } else{
+            Collections.sort(dateHolder);
+        }
 
         for(DateHolder holder: dateHolder){
             builder.append(holder.getOriginalString() + "\n");
