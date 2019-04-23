@@ -21,12 +21,12 @@ public class DateHolder implements Comparable<DateHolder>{
     }
 
     public DateHolder(String strToConvert, String format){
-        String[] parts = strToConvert.split("\\s");
+        String[] segmentedDate = strToConvert.split("\\s");
 
         String assembleDateString;
 
-        if(parts != null && parts.length > 1){
-            assembleDateString = parts[0] + " " + parts[1];
+        if(segmentedDate != null && segmentedDate.length > 1){
+            assembleDateString = segmentedDate[0] + " " + segmentedDate[1];
         } else{
             assembleDateString = "";
         }

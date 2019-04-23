@@ -48,10 +48,10 @@ public class MergeBtnListener implements ActionListener {
             e1.printStackTrace();
         }
 
+        Collections.sort(dateHolder);
+
         if(checkBox.isSelected()){
             Collections.reverse(dateHolder);
-        } else{
-            Collections.sort(dateHolder);
         }
 
         for(DateHolder holder: dateHolder){
