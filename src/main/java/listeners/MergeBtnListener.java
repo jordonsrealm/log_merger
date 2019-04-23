@@ -30,10 +30,10 @@ public class MergeBtnListener implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        organizedText.setText("");
-        String inputStr = unOrganizedText.getText();
 
-        Reader inputString = new StringReader(inputStr);
+        organizedText.setText("");
+
+        Reader inputString = new StringReader(unOrganizedText.getText());
 
         BufferedReader bufferedReader = new BufferedReader(inputString);
         StringBuilder builder = new StringBuilder();
@@ -41,6 +41,7 @@ public class MergeBtnListener implements ActionListener {
         ArrayList<DateHolder> dateHolder = new ArrayList<>();
 
         try {
+            DateHolder.invertComparison = checkBox.isSelected();
             while((lineRead = bufferedReader.readLine()) != null){
                 dateHolder.add(new DateHolder(lineRead, format.getText()));
             }
@@ -49,10 +50,6 @@ public class MergeBtnListener implements ActionListener {
         }
 
         Collections.sort(dateHolder);
-
-        if(checkBox.isSelected()){
-            Collections.reverse(dateHolder);
-        }
 
         for(DateHolder holder: dateHolder){
             builder.append(holder.getOriginalString() + "\n");

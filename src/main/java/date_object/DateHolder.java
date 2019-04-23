@@ -10,6 +10,7 @@ public class DateHolder implements Comparable<DateHolder>{
     private Date dateObject;
     private String originalString;
     public static String DEFAULT_FORMAT = "yyyy-MM-dd HH:mm:ss.SSS";
+    public static Boolean invertComparison;
 
 
     public Date getDateObject() {
@@ -21,6 +22,7 @@ public class DateHolder implements Comparable<DateHolder>{
     }
 
     public DateHolder(String strToConvert, String format){
+
         String[] segmentedDate = strToConvert.split("\\s");
 
         String assembleDateString;
@@ -57,7 +59,7 @@ public class DateHolder implements Comparable<DateHolder>{
         if(this.getDateObject() == null || o.getDateObject() == null){
             return 0;
         }else{
-            return this.getDateObject().compareTo(o.getDateObject());
+            return this.getDateObject().compareTo(o.getDateObject()) * (invertComparison?-1:1);
         }
 
     }
