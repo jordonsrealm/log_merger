@@ -12,7 +12,7 @@ import java.awt.*;
 
 public class MainWindow extends JFrame {
 
-    private static final Logger logger = LoggerFactory.getLogger(MainWindow.class);
+    //private static final Logger logger = LoggerFactory.getLogger(MainWindow.class);
 
     private JButton mergeBtn;
     private JTextField patternTextField;
@@ -23,6 +23,7 @@ public class MainWindow extends JFrame {
     private final String BTN_TITLE  = "Merge Files";
     private final String UN_ORDERED_TEXT = "UN-ORDERED TEXT";
     private final String ORDERED_TEXT    = "ORDERED TEXT";
+    private final String PATTERN_TEXT = "PATTERN TEXT";
     private static Dimension MINIMUM_DIMENSION = new Dimension(600,400);
     private static Dimension PREFERRED_SIZE = new Dimension(1000,600);
 
@@ -39,10 +40,13 @@ public class MainWindow extends JFrame {
 
         TitledBorder unOrganizedTitledBorder   = BorderFactory.createTitledBorder(UN_ORDERED_TEXT);
         TitledBorder organizedTextTitledBorder = BorderFactory.createTitledBorder(ORDERED_TEXT);
+        TitledBorder patternTextFieldTitledBorder = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black), PATTERN_TEXT, TitledBorder.LEFT, TitledBorder.TOP);
 
         // Set the title border for the two text areas
         unOrganizedText.setBorder(unOrganizedTitledBorder);
         organizedText.setBorder(organizedTextTitledBorder);
+        patternTextField.setBorder(patternTextFieldTitledBorder);
+        patternTextField.setOpaque(false);
 
         // Set default pattern
         patternTextField.setText(DateHolder.DEFAULT_FORMAT);
@@ -53,10 +57,9 @@ public class MainWindow extends JFrame {
         // Top Panel Construction
         JPanel topPanel = new JPanel();
         topPanel.setLayout(new BorderLayout());
-        topPanel.add(mergeBtn, BorderLayout.EAST);
-        patternTextField.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        topPanel.add(patternTextField, BorderLayout.CENTER);
-        topPanel.add(ascendDescendOrder, BorderLayout.WEST);
+        topPanel.add( ascendDescendOrder, BorderLayout.WEST);
+        topPanel.add( patternTextField, BorderLayout.CENTER);
+        topPanel.add( mergeBtn, BorderLayout.EAST);
 
         // Bottom Panel Construction
         JScrollPane unOrganizedScrollPane = new JScrollPane(unOrganizedText);
@@ -75,9 +78,9 @@ public class MainWindow extends JFrame {
         this.add(splitPaneBottomPanel, BorderLayout.CENTER);
 
         // Change the icon image
-        ImageIcon img = new ImageIcon("../../app_icon.png");
-        logger.info("Logger user directory: {}" ,System.getProperty("user.dir"));
-        setIconImage(img.getImage());
+        //logger.info("Logger user directory: {}" ,System.getProperty("user.dir"));
+        //ImageIcon img = new ImageIcon("../../app_icon.png");
+        //setIconImage(img.getImage());
     }
 
     public void setFrameConstraints(){
