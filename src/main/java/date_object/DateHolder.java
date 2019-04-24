@@ -49,6 +49,18 @@ public class DateHolder implements Comparable<DateHolder>{
         this.originalString = strToConvert;
     }
 
+    public static Date getDateFromString(String dateStr){
+        SimpleDateFormat formatter = new SimpleDateFormat(DEFAULT_FORMAT);
+
+        Date dateFromString = null;
+        try {
+            dateFromString = formatter.parse(dateStr);
+        } catch (ParseException e) {
+        }
+
+        return dateFromString;
+    }
+
     @Override
     public String toString() {
         return "DateHolder [dateObject=" + dateObject.toString() + "]";

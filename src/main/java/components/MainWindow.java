@@ -1,9 +1,8 @@
 package components;
 
+import container_pattern.MainWindowContainer;
 import date_object.DateHolder;
 import listeners.MergeBtnListener;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -13,57 +12,98 @@ import java.awt.*;
 public class MainWindow extends JFrame {
 
     //private static final Logger logger = LoggerFactory.getLogger(MainWindow.class);
-
-    private JButton mergeBtn;
-    private JTextField patternTextField;
-    private JTextArea unOrganizedText;
-    private JTextArea organizedText;
-    private JCheckBox ascendDescendOrder;
-    private final String MAIN_TITLE = "FILE MERGER";
-    private final String BTN_TITLE  = "Merge Files";
+    private MainWindowContainer mainWindowContainer =  new MainWindowContainer();
+    private final String MAIN_TITLE      = "FILE MERGER";
+    private final String BTN_TITLE       = "Merge Files";
     private final String UN_ORDERED_TEXT = "UN-ORDERED TEXT";
     private final String ORDERED_TEXT    = "ORDERED TEXT";
-    private final String PATTERN_TEXT = "PATTERN TEXT";
+    private final String PATTERN_TEXT    = "PATTERN TEXT";
     private static Dimension MINIMUM_DIMENSION = new Dimension(600,400);
-    private static Dimension PREFERRED_SIZE = new Dimension(1000,600);
+    private static Dimension PREFERRED_SIZE    = new Dimension(1000,600);
 
 
     public void populateFrame(){
+
         setTitle(MAIN_TITLE);
         setLayout(new BorderLayout());
 
-        mergeBtn           = new JButton(BTN_TITLE);
-        patternTextField   = new JTextField(50);
-        unOrganizedText    = new JTextArea("",5,45);
-        organizedText      = new JTextArea("",5,45);
-        ascendDescendOrder = new JCheckBox("Descending?");
+        // Initializes the mainWindowContainer with the different components
+        populateMainWindowContainer();
 
+        // Set the titled borders for JTextFields/JTextAreas
+        setTitledBorders();
+
+        // Sets the pattern JTextField to transparent and the default pattern
+        configurePatternTextField();
+
+        // Sets the action listener for merge button
+        mainWindowContainer.setMergeBtnListener(new MergeBtnListener(mainWindowContainer));
+
+        // Joins the top and bottom panels into the frame
+        addFinishedPanelsToFrame();
+
+        // Change the icon image
+        // logger.info("Logger user directory: {}" ,System.getProperty("user.dir"));
+        // ImageIcon img = new ImageIcon("../../app_icon.png");
+        // setIconImage(img.getImage());
+    }
+
+    private void addFinishedPanelsToFrame() {
+        this.add( createTopPanel(), BorderLayout.NORTH);
+        this.add( createBottomPanel(), BorderLayout.CENTER);
+    }
+
+    private void configurePatternTextField() {
+        // Make sure the background is just transparent
+        mainWindowContainer.getPatternTextField().setOpaque(false);
+
+        // Set default pattern
+        mainWindowContainer.getPatternTextField().setText(DateHolder.DEFAULT_FORMAT);
+    }
+
+    private void populateMainWindowContainer(){
+        mainWindowContainer.setMergeBtn(new JButton(BTN_TITLE));
+        mainWindowContainer.setPatternTextField(new JTextField(50));
+        mainWindowContainer.setUnOrganizedText(new JTextArea("",5,45));
+        mainWindowContainer.setOrganizedText(new JTextArea("",5,45));
+        mainWindowContainer.setAscendDescendOrder( new JCheckBox("Descending?"));
+        mainWindowContainer.setMinDateField(new JTextField(15));
+        mainWindowContainer.setMaxDateField(new JTextField(15));
+    }
+
+    private void setTitledBorders(){
         TitledBorder unOrganizedTitledBorder   = BorderFactory.createTitledBorder(UN_ORDERED_TEXT);
         TitledBorder organizedTextTitledBorder = BorderFactory.createTitledBorder(ORDERED_TEXT);
         TitledBorder patternTextFieldTitledBorder = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black), PATTERN_TEXT, TitledBorder.LEFT, TitledBorder.TOP);
 
         // Set the title border for the two text areas
-        unOrganizedText.setBorder(unOrganizedTitledBorder);
-        organizedText.setBorder(organizedTextTitledBorder);
-        patternTextField.setBorder(patternTextFieldTitledBorder);
-        patternTextField.setOpaque(false);
+        mainWindowContainer.getUnOrganizedText().setBorder(unOrganizedTitledBorder);
+        mainWindowContainer.getOrganizedText().setBorder(organizedTextTitledBorder);
+        mainWindowContainer.getPatternTextField().setBorder(patternTextFieldTitledBorder);
+    }
 
-        // Set default pattern
-        patternTextField.setText(DateHolder.DEFAULT_FORMAT);
-
-        MergeBtnListener listener = new MergeBtnListener(patternTextField, unOrganizedText, organizedText, ascendDescendOrder);
-        mergeBtn.addActionListener(listener);
-
+    private JPanel createTopPanel() {
         // Top Panel Construction
         JPanel topPanel = new JPanel();
         topPanel.setLayout(new BorderLayout());
-        topPanel.add( ascendDescendOrder, BorderLayout.WEST);
-        topPanel.add( patternTextField, BorderLayout.CENTER);
-        topPanel.add( mergeBtn, BorderLayout.EAST);
+        topPanel.add( mainWindowContainer.getAscendDescendOrder(), BorderLayout.WEST);
+        topPanel.add( mainWindowContainer.getPatternTextField(), BorderLayout.CENTER);
+        topPanel.add( mainWindowContainer.getMergeBtn(), BorderLayout.EAST);
 
+        JPanel dateSection = new JPanel(new FlowLayout());
+        dateSection.add(new JLabel("Minimum Date"));
+        dateSection.add(mainWindowContainer.getMinDateField());
+        dateSection.add(new JLabel("Maximum Date"));
+        dateSection.add(mainWindowContainer.getMaxDateField());
+
+        topPanel.add(dateSection, BorderLayout.SOUTH);
+        return topPanel;
+    }
+
+    private JSplitPane createBottomPanel(){
         // Bottom Panel Construction
-        JScrollPane unOrganizedScrollPane = new JScrollPane(unOrganizedText);
-        JScrollPane organizedScrollPane   = new JScrollPane(organizedText);
+        JScrollPane unOrganizedScrollPane = new JScrollPane(mainWindowContainer.getUnOrganizedText());
+        JScrollPane organizedScrollPane   = new JScrollPane(mainWindowContainer.getOrganizedText());
 
         // Set scrollbars on the scroll panes
         unOrganizedScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
@@ -73,14 +113,7 @@ public class MainWindow extends JFrame {
 
         JSplitPane splitPaneBottomPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, unOrganizedScrollPane, organizedScrollPane);
 
-        // Add to JFrame
-        this.add(topPanel, BorderLayout.NORTH);
-        this.add(splitPaneBottomPanel, BorderLayout.CENTER);
-
-        // Change the icon image
-        //logger.info("Logger user directory: {}" ,System.getProperty("user.dir"));
-        //ImageIcon img = new ImageIcon("../../app_icon.png");
-        //setIconImage(img.getImage());
+        return  splitPaneBottomPanel;
     }
 
     public void setFrameConstraints(){
