@@ -1,2 +1,2 @@
 # log_merger
-merges log files using string format
+Merges log files using string pattern
