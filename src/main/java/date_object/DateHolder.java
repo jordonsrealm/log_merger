@@ -1,5 +1,7 @@
 package date_object;
 
+import transfer_object.DateResult;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -7,22 +9,29 @@ import java.util.Date;
 
 public class DateHolder implements Comparable<DateHolder>{
 
-    private Date dateObject;
-    private String originalString;
+    private DateResult dateResult;
     public static String DEFAULT_FORMAT = "yyyy-MM-dd HH:mm:ss.SSS";
     public static Boolean invertComparison;
 
 
-    public Date getDateObject() {
-        return dateObject;
-    }
-
-    public String getOriginalString() {
-        return originalString;
-    }
-
     public DateHolder(String strToConvert, String format){
 
+        this.dateResult = getDateFromEntireString(strToConvert, format);
+    }
+
+    public DateResult getDateResult() {
+        return dateResult;
+    }
+
+    public Date getDate(){
+        return dateResult.getConvertedDate();
+    }
+
+    public String getOgStr(){
+        return dateResult.getOriginalStringWithDate();
+    }
+
+    public static DateResult getDateFromEntireString(String strToConvert, String format){
         String[] segmentedDate = strToConvert.split("\\s");
 
         String assembleDateString;
@@ -33,20 +42,7 @@ public class DateHolder implements Comparable<DateHolder>{
             assembleDateString = "";
         }
 
-        if(format == null || format.isEmpty()){
-            format = DEFAULT_FORMAT;
-        }
-
-        SimpleDateFormat formatter = new SimpleDateFormat(format);
-
-        Date dateFromString = null;
-        try {
-            dateFromString = formatter.parse(assembleDateString);
-        } catch (ParseException e) {
-        }
-
-        this.dateObject     = dateFromString;
-        this.originalString = strToConvert;
+        return new DateResult( getDateFromString(assembleDateString), strToConvert);
     }
 
     public static Date getDateFromString(String dateStr){
@@ -61,17 +57,22 @@ public class DateHolder implements Comparable<DateHolder>{
         return dateFromString;
     }
 
+    public void appendStrToOrigStr(String appStr){
+        String ogStr = this.dateResult.getOriginalStringWithDate();
+        this.dateResult.setOriginalStringWithDate(ogStr + appStr);
+    }
+
     @Override
     public String toString() {
-        return "DateHolder [dateObject=" + dateObject.toString() + "]";
+        return "DateHolder [dateObject=" + dateResult.toString() + "]";
     }
 
     @Override
     public int compareTo(DateHolder o) {
-        if(this.getDateObject() == null || o.getDateObject() == null){
+        if(this.getDateResult() == null || o.getDateResult() == null){
             return 0;
         }else{
-            return this.getDateObject().compareTo(o.getDateObject()) * (invertComparison?-1:1);
+            return this.getDateResult().getConvertedDate().compareTo(o.getDateResult().getConvertedDate()) * (invertComparison?-1:1);
         }
 
     }

@@ -2,6 +2,7 @@ package listeners;
 
 import container_pattern.MainWindowContainer;
 import date_object.DateHolder;
+import transfer_object.DateResult;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -48,8 +49,15 @@ public class MergeBtnListener implements ActionListener {
 
         try {
             DateHolder.invertComparison = checkBox.isSelected();
+            String formattedStr = format.getText();
             while((lineRead = bufferedReader.readLine()) != null){
-                dateHolder.add(new DateHolder(lineRead, format.getText()));
+                DateResult res = DateHolder.getDateFromEntireString(lineRead,formattedStr);
+
+                if(res.isValidDate()){
+                    dateHolder.add(new DateHolder(lineRead, formattedStr));
+                } else{
+                    dateHolder.get(dateHolder.size() - 1).appendStrToOrigStr("\n"+lineRead);
+                }
             }
         } catch (IOException e1) {
             e1.printStackTrace();
@@ -64,19 +72,19 @@ public class MergeBtnListener implements ActionListener {
             Date maximumDate = DateHolder.getDateFromString(maxDate.getText());
 
             if(minimumDate != null && maximumDate != null){
-                if(holder.getDateObject().after(minimumDate) && holder.getDateObject().before(maximumDate)){
-                    appendingStr = holder.getOriginalString() + "\n";
+                if(holder.getDate().after(minimumDate) && holder.getDate().before(maximumDate)){
+                    appendingStr = holder.getOgStr() + "\n";
                 }
             } else if(minimumDate != null){
-                if(holder.getDateObject().after(minimumDate)){
-                    appendingStr = holder.getOriginalString() + "\n";
+                if(holder.getDate().after(minimumDate)){
+                    appendingStr = holder.getOgStr() + "\n";
                 }
             } else if(maximumDate != null){
-                if(holder.getDateObject().before(maximumDate)){
-                    appendingStr = holder.getOriginalString() + "\n";
+                if(holder.getDate().before(maximumDate)){
+                    appendingStr = holder.getOgStr() + "\n";
                 }
             } else{
-                appendingStr = holder.getOriginalString() + "\n";
+                appendingStr = holder.getOgStr() + "\n";
             }
 
             builder.append(appendingStr);
