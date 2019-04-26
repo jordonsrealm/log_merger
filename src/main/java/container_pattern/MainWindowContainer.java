@@ -114,7 +114,6 @@ public class MainWindowContainer {
             public void actionPerformed(ActionEvent e) {
                 File file = new File(fileNameInputTextField.getText());
                 String result = unOrganizedText.getText();
-                System.out.println("result is empty: " + result.isEmpty());
 
                 try{
                     result += IOUtils.toString(new FileInputStream(file), StandardCharsets.UTF_8);
