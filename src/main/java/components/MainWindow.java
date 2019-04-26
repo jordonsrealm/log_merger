@@ -3,6 +3,8 @@ package components;
 import container_pattern.MainWindowContainer;
 import date_object.DateHolder;
 import listeners.MergeBtnListener;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -11,7 +13,7 @@ import java.awt.*;
 
 public class MainWindow extends JFrame {
 
-    //private static final Logger logger = LoggerFactory.getLogger(MainWindow.class);
+    private static final Logger logger = LoggerFactory.getLogger(MainWindow.class);
     private MainWindowContainer mainWindowContainer =  new MainWindowContainer();
     private static final String MAIN_TITLE          = "FILE MERGER";
     private static final String BTN_TITLE           = "Merge Files";
@@ -49,7 +51,7 @@ public class MainWindow extends JFrame {
         addFinishedPanelsToFrame();
 
         // Change the icon image
-        // logger.info("Logger user directory: {}" ,System.getProperty("user.dir"));
+        logger.debug("Logger user directory: {}" ,System.getProperty("user.dir"));
         // ImageIcon img = new ImageIcon("../../app_icon.png");
         // setIconImage(img.getImage());
     }

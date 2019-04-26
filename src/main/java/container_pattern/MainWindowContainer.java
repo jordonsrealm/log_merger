@@ -2,10 +2,10 @@ package container_pattern;
 
 import listeners.MergeBtnListener;
 import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileSystemView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,6 +15,7 @@ import java.nio.charset.StandardCharsets;
 
 public class MainWindowContainer {
 
+    //private static final Logger logger = LoggerFactory.getLogger(MainWindowContainer.class);
     private JButton mergeBtn;
     private JTextField patternTextField;
     private JTextArea unOrganizedText;
@@ -123,6 +124,8 @@ public class MainWindowContainer {
 
                 result = result.strip();
 
+                //logger.debug(result);
+
                 unOrganizedText.setText(result);
             }
         });
@@ -150,6 +153,7 @@ public class MainWindowContainer {
                     }
 
                     result = result.strip();
+                    //logger.debug(result);
 
                     unOrganizedText.setText(result);
                 }
