@@ -2,19 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fdc15ebb-0138-44d0-b448-a3aba1e1c3c9" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/components/MainWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/components/MainWindow.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/container_pattern/MainWindowContainer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/container_pattern/MainWindowContainer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/logback.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/logback.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/components/MainWindow.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/components/MainWindow.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/container_pattern/MainWindowContainer$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/container_pattern/MainWindowContainer$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/container_pattern/MainWindowContainer$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/container_pattern/MainWindowContainer$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/container_pattern/MainWindowContainer$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/container_pattern/MainWindowContainer$3.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/container_pattern/MainWindowContainer.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/container_pattern/MainWindowContainer.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/resources/app_icon.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/resources/logback.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-archiver/pom.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/merger-1.0-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/merger-1.0-SNAPSHOT.jar" afterDir="false" />
@@ -191,7 +180,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1556319586044" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1556319999974" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.0" />
@@ -566,9 +555,7 @@
         <state relative-caret-position="-255" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/logFile.log">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/logFile.log" />
     <entry file="file://$PROJECT_DIR$/src/main/java/container_pattern/MainWindowContainer.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-221">
