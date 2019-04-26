@@ -1,8 +1,16 @@
 package container_pattern;
 
 import listeners.MergeBtnListener;
+import org.apache.commons.io.IOUtils;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.filechooser.FileSystemView;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 
 
 public class MainWindowContainer {
@@ -14,6 +22,10 @@ public class MainWindowContainer {
     private JCheckBox ascendDescendOrder;
     private JTextField minDateField;
     private JTextField maxDateField;
+    private JTextField fileNameInputTextField;
+    private JButton selectFileBtn;
+    private JButton inputFileBtn;
+    private JButton clearUnorganizedText;
 
 
     public JButton getMergeBtn() {
@@ -73,4 +85,79 @@ public class MainWindowContainer {
     }
 
     public void setMergeBtnListener(MergeBtnListener listener){this.mergeBtn.addActionListener(listener);}
+
+    public JTextField getFileNameInputTextField() {return fileNameInputTextField;}
+
+    public void setFileNameInputTextField(JTextField fileNameInput) {this.fileNameInputTextField = fileNameInput; }
+
+    public JButton getSelectFileBtn() { return selectFileBtn; }
+
+    public JButton getInputFileBtn() { return inputFileBtn; }
+
+    public void setInputFileBtn(JButton inputFileBtn) { this.inputFileBtn = inputFileBtn; }
+
+    public JButton getClearUnorganizedText() {
+        clearUnorganizedText.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                unOrganizedText.setText("");
+            }
+        });
+        return clearUnorganizedText;
+    }
+
+    public void setClearUnorganizedText(JButton clearUnorganizedText) { this.clearUnorganizedText = clearUnorganizedText; }
+
+    public void setSelectFileBtn(JButton selectFileBtn) {
+        selectFileBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                File file = new File(fileNameInputTextField.getText());
+                String result = unOrganizedText.getText();
+                System.out.println("result is empty: " + result.isEmpty());
+
+                try{
+                    result += IOUtils.toString(new FileInputStream(file), StandardCharsets.UTF_8);
+                } catch(IOException exx){
+
+                }
+
+                result = result.strip();
+
+                unOrganizedText.setText(result);
+            }
+        });
+        this.selectFileBtn = selectFileBtn;
+    }
+
+    public JButton getFileInputButton() { return inputFileBtn; }
+
+    public void setFileInputButton(JButton fileInput) {
+        fileInput.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+
+                int returnValue = jfc.showOpenDialog(null);
+
+                if (returnValue == JFileChooser.APPROVE_OPTION) {
+                    File selectedFile = jfc.getSelectedFile();
+                    String result = unOrganizedText.getText();
+
+                    try{
+                        result += IOUtils.toString(new FileInputStream(selectedFile), StandardCharsets.UTF_8);
+                    } catch(IOException exx){
+
+                    }
+
+                    result = result.strip();
+
+                    unOrganizedText.setText(result);
+                }
+            }
+        });
+        this.inputFileBtn = fileInput;
+    }
+
+
 }

@@ -13,13 +13,19 @@ public class MainWindow extends JFrame {
 
     //private static final Logger logger = LoggerFactory.getLogger(MainWindow.class);
     private MainWindowContainer mainWindowContainer =  new MainWindowContainer();
-    private final String MAIN_TITLE      = "FILE MERGER";
-    private final String BTN_TITLE       = "Merge Files";
-    private final String UN_ORDERED_TEXT = "UN-ORDERED TEXT";
-    private final String ORDERED_TEXT    = "ORDERED TEXT";
-    private final String PATTERN_TEXT    = "PATTERN TEXT";
-    private static Dimension MINIMUM_DIMENSION = new Dimension(600,400);
-    private static Dimension PREFERRED_SIZE    = new Dimension(1000,600);
+    private static final String MAIN_TITLE          = "FILE MERGER";
+    private static final String BTN_TITLE           = "Merge Files";
+    private static final String UN_ORDERED_TEXT     = "UN-ORDERED TEXT";
+    private static final String ORDERED_TEXT        = "ORDERED TEXT";
+    private static final String PATTERN_TEXT        = "PATTERN TEXT";
+    private static final String DESCENDING_STRING   = "Descending?";
+    private static final String SELECT_FILE_STR     = "Select File...";
+    private static final String USE_FILE_STR        = "Use File...";
+    private static final String MIN_DATE_STR        = "Minimum Date";
+    private static final String MAX_DATE_STR        = "Maximum Date";
+    private static final String BLANK_STR           = "";
+    private static final Dimension MINIMUM_DIMENSION = new Dimension(600,400);
+    private static final Dimension PREFERRED_SIZE    = new Dimension(1200,600);
 
 
     public void populateFrame(){
@@ -64,17 +70,24 @@ public class MainWindow extends JFrame {
     private void populateMainWindowContainer(){
         mainWindowContainer.setMergeBtn(new JButton(BTN_TITLE));
         mainWindowContainer.setPatternTextField(new JTextField(50));
-        mainWindowContainer.setUnOrganizedText(new JTextArea("",5,45));
-        mainWindowContainer.setOrganizedText(new JTextArea("",5,45));
-        mainWindowContainer.setAscendDescendOrder( new JCheckBox("Descending?"));
+        mainWindowContainer.setUnOrganizedText(new JTextArea(BLANK_STR,5,55));
+        mainWindowContainer.setOrganizedText(new JTextArea(BLANK_STR,5,40));
+        mainWindowContainer.setAscendDescendOrder( new JCheckBox(DESCENDING_STRING));
         mainWindowContainer.setMinDateField(new JTextField(15));
         mainWindowContainer.setMaxDateField(new JTextField(15));
+        mainWindowContainer.setFileNameInputTextField(new JTextField(15));
+        mainWindowContainer.setFileInputButton(new JButton(SELECT_FILE_STR));
+        mainWindowContainer.setSelectFileBtn(new JButton(USE_FILE_STR));
+        mainWindowContainer.setClearUnorganizedText(new JButton("Clear Text Area"));
     }
 
     private void setTitledBorders(){
         TitledBorder unOrganizedTitledBorder   = BorderFactory.createTitledBorder(UN_ORDERED_TEXT);
         TitledBorder organizedTextTitledBorder = BorderFactory.createTitledBorder(ORDERED_TEXT);
-        TitledBorder patternTextFieldTitledBorder = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black), PATTERN_TEXT, TitledBorder.LEFT, TitledBorder.TOP);
+        TitledBorder patternTextFieldTitledBorder = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black),
+                                                                                    PATTERN_TEXT,
+                                                                                    TitledBorder.LEFT,
+                                                                                    TitledBorder.TOP);
 
         // Set the title border for the two text areas
         mainWindowContainer.getUnOrganizedText().setBorder(unOrganizedTitledBorder);
@@ -91,9 +104,13 @@ public class MainWindow extends JFrame {
         topPanel.add( mainWindowContainer.getMergeBtn(), BorderLayout.EAST);
 
         JPanel dateSection = new JPanel(new FlowLayout());
-        dateSection.add(new JLabel("Minimum Date"));
+        dateSection.add(mainWindowContainer.getClearUnorganizedText());
+        dateSection.add(mainWindowContainer.getFileInputButton());
+        dateSection.add(mainWindowContainer.getFileNameInputTextField());
+        dateSection.add(mainWindowContainer.getSelectFileBtn());
+        dateSection.add(new JLabel(MIN_DATE_STR));
         dateSection.add(mainWindowContainer.getMinDateField());
-        dateSection.add(new JLabel("Maximum Date"));
+        dateSection.add(new JLabel(MAX_DATE_STR));
         dateSection.add(mainWindowContainer.getMaxDateField());
 
         topPanel.add(dateSection, BorderLayout.SOUTH);
