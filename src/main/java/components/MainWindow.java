@@ -45,7 +45,7 @@ public class MainWindow extends JFrame {
         configurePatternTextField();
 
         // Sets the action listener for merge button
-        mainWindowContainer.setMergeBtnListener(new MergeBtnListener(mainWindowContainer));
+        mainWindowContainer.setMergeBtnListener(new MergeBtnListener(mainWindowContainer, this));
 
         // Joins the top and bottom panels into the frame
         addFinishedPanelsToFrame();
@@ -81,6 +81,7 @@ public class MainWindow extends JFrame {
         mainWindowContainer.setFileInputButton(new JButton(SELECT_FILE_STR));
         mainWindowContainer.setSelectFileBtn(new JButton(USE_FILE_STR));
         mainWindowContainer.setClearUnorganizedText(new JButton("Clear Text Area"));
+        mainWindowContainer.setSaveToFile(new JButton("Save To File..."));
     }
 
     private void setTitledBorders(){
@@ -110,13 +111,21 @@ public class MainWindow extends JFrame {
         dateSection.add(mainWindowContainer.getFileInputButton());
         dateSection.add(mainWindowContainer.getFileNameInputTextField());
         dateSection.add(mainWindowContainer.getSelectFileBtn());
+        dateSection.add(createVerticalSeparator());
         dateSection.add(new JLabel(MIN_DATE_STR));
         dateSection.add(mainWindowContainer.getMinDateField());
         dateSection.add(new JLabel(MAX_DATE_STR));
         dateSection.add(mainWindowContainer.getMaxDateField());
+        dateSection.add(mainWindowContainer.getSaveToFile());
 
         topPanel.add(dateSection, BorderLayout.SOUTH);
         return topPanel;
+    }
+
+    static JComponent createVerticalSeparator() {
+        JSeparator x = new JSeparator(SwingConstants.VERTICAL);
+        x.setPreferredSize(new Dimension(3,40));
+        return x;
     }
 
     private JSplitPane createBottomPanel(){

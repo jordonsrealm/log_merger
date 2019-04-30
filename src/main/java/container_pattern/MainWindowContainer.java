@@ -11,11 +11,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 
 
 public class MainWindowContainer {
 
-    //private static final Logger logger = LoggerFactory.getLogger(MainWindowContainer.class);
+    private static final Logger logger = LoggerFactory.getLogger(MainWindowContainer.class);
     private JButton mergeBtn;
     private JTextField patternTextField;
     private JTextArea unOrganizedText;
@@ -27,6 +28,7 @@ public class MainWindowContainer {
     private JButton selectFileBtn;
     private JButton inputFileBtn;
     private JButton clearUnorganizedText;
+    private JButton saveToFile;
 
 
     public JButton getMergeBtn() {
@@ -105,6 +107,39 @@ public class MainWindowContainer {
             }
         });
         return clearUnorganizedText;
+    }
+
+    public JButton getSaveToFile() {
+        return saveToFile;
+    }
+
+    public void setSaveToFile(JButton saveToFile) {
+        saveToFile.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+                jfc.setDialogTitle("Specify a file to save");
+
+                int userSelection = jfc.showSaveDialog(null);
+
+                if (userSelection == JFileChooser.APPROVE_OPTION) {
+                    File fileToSave = jfc.getSelectedFile();
+                    logger.debug("Saving file as: " + fileToSave.getAbsolutePath());
+
+                    try(FileOutputStream outputStream = new FileOutputStream(fileToSave)){
+                        byte[] bytes = organizedText.getText().getBytes();
+                        outputStream.write(bytes);
+                    } catch(FileNotFoundException ex){
+                        logger.error("Unable to find the file to save to...", ex);
+                    } catch (IOException ioEx){
+                        logger.error("Uable to create file to save to...", ioEx);
+                    }
+
+                    logger.info("Saved to file: {}", fileToSave.getName());
+                }
+            }
+        });
+        this.saveToFile = saveToFile;
     }
 
     public void setClearUnorganizedText(JButton clearUnorganizedText) { this.clearUnorganizedText = clearUnorganizedText; }

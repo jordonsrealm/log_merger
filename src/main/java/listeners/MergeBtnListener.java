@@ -5,6 +5,7 @@ import date_object.DateHolder;
 import transfer_object.DateResult;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
@@ -24,20 +25,21 @@ public class MergeBtnListener implements ActionListener {
     private JCheckBox checkBox;
     private JTextField minDate;
     private JTextField maxDate;
+    private JFrame frame;
 
 
-    public MergeBtnListener(MainWindowContainer mainWindowContainer){
+    public MergeBtnListener(MainWindowContainer mainWindowContainer, JFrame frame){
         this.format          = mainWindowContainer.getPatternTextField();
         this.unOrganizedText = mainWindowContainer.getUnOrganizedText();
         this.organizedText   = mainWindowContainer.getOrganizedText();
         this.checkBox        = mainWindowContainer.getAscendDescendOrder();
         this.minDate         = mainWindowContainer.getMinDateField();
         this.maxDate         = mainWindowContainer.getMaxDateField();
+        this.frame           = frame;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
         organizedText.setText("");
 
         Reader inputString = new StringReader(unOrganizedText.getText());
