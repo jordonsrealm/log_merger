@@ -6,6 +6,8 @@ import listeners.MergeBtnListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import configuration.ConfigurationGetter;
+
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
@@ -13,9 +15,9 @@ import java.awt.*;
 
 public class MainWindow extends JFrame {
 
-    private static final Logger logger = LoggerFactory.getLogger(MainWindow.class);
-    private MainWindowContainer mainWindowContainer =  new MainWindowContainer();
-    private static final String MAIN_TITLE          = "FILE MERGER";
+	private static final long serialVersionUID = 1L;
+	private static final Logger logger = LoggerFactory.getLogger(MainWindow.class);
+    private MainWindowContainer mainWindow =  new MainWindowContainer();
     private static final String BTN_TITLE           = "Merge Files";
     private static final String UN_ORDERED_TEXT     = "UN-ORDERED TEXT";
     private static final String ORDERED_TEXT        = "ORDERED TEXT";
@@ -26,31 +28,23 @@ public class MainWindow extends JFrame {
     private static final String MIN_DATE_STR        = "Minimum Date";
     private static final String MAX_DATE_STR        = "Maximum Date";
     private static final String BLANK_STR           = "";
-    private static final Dimension MINIMUM_DIMENSION = new Dimension(600,400);
-    private static final Dimension PREFERRED_SIZE    = new Dimension(1200,600);
-
+    private ConfigurationGetter configGetter = new ConfigurationGetter();
+    
 
     public void populateFrame(){
-
-        setTitle(MAIN_TITLE);
+        setTitle(configGetter.getApplicationName());
         setLayout(new BorderLayout());
 
-        // Initializes the mainWindowContainer with the different components
         populateMainWindowContainer();
 
-        // Set the titled borders for JTextFields/JTextAreas
         setTitledBorders();
 
-        // Sets the pattern JTextField to transparent and the default pattern
         configurePatternTextField();
 
-        // Sets the action listener for merge button
-        mainWindowContainer.setMergeBtnListener(new MergeBtnListener(mainWindowContainer, this));
-
-        // Joins the top and bottom panels into the frame
+        mainWindow.setMergeBtnListener(new MergeBtnListener(mainWindow));
+        
         addFinishedPanelsToFrame();
 
-        // Change the icon image
         logger.debug("Logger user directory: {}" ,System.getProperty("user.dir"));
         // ImageIcon img = new ImageIcon("../../app_icon.png");
         // setIconImage(img.getImage());
@@ -63,25 +57,25 @@ public class MainWindow extends JFrame {
 
     private void configurePatternTextField() {
         // Make sure the background is just transparent
-        mainWindowContainer.getPatternTextField().setOpaque(false);
+        mainWindow.getPatternTextField().setOpaque(false);
 
         // Set default pattern
-        mainWindowContainer.getPatternTextField().setText(DateHolder.DEFAULT_FORMAT);
+        mainWindow.getPatternTextField().setText(DateHolder.DEFAULT_FORMAT);
     }
 
     private void populateMainWindowContainer(){
-        mainWindowContainer.setMergeBtn(new JButton(BTN_TITLE));
-        mainWindowContainer.setPatternTextField(new JTextField(50));
-        mainWindowContainer.setUnOrganizedText(new JTextArea(BLANK_STR,5,55));
-        mainWindowContainer.setOrganizedText(new JTextArea(BLANK_STR,5,40));
-        mainWindowContainer.setAscendDescendOrder( new JCheckBox(DESCENDING_STRING));
-        mainWindowContainer.setMinDateField(new JTextField(15));
-        mainWindowContainer.setMaxDateField(new JTextField(15));
-        mainWindowContainer.setFileNameInputTextField(new JTextField(15));
-        mainWindowContainer.setFileInputButton(new JButton(SELECT_FILE_STR));
-        mainWindowContainer.setSelectFileBtn(new JButton(USE_FILE_STR));
-        mainWindowContainer.setClearUnorganizedText(new JButton("Clear Text Area"));
-        mainWindowContainer.setSaveToFile(new JButton("Save To File..."));
+        mainWindow.setMergeBtn(new JButton(BTN_TITLE));
+        mainWindow.setPatternTextField(new JTextField(50));
+        mainWindow.setUnOrganizedText(new JTextArea(BLANK_STR,5,55));
+        mainWindow.setOrganizedText(new JTextArea(BLANK_STR,5,40));
+        mainWindow.setAscendDescendOrder( new JCheckBox(DESCENDING_STRING));
+        mainWindow.setMinDateField(new JTextField(15));
+        mainWindow.setMaxDateField(new JTextField(15));
+        mainWindow.setFileNameInputTextField(new JTextField(15));
+        mainWindow.setFileInputButton(new JButton(SELECT_FILE_STR));
+        mainWindow.setSelectFileBtn(new JButton(USE_FILE_STR));
+        mainWindow.setClearUnorganizedText(new JButton("Clear Text Area"));
+        mainWindow.setSaveToFile(new JButton("Save To File..."));
     }
 
     private void setTitledBorders(){
@@ -93,30 +87,30 @@ public class MainWindow extends JFrame {
                                                                                     TitledBorder.TOP);
 
         // Set the title border for the two text areas
-        mainWindowContainer.getUnOrganizedText().setBorder(unOrganizedTitledBorder);
-        mainWindowContainer.getOrganizedText().setBorder(organizedTextTitledBorder);
-        mainWindowContainer.getPatternTextField().setBorder(patternTextFieldTitledBorder);
+        mainWindow.getUnOrganizedText().setBorder(unOrganizedTitledBorder);
+        mainWindow.getOrganizedText().setBorder(organizedTextTitledBorder);
+        mainWindow.getPatternTextField().setBorder(patternTextFieldTitledBorder);
     }
 
     private JPanel createTopPanel() {
         // Top Panel Construction
         JPanel topPanel = new JPanel();
         topPanel.setLayout(new BorderLayout());
-        topPanel.add( mainWindowContainer.getAscendDescendOrder(), BorderLayout.WEST);
-        topPanel.add( mainWindowContainer.getPatternTextField(), BorderLayout.CENTER);
-        topPanel.add( mainWindowContainer.getMergeBtn(), BorderLayout.EAST);
+        topPanel.add( mainWindow.getAscendDescendOrder(), BorderLayout.WEST);
+        topPanel.add( mainWindow.getPatternTextField(), BorderLayout.CENTER);
+        topPanel.add( mainWindow.getMergeBtn(), BorderLayout.EAST);
 
         JPanel dateSection = new JPanel(new FlowLayout());
-        dateSection.add(mainWindowContainer.getClearUnorganizedText());
-        dateSection.add(mainWindowContainer.getFileInputButton());
-        dateSection.add(mainWindowContainer.getFileNameInputTextField());
-        dateSection.add(mainWindowContainer.getSelectFileBtn());
+        dateSection.add(mainWindow.getClearUnorganizedText());
+        dateSection.add(mainWindow.getFileInputButton());
+        dateSection.add(mainWindow.getFileNameInputTextField());
+        dateSection.add(mainWindow.getSelectFileBtn());
         dateSection.add(createVerticalSeparator());
         dateSection.add(new JLabel(MIN_DATE_STR));
-        dateSection.add(mainWindowContainer.getMinDateField());
+        dateSection.add(mainWindow.getMinDateField());
         dateSection.add(new JLabel(MAX_DATE_STR));
-        dateSection.add(mainWindowContainer.getMaxDateField());
-        dateSection.add(mainWindowContainer.getSaveToFile());
+        dateSection.add(mainWindow.getMaxDateField());
+        dateSection.add(mainWindow.getSaveToFile());
 
         topPanel.add(dateSection, BorderLayout.SOUTH);
         return topPanel;
@@ -130,8 +124,8 @@ public class MainWindow extends JFrame {
 
     private JSplitPane createBottomPanel(){
         // Bottom Panel Construction
-        JScrollPane unOrganizedScrollPane = new JScrollPane(mainWindowContainer.getUnOrganizedText());
-        JScrollPane organizedScrollPane   = new JScrollPane(mainWindowContainer.getOrganizedText());
+        JScrollPane unOrganizedScrollPane = new JScrollPane(mainWindow.getUnOrganizedText());
+        JScrollPane organizedScrollPane   = new JScrollPane(mainWindow.getOrganizedText());
 
         // Set scrollbars on the scroll panes
         unOrganizedScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
@@ -147,8 +141,8 @@ public class MainWindow extends JFrame {
     public void setFrameConstraints(){
         this.setVisible(true);
         this.setResizable(true);
-        this.setMinimumSize(this.MINIMUM_DIMENSION);
-        this.setSize(this.PREFERRED_SIZE);
+        this.setMinimumSize(new Dimension(configGetter.getWindowWidth()/2,configGetter.getWindowHeight()/2));
+        this.setSize(new Dimension(configGetter.getWindowWidth(),configGetter.getWindowHeight()));
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }

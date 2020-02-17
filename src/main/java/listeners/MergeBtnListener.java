@@ -2,92 +2,59 @@ package listeners;
 
 import container_pattern.MainWindowContainer;
 import date_object.DateHolder;
-import transfer_object.DateResult;
+import date_object.DateOrganizer;
 
 import javax.swing.*;
-import java.awt.*;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.Reader;
 import java.io.StringReader;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 
 
 public class MergeBtnListener implements ActionListener {
-
+	
+	private static final Logger logger = LoggerFactory.getLogger(MergeBtnListener.class);
     private JTextField format;
     private JTextArea unOrganizedText;
     private JTextArea organizedText;
-    private JCheckBox checkBox;
+    private JCheckBox descendingOrderCheckBox;
     private JTextField minDate;
     private JTextField maxDate;
-    private JFrame frame;
 
 
-    public MergeBtnListener(MainWindowContainer mainWindowContainer, JFrame frame){
-        this.format          = mainWindowContainer.getPatternTextField();
-        this.unOrganizedText = mainWindowContainer.getUnOrganizedText();
-        this.organizedText   = mainWindowContainer.getOrganizedText();
-        this.checkBox        = mainWindowContainer.getAscendDescendOrder();
-        this.minDate         = mainWindowContainer.getMinDateField();
-        this.maxDate         = mainWindowContainer.getMaxDateField();
-        this.frame           = frame;
+    public MergeBtnListener(MainWindowContainer mainWindowContainer){
+        this.format         			= mainWindowContainer.getPatternTextField();
+        this.unOrganizedText 			= mainWindowContainer.getUnOrganizedText();
+        this.organizedText   			= mainWindowContainer.getOrganizedText();
+        this.descendingOrderCheckBox	= mainWindowContainer.getAscendDescendOrder();
+        this.minDate         			= mainWindowContainer.getMinDateField();
+        this.maxDate         			= mainWindowContainer.getMaxDateField();
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        organizedText.setText("");
-
-        Reader inputString = new StringReader(unOrganizedText.getText());
-
-        BufferedReader bufferedReader = new BufferedReader(inputString);
+    	logger.info("Working on sorting of date objects...");
+        
+        ArrayList<DateHolder> dateHolderListUnsorted = DateOrganizer.createListOfDateHoldersUsingReader(new StringReader(unOrganizedText.getText()), format.getText());
+        
+        ArrayList<DateHolder> dateHolderListSorted = DateOrganizer.orderList(dateHolderListUnsorted, descendingOrderCheckBox.isSelected());
+        
         StringBuilder builder = new StringBuilder();
-        String lineRead;
-        ArrayList<DateHolder> dateHolder = new ArrayList<>();
+        
+        Date minimumDate = DateHolder.getDateFromStringSupplied(minDate.getText(), "");
+        Date maximumDate = DateHolder.getDateFromStringSupplied(maxDate.getText(), "");
 
-        try {
-            DateHolder.invertComparison = checkBox.isSelected();
-            String formattedStr = format.getText();
-            while((lineRead = bufferedReader.readLine()) != null){
-                DateResult res = DateHolder.getDateFromEntireString(lineRead,formattedStr);
-
-                if(res.isValidDate()){
-                    dateHolder.add(new DateHolder(lineRead, formattedStr));
-                } else{
-                    dateHolder.get(dateHolder.size() - 1).appendStrToOrigStr("\n"+lineRead);
-                }
-            }
-        } catch (IOException e1) {
-            e1.printStackTrace();
-        }
-
-        Collections.sort(dateHolder);
-
-        for(DateHolder holder: dateHolder){
+        for(DateHolder holder: dateHolderListSorted){
             String appendingStr = "";
 
-            Date minimumDate = DateHolder.getDateFromString(minDate.getText());
-            Date maximumDate = DateHolder.getDateFromString(maxDate.getText());
-
-            if(minimumDate != null && maximumDate != null){
-                if(holder.getDate().after(minimumDate) && holder.getDate().before(maximumDate)){
-                    appendingStr = holder.getOgStr() + "\n";
-                }
-            } else if(minimumDate != null){
-                if(holder.getDate().after(minimumDate)){
-                    appendingStr = holder.getOgStr() + "\n";
-                }
-            } else if(maximumDate != null){
-                if(holder.getDate().before(maximumDate)){
-                    appendingStr = holder.getOgStr() + "\n";
-                }
-            } else{
-                appendingStr = holder.getOgStr() + "\n";
-            }
+            if(holder.isDateWithinBounds(minimumDate, maximumDate)){
+            	appendingStr = holder.getOrginalLine() + "\n";
+             }
 
             builder.append(appendingStr);
         }

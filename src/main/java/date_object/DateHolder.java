@@ -1,63 +1,90 @@
 package date_object;
 
-import transfer_object.DateResult;
+import transfer_object.DatedLine;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import listeners.MergeBtnListener;
 
 
 public class DateHolder implements Comparable<DateHolder>{
 
-    private DateResult dateResult;
+	private static final Logger logger = LoggerFactory.getLogger(MergeBtnListener.class);
     public static String DEFAULT_FORMAT = "yyyy-MM-dd HH:mm:ss.SSS";
-    public static Boolean invertComparison;
-
+    private DatedLine dateResult;
+    private static Boolean orderDescending;
+    
 
     public DateHolder(String strToConvert, String format){
 
-        this.dateResult = getDateFromEntireString(strToConvert, format);
+        this.dateResult = getDatedLineUsingPattern(strToConvert, format);
     }
 
-    public DateResult getDateResult() {
-        return dateResult;
+    public static DatedLine getDatedLineUsingPattern(String strToConvert, String format){
+    	String replacedString = format.replace("dd", "\\d\\d")
+    								  .replace("yyyy", "\\d\\d\\d\\d")
+    								  .replace("MM", "\\d\\d")
+    								  .replace("HH", "\\d\\d")
+    								  .replace("mm", "\\d\\d")
+    								  .replace("ss", "\\d\\d")
+    								  .replace("SSS", "\\d\\d\\d")
+    								  .replace(":", "\\:")
+    								  .replace(".","\\.");
+    	
+    	Pattern pattern = Pattern.compile(replacedString);
+    	Matcher matcher = pattern.matcher(strToConvert);
+    	DatedLine datedLine = null;
+    	
+    	logger.debug("Replaced string: {}" , replacedString);
+    	
+    	if(matcher.find()) {
+            String matchedDateString = strToConvert.substring(matcher.start(), matcher.end());
+            
+            logger.debug("Found match: {}", matchedDateString);
+            
+            SimpleDateFormat formatter = new SimpleDateFormat(format);
+
+            Date dateFromString = null;
+            try {
+                dateFromString = formatter.parse(strToConvert);
+            } catch (ParseException e) {
+            	logger.error("Unable to parse date from string");
+            }
+    		
+    		datedLine = new DatedLine( dateFromString, strToConvert);
+    	}
+    		
+        return datedLine;
     }
+    
+    public static Date getDateFromStringSupplied(String dateAsString, String format) {
+    	
+        SimpleDateFormat formatter = null;
 
-    public Date getDate(){
-        return dateResult.getConvertedDate();
-    }
-
-    public String getOgStr(){
-        return dateResult.getOriginalStringWithDate();
-    }
-
-    public static DateResult getDateFromEntireString(String strToConvert, String format){
-        String[] segmentedDate = strToConvert.split("\\s");
-
-        String assembleDateString;
-
-        if(segmentedDate != null && segmentedDate.length > 1){
-            assembleDateString = segmentedDate[0] + " " + segmentedDate[1];
-        } else{
-            assembleDateString = "";
+        if(format.isEmpty()) {
+        	formatter = new SimpleDateFormat(DEFAULT_FORMAT);
+        } else {
+        	formatter = new SimpleDateFormat(dateAsString);
         }
-
-        return new DateResult( getDateFromString(assembleDateString), strToConvert);
-    }
-
-    public static Date getDateFromString(String dateStr){
-        SimpleDateFormat formatter = new SimpleDateFormat(DEFAULT_FORMAT);
-
+        
         Date dateFromString = null;
         try {
-            dateFromString = formatter.parse(dateStr);
+            dateFromString = formatter.parse(dateAsString);
         } catch (ParseException e) {
+        	logger.error("Unable to parse date from string");
         }
-
+        
         return dateFromString;
     }
 
-    public void appendStrToOrigStr(String appStr){
+    public void appendToOriginalDateString(String appStr){
         String ogStr = this.dateResult.getOriginalStringWithDate();
         this.dateResult.setOriginalStringWithDate(ogStr + appStr);
     }
@@ -72,8 +99,45 @@ public class DateHolder implements Comparable<DateHolder>{
         if(this.getDateResult() == null || o.getDateResult() == null){
             return 0;
         }else{
-            return this.getDateResult().getConvertedDate().compareTo(o.getDateResult().getConvertedDate()) * (invertComparison?-1:1);
+            return this.dateResult.getEmbeddedDate().compareTo(o.getDateResult().getEmbeddedDate()) * (orderDescending?-1:1);
         }
+    }
+    
+    public boolean isDateWithinBounds(Date minimumDate, Date maximumDate) {
+    	boolean withinBounds = true;
+    	
+    	if(minimumDate!=null && maximumDate!=null) {
+    		withinBounds = (getDate().after(minimumDate)) && (getDate().before(maximumDate));
+    	} else {
+        	if(minimumDate!=null) {
+        		withinBounds = getDate().after(minimumDate);
+        	} else {
+        		if(maximumDate!=null) {
+        			withinBounds = getDate().before(maximumDate);
+        		}
+        	}
+    	}
+    	
+    	return withinBounds;
+    }
 
+    public DatedLine getDateResult() {
+        return dateResult;
+    }
+
+    public Date getDate(){
+        return dateResult.getEmbeddedDate();
+    }
+
+    public String getOrginalLine(){
+        return dateResult.getOriginalStringWithDate();
+    }
+    
+    public static Boolean isDescending() {
+    	return orderDescending;
+    }
+    
+    public static void setDescendingOrder(Boolean setDescending) {
+    	DateHolder.orderDescending = setDescending;
     }
 }

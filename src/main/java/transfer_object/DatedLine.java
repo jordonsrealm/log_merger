@@ -3,17 +3,17 @@ package transfer_object;
 import java.util.Date;
 
 
-public class DateResult {
+public class DatedLine {
 
     private String originalStringWithDate;
-    private Date convertedDate;
+    private Date embeddedDate;
 
 
-    public DateResult(){}
+    public DatedLine(){}
 
-    public DateResult(Date theDate, String ogStr){
+    public DatedLine(Date theDate, String ogStr){
         this.originalStringWithDate = ogStr;
-        this.convertedDate = theDate;
+        this.embeddedDate = theDate;
     }
 
     public String getOriginalStringWithDate() {
@@ -25,15 +25,15 @@ public class DateResult {
     }
 
     public boolean isValidDate(){
-        return convertedDate != null;
+        return embeddedDate != null;
     }
 
-    public Date getConvertedDate() {
-        return convertedDate;
+    public Date getEmbeddedDate() {
+        return embeddedDate;
     }
 
-    public void setConvertedDate(Date convertedDate) {
-        this.convertedDate = convertedDate;
+    public void setEmbeddedDate(Date embeddedDate) {
+        this.embeddedDate = embeddedDate;
     }
 
 }
