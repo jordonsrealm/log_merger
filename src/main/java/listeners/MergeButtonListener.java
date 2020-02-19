@@ -21,6 +21,7 @@ public class MergeButtonListener implements ActionListener {
     private JTextArea unOrganizedText;
     private JTextArea organizedText;
     private JCheckBox descendingOrderCheckBox;
+    private JScrollPane organizedPane;
 
 
     public MergeButtonListener(MainWindowContainer mainWindowContainer){
@@ -30,18 +31,23 @@ public class MergeButtonListener implements ActionListener {
         this.descendingOrderCheckBox = mainWindowContainer.getAscendDescendOrder();
         this.minDate         		 = mainWindowContainer.getMinDateField();
         this.maxDate         		 = mainWindowContainer.getMaxDateField();
+        this.organizedPane			 = mainWindowContainer.getOrganizedScrollPane();
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
     	logger.info("Working on sorting of date objects...");
-        
+    	
     	DateOrganizer dateOrganizer = new DateOrganizer(unOrganizedText.getText());
     	
         dateOrganizer.orderDateLines( descendingOrderCheckBox.isSelected(), format.getText());
         
         dateOrganizer.handleDateBoundariesReturnList(minDate.getText(), maxDate.getText());
         
-        organizedText.setText(dateOrganizer.toString());
+        
+        String organizedTextString = dateOrganizer.toString();
+        organizedText.setText(organizedTextString.toString());
+        organizedText.setCaretPosition(organizedTextString.length());
+        organizedPane.getHorizontalScrollBar().setValue(0);
     }
 }

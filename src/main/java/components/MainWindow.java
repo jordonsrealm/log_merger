@@ -71,7 +71,7 @@ public class MainWindow extends JFrame {
         mainWindowContainer.setAscendDescendOrder( new JCheckBox(DESCENDING_STRING));
         mainWindowContainer.setMinDateField(new JTextField(15));
         mainWindowContainer.setMaxDateField(new JTextField(15));
-        mainWindowContainer.setFileNameInputTextField(new JTextField(15));
+        mainWindowContainer.setFileNameInputTextField(new JTextField(60));
         mainWindowContainer.setFileInputButton(new JButton(SELECT_FILE_STR));
         mainWindowContainer.setSelectFileBtn(new JButton(USE_FILE_STR));
         mainWindowContainer.setClearUnorganizedText(new JButton(CLEAR_TEXT_AREA));
@@ -132,6 +132,9 @@ public class MainWindow extends JFrame {
         JScrollPane unOrganizedScrollPane = new JScrollPane(mainWindowContainer.getUnOrganizedText());
         JScrollPane organizedScrollPane   = new JScrollPane(mainWindowContainer.getOrganizedText());
 
+        mainWindowContainer.setUnOrganizedScrollPane(unOrganizedScrollPane);
+        mainWindowContainer.setOrganizedScrollPane(organizedScrollPane);
+        
         unOrganizedScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         unOrganizedScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         organizedScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);

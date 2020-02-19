@@ -28,6 +28,8 @@ public class MainWindowContainer {
     private JButton inputFileBtn;
     private JButton clearUnorganizedText;
     private JButton saveToFile;
+    private JScrollPane unOrganizedScrollPane;
+    private JScrollPane organizedScrollPane;
 
 
     public JButton getMergeBtn() {
@@ -141,7 +143,9 @@ public class MainWindowContainer {
         this.saveToFile = saveToFile;
     }
 
-    public void setClearUnorganizedText(JButton clearUnorganizedText) { this.clearUnorganizedText = clearUnorganizedText; }
+    public void setClearUnorganizedText(JButton clearUnorganizedText) { 
+    	this.clearUnorganizedText = clearUnorganizedText; 
+    }
 
     public void setSelectFileBtn(JButton selectFileBtn) {
         selectFileBtn.addActionListener(new ActionListener() {
@@ -153,7 +157,6 @@ public class MainWindowContainer {
                 try{
                     result += IOUtils.toString(new FileInputStream(file), StandardCharsets.UTF_8);
                 } catch(IOException exx){
-
                 }
 
                 result = result.strip();
@@ -161,8 +164,12 @@ public class MainWindowContainer {
                 //logger.debug(result);
 
                 unOrganizedText.setText(result);
+                unOrganizedText.setCaretPosition(0);
+                
+                unOrganizedScrollPane.getHorizontalScrollBar().setValue(0);
             }
         });
+        
         this.selectFileBtn = selectFileBtn;
     }
 
@@ -178,23 +185,30 @@ public class MainWindowContainer {
 
                 if (returnValue == JFileChooser.APPROVE_OPTION) {
                     File selectedFile = jfc.getSelectedFile();
-                    String result = unOrganizedText.getText();
-
-                    try{
-                        result += IOUtils.toString(new FileInputStream(selectedFile), StandardCharsets.UTF_8);
-                    } catch(IOException exx){
-
-                    }
-
-                    result = result.strip();
-                    //logger.debug(result);
-
-                    unOrganizedText.setText(result);
+                    
+                    fileNameInputTextField.setText(selectedFile.getAbsolutePath());
                 }
             }
         });
+        
         this.inputFileBtn = fileInput;
     }
+
+	public JScrollPane getUnOrganizedScrollPane() {
+		return unOrganizedScrollPane;
+	}
+
+	public void setUnOrganizedScrollPane(JScrollPane unOrganizedScrollPane ) {
+		this.unOrganizedScrollPane = unOrganizedScrollPane ;
+	}
+
+	public JScrollPane getOrganizedScrollPane() {
+		return organizedScrollPane;
+	}
+
+	public void setOrganizedScrollPane(JScrollPane organizedScrollPane) {
+		this.organizedScrollPane = organizedScrollPane;
+	}
 
 
 }
