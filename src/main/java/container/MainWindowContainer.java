@@ -1,4 +1,4 @@
-package container_pattern;
+package container;
 
 import listeners.MergeButtonListener;
 import org.apache.commons.io.IOUtils;

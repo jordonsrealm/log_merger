@@ -1,12 +1,12 @@
 package listeners;
 
-import container_pattern.MainWindowContainer;
-import date_object.DateOrganizer;
-
 import javax.swing.*;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import container.MainWindowContainer;
+import date.object.DateOrganizer;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

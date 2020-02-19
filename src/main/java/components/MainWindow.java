@@ -1,12 +1,13 @@
 package components;
 
-import container_pattern.MainWindowContainer;
-import date_object.DateHolder;
 import listeners.MergeButtonListener;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import configuration.ConfigurationGetter;
+import container.MainWindowContainer;
+import date.object.DateHolder;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;

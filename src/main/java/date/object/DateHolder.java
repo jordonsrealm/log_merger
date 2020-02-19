@@ -1,6 +1,4 @@
-package date_object;
-
-import transfer_object.DatedLine;
+package date.object;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -10,6 +8,8 @@ import java.util.regex.Pattern;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import transfer.object.DatedLine;
 
 
 public class DateHolder implements Comparable<DateHolder>{

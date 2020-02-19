@@ -1,4 +1,4 @@
-package transfer_object;
+package transfer.object;
 
 import java.util.Date;
 

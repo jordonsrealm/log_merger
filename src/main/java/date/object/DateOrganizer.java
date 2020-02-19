@@ -1,4 +1,4 @@
-package date_object;
+package date.object;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -10,7 +10,7 @@ import java.util.Date;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import transfer_object.DatedLine;
+import transfer.object.DatedLine;
 
 
 public class DateOrganizer {
