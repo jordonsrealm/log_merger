@@ -10,6 +10,11 @@ public class DatedLine {
 
 
     public DatedLine(){}
+    
+    public DatedLine(String originalString, Date embeddedDate) {
+    	this.originalStringWithDate = originalString;
+    	this.embeddedDate 			= embeddedDate;
+    }
 
     public DatedLine(Date theDate, String ogStr){
         this.originalStringWithDate = ogStr;
@@ -34,6 +39,10 @@ public class DatedLine {
 
     public void setEmbeddedDate(Date embeddedDate) {
         this.embeddedDate = embeddedDate;
+    }
+    
+    public void setAppendToOriginalString(String stringToAppend) {
+    	this.originalStringWithDate += stringToAppend;
     }
 
 }

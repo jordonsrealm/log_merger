@@ -38,18 +38,18 @@ public class DateOrganizer {
         
         String lineRead;
         ArrayList<DateHolder> dateHolderList = new ArrayList<>();
-
+        
         try {
             while((lineRead = bufferedReader.readLine()) != null){
-                DatedLine res = DateHolder.getDatedLineUsingPattern(lineRead,format);
+                DatedLine dateLineFromReadLine = DateHolder.getDatedLineUsingPattern(lineRead,format);
 
-                if(res.isValidDate()){
+                if(dateLineFromReadLine.isValidDate()){
                     dateHolderList.add(new DateHolder(lineRead, format));
                 } else{
-                    dateHolderList.get(dateHolderList.size() - 1).appendToOriginalDateString("\n"+lineRead);
+                	logger.debug("Need to update the dateholder with new line: {}", lineRead);
+                    dateHolderList.get(dateHolderList.size() - 1).appendToOriginalDateString(lineRead);
+                    logger.debug("New line: {}", dateHolderList.get(dateHolderList.size() - 1).getOrginalLine());
                 }
-                
-                System.out.println(lineRead);
             }
         } catch (IOException ex) {
             logger.error("Unable to read lines of text");

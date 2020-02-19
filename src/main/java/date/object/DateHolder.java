@@ -51,7 +51,7 @@ public class DateHolder implements Comparable<DateHolder>{
     	
     	Pattern pattern = Pattern.compile(replacedString);
     	Matcher matcher = pattern.matcher(strToConvert);
-    	DatedLine datedLine = null;
+    	DatedLine datedLine = new DatedLine(strToConvert, null);
     	
     	if(matcher.find()) {
             SimpleDateFormat formatter = new SimpleDateFormat(format);
@@ -91,7 +91,7 @@ public class DateHolder implements Comparable<DateHolder>{
 
     public void appendToOriginalDateString(String appStr){
         String ogStr = this.dateResult.getOriginalStringWithDate();
-        this.dateResult.setOriginalStringWithDate(ogStr + appStr);
+        this.dateResult.setOriginalStringWithDate(ogStr + "\n" + appStr);
     }
     
     public boolean isDateWithinBounds(Date minimumDate, Date maximumDate) {
