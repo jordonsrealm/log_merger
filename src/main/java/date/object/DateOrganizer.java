@@ -46,9 +46,7 @@ public class DateOrganizer {
                 if(dateLineFromReadLine.isValidDate()){
                     dateHolderList.add(new DateHolder(lineRead, format));
                 } else{
-                	logger.debug("Need to update the dateholder with new line: {}", lineRead);
                     dateHolderList.get(dateHolderList.size() - 1).appendToOriginalDateString(lineRead);
-                    logger.debug("New line: {}", dateHolderList.get(dateHolderList.size() - 1).getOrginalLine());
                 }
             }
         } catch (IOException ex) {
