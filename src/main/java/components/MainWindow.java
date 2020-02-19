@@ -8,9 +8,12 @@ import org.slf4j.LoggerFactory;
 
 import configuration.ConfigurationGetter;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
+import java.io.IOException;
+import java.io.InputStream;
 
 
 public class MainWindow extends JFrame {
@@ -34,7 +37,7 @@ public class MainWindow extends JFrame {
     
 
     public void populateFrame(){
-        logger.debug("Logger user directory: {}" ,System.getProperty("user.dir"));
+        logger.debug("Logger user directory: {}" , System.getProperty("user.dir"));
         
         this.setTitle(configGetter.getApplicationName());
         this.setLayout(new BorderLayout());
@@ -46,8 +49,17 @@ public class MainWindow extends JFrame {
         addFinishedPanelsToFrame();
         
         mainWindowContainer.setMergeButtonListener(new MergeButtonListener(mainWindowContainer));
-        // ImageIcon img = new ImageIcon("../../app_icon.png");
-        // setIconImage(img.getImage());
+        
+		try {
+			ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+	        InputStream inputStreamFromPng = classloader.getResourceAsStream(configGetter.getAppIconName());
+	        
+			ImageIcon icon = new ImageIcon(ImageIO.read(inputStreamFromPng));
+			
+			setIconImage(icon.getImage());
+		} catch (IOException e) {
+			logger.error("Unable to set the image icon", e);
+		} 
     }
 
     private void initializeMainWindowContainer(){

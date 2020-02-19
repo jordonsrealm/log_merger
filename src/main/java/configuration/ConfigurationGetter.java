@@ -15,24 +15,24 @@ import components.MainWindow;
 public class ConfigurationGetter {
 
 	private static final Logger logger = LoggerFactory.getLogger(MainWindow.class);
-	String result = "";
-	InputStream inputStream;
 	private String applicationName;
 	private Integer windowWidth;
 	private Integer windowHeight;
+	private String appIconName;
 	
 	
 	public ConfigurationGetter() {
 		try {
 			getPropValues();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			logger.error("Unable to parse properties file");
 		}
 	}
 	
 	private ConfigurationGetter getPropValues() throws IOException {
 		 
+		InputStream inputStream = null;
+		
 		try {
 			Properties prop = new Properties();
 			String propFileName = "config.properties";
@@ -51,8 +51,9 @@ public class ConfigurationGetter {
 			applicationName = prop.getProperty("application_name");
 			windowWidth = Integer.parseInt(prop.getProperty("window_width"));
 			windowHeight = Integer.parseInt(prop.getProperty("window_height"));
+			appIconName = prop.getProperty("app_icon_name");
  
-			result = "Property List = " + applicationName + ", " + windowWidth + ", " + windowHeight;
+			String result = "Property List = " + applicationName + ", " + windowWidth + ", " + windowHeight + ", " + appIconName;
 			System.out.println(result + "\nProgram Ran on " + time);
 		} catch (Exception e) {
 			System.out.println("Exception: " + e);
@@ -85,6 +86,14 @@ public class ConfigurationGetter {
 
 	public void setWindowHeight(Integer windowHeight) {
 		this.windowHeight = windowHeight;
+	}
+
+	public String getAppIconName() {
+		return appIconName;
+	}
+
+	public void setAppIconName(String appIconName) {
+		this.appIconName = appIconName;
 	}
 	
 }
