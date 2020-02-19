@@ -10,13 +10,12 @@ import java.util.Date;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import listeners.MergeButtonListener;
 import transfer_object.DatedLine;
 
 
 public class DateOrganizer {
 	
-	private static final Logger logger = LoggerFactory.getLogger(MergeButtonListener.class);
+	private static final Logger logger = LoggerFactory.getLogger(DateOrganizer.class);
 	private final String stringContents;
 	private ArrayList<DateHolder> contentsAsDateLines = new ArrayList<DateHolder>();
 	

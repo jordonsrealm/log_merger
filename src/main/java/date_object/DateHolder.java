@@ -11,12 +11,10 @@ import java.util.regex.Pattern;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import listeners.MergeButtonListener;
-
 
 public class DateHolder implements Comparable<DateHolder>{
 
-	private static final Logger logger = LoggerFactory.getLogger(MergeButtonListener.class);
+	private static final Logger logger = LoggerFactory.getLogger(DateHolder.class);
     public static String DEFAULT_FORMAT = "yyyy-MM-dd HH:mm:ss.SSS";
     private DatedLine dateResult;
     private static Boolean orderDescending;

@@ -9,12 +9,10 @@ import java.util.Properties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import components.MainWindow;
-
 
 public class ConfigurationGetter {
 
-	private static final Logger logger = LoggerFactory.getLogger(MainWindow.class);
+	private static final Logger logger = LoggerFactory.getLogger(ConfigurationGetter.class);
 	private String applicationName;
 	private Integer windowWidth;
 	private Integer windowHeight;
