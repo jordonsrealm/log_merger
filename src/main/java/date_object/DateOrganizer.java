@@ -2,7 +2,7 @@ package date_object;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.Reader;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -10,17 +10,32 @@ import java.util.Date;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import listeners.MergeBtnListener;
+import listeners.MergeButtonListener;
 import transfer_object.DatedLine;
 
 
 public class DateOrganizer {
 	
-	private static final Logger logger = LoggerFactory.getLogger(MergeBtnListener.class);
-    
-    public static ArrayList<DateHolder> createListOfDateHoldersUsingReader(Reader inputString, String format){
+	private static final Logger logger = LoggerFactory.getLogger(MergeButtonListener.class);
+	private final String stringContents;
+	private ArrayList<DateHolder> contentsAsDateLines = new ArrayList<DateHolder>();
+	
+	
+	public DateOrganizer(String startingString) {
+		this.stringContents = startingString;
+	}
+
+    public void orderDateLines(boolean descendingOrder, String dateFormat) {
+    	organizeUsingFormat(dateFormat);
     	
-    	BufferedReader bufferedReader = new BufferedReader(inputString);
+    	DateHolder.setDescendingOrder(descendingOrder);
+    	
+    	Collections.sort(this.contentsAsDateLines);
+    }
+    
+    private void organizeUsingFormat(String format){
+    	
+    	BufferedReader bufferedReader = new BufferedReader(new StringReader(this.stringContents));
         
         String lineRead;
         ArrayList<DateHolder> dateHolderList = new ArrayList<>();
@@ -34,19 +49,14 @@ public class DateOrganizer {
                 } else{
                     dateHolderList.get(dateHolderList.size() - 1).appendToOriginalDateString("\n"+lineRead);
                 }
+                
+                System.out.println(lineRead);
             }
         } catch (IOException ex) {
             logger.error("Unable to read lines of text");
         }
         
-        return dateHolderList;
-    }
-    
-    public static ArrayList<DateHolder> orderList(ArrayList<DateHolder> dateHolderListUnsorted, boolean descendingOrder) {
-    	DateHolder.setDescendingOrder(descendingOrder);
-    	Collections.sort(dateHolderListUnsorted);
-    	
-    	return dateHolderListUnsorted;
+        this.contentsAsDateLines = dateHolderList;
     }
     
     public static ArrayList<DateHolder> returnListWithBoundedDates(ArrayList<DateHolder> unboundedList, Date minimumDate, Date maximumDate) {
@@ -60,4 +70,51 @@ public class DateOrganizer {
         
         return unboundedList;
     }
+    
+    public void handleDateBoundariesReturnList(String date1, String date2) {
+    	
+    	if(!(date1.isEmpty() && date2.isEmpty())) {
+    		
+        	Date minimumDate = DateHolder.getDateFromStringSupplied(date1, "");
+            Date maximumDate = DateHolder.getDateFromStringSupplied(date2, "");
+
+            DateHolder holder;
+            
+            for(int index = this.contentsAsDateLines.size() - 1; index > -1;index--){
+
+            	holder = this.contentsAsDateLines.get(index);
+            	
+                if(!holder.isDateWithinBounds(minimumDate, maximumDate)){
+                	this.contentsAsDateLines.remove(index);
+                }
+            }
+    	}
+    }
+    
+    public static String returnAsString(ArrayList<DateHolder> dateHolderListSorted) {
+    	
+    	StringBuilder builder = new StringBuilder();
+    	String appendingStr = "";
+    	
+        for(DateHolder holder: dateHolderListSorted){
+            appendingStr = holder.getOrginalLine() + "\n";
+            builder.append(appendingStr);
+        }
+        
+        return builder.toString();
+    }
+    
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return returnAsString(this.contentsAsDateLines);
+	}
+
+	public ArrayList<DateHolder> getContentsAsDateLines() {
+		return contentsAsDateLines;
+	}
+
+	public void setContentsAsDateLines(ArrayList<DateHolder> contentsAsDateLines) {
+		this.contentsAsDateLines = contentsAsDateLines;
+	}
 }

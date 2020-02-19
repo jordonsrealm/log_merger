@@ -2,7 +2,7 @@ package components;
 
 import container_pattern.MainWindowContainer;
 import date_object.DateHolder;
-import listeners.MergeBtnListener;
+import listeners.MergeButtonListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,9 +15,8 @@ import java.awt.*;
 
 public class MainWindow extends JFrame {
 
-	private static final long serialVersionUID = 1L;
-	private static final Logger logger = LoggerFactory.getLogger(MainWindow.class);
-    private MainWindowContainer mainWindow =  new MainWindowContainer();
+	private static final long serialVersionUID      = 1L;
+	private static final Logger logger              = LoggerFactory.getLogger(MainWindow.class);
     private static final String BTN_TITLE           = "Merge Files";
     private static final String UN_ORDERED_TEXT     = "UN-ORDERED TEXT";
     private static final String ORDERED_TEXT        = "ORDERED TEXT";
@@ -27,107 +26,99 @@ public class MainWindow extends JFrame {
     private static final String USE_FILE_STR        = "Use File...";
     private static final String MIN_DATE_STR        = "Minimum Date";
     private static final String MAX_DATE_STR        = "Maximum Date";
+    private static final String CLEAR_TEXT_AREA     = "Clear Text Area";
+    private static final String SAVE_TO_FILE        = "Save To File...";
     private static final String BLANK_STR           = "";
-    private ConfigurationGetter configGetter = new ConfigurationGetter();
+    private MainWindowContainer mainWindowContainer = new MainWindowContainer();
+    private ConfigurationGetter configGetter        = new ConfigurationGetter();
     
 
     public void populateFrame(){
-        setTitle(configGetter.getApplicationName());
-        setLayout(new BorderLayout());
-
-        populateMainWindowContainer();
-
-        setTitledBorders();
-
-        configurePatternTextField();
-
-        mainWindow.setMergeBtnListener(new MergeBtnListener(mainWindow));
-        
-        addFinishedPanelsToFrame();
-
         logger.debug("Logger user directory: {}" ,System.getProperty("user.dir"));
+        
+        this.setTitle(configGetter.getApplicationName());
+        this.setLayout(new BorderLayout());
+
+        initializeMainWindowContainer();
+
+        setTitledBordersAndConfigurePatternTextField();
+
+        addFinishedPanelsToFrame();
+        
+        mainWindowContainer.setMergeButtonListener(new MergeButtonListener(mainWindowContainer));
         // ImageIcon img = new ImageIcon("../../app_icon.png");
         // setIconImage(img.getImage());
     }
 
-    private void addFinishedPanelsToFrame() {
-        this.add( createTopPanel(), BorderLayout.NORTH);
-        this.add( createBottomPanel(), BorderLayout.CENTER);
+    private void initializeMainWindowContainer(){
+        mainWindowContainer.setMergeBtn(new JButton(BTN_TITLE));
+        mainWindowContainer.setPatternTextField(new JTextField(50));
+        mainWindowContainer.setUnOrganizedText(new JTextArea(BLANK_STR,5,55));
+        mainWindowContainer.setOrganizedText(new JTextArea(BLANK_STR,5,40));
+        mainWindowContainer.setAscendDescendOrder( new JCheckBox(DESCENDING_STRING));
+        mainWindowContainer.setMinDateField(new JTextField(15));
+        mainWindowContainer.setMaxDateField(new JTextField(15));
+        mainWindowContainer.setFileNameInputTextField(new JTextField(15));
+        mainWindowContainer.setFileInputButton(new JButton(SELECT_FILE_STR));
+        mainWindowContainer.setSelectFileBtn(new JButton(USE_FILE_STR));
+        mainWindowContainer.setClearUnorganizedText(new JButton(CLEAR_TEXT_AREA));
+        mainWindowContainer.setSaveToFile(new JButton(SAVE_TO_FILE));
     }
 
-    private void configurePatternTextField() {
-        // Make sure the background is just transparent
-        mainWindow.getPatternTextField().setOpaque(false);
-
-        // Set default pattern
-        mainWindow.getPatternTextField().setText(DateHolder.DEFAULT_FORMAT);
-    }
-
-    private void populateMainWindowContainer(){
-        mainWindow.setMergeBtn(new JButton(BTN_TITLE));
-        mainWindow.setPatternTextField(new JTextField(50));
-        mainWindow.setUnOrganizedText(new JTextArea(BLANK_STR,5,55));
-        mainWindow.setOrganizedText(new JTextArea(BLANK_STR,5,40));
-        mainWindow.setAscendDescendOrder( new JCheckBox(DESCENDING_STRING));
-        mainWindow.setMinDateField(new JTextField(15));
-        mainWindow.setMaxDateField(new JTextField(15));
-        mainWindow.setFileNameInputTextField(new JTextField(15));
-        mainWindow.setFileInputButton(new JButton(SELECT_FILE_STR));
-        mainWindow.setSelectFileBtn(new JButton(USE_FILE_STR));
-        mainWindow.setClearUnorganizedText(new JButton("Clear Text Area"));
-        mainWindow.setSaveToFile(new JButton("Save To File..."));
-    }
-
-    private void setTitledBorders(){
-        TitledBorder unOrganizedTitledBorder   = BorderFactory.createTitledBorder(UN_ORDERED_TEXT);
-        TitledBorder organizedTextTitledBorder = BorderFactory.createTitledBorder(ORDERED_TEXT);
+    private void setTitledBordersAndConfigurePatternTextField(){
+        TitledBorder unOrganizedTitledBorder      = BorderFactory.createTitledBorder(UN_ORDERED_TEXT);
+        TitledBorder organizedTextTitledBorder    = BorderFactory.createTitledBorder(ORDERED_TEXT);
         TitledBorder patternTextFieldTitledBorder = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black),
                                                                                     PATTERN_TEXT,
                                                                                     TitledBorder.LEFT,
                                                                                     TitledBorder.TOP);
 
-        // Set the title border for the two text areas
-        mainWindow.getUnOrganizedText().setBorder(unOrganizedTitledBorder);
-        mainWindow.getOrganizedText().setBorder(organizedTextTitledBorder);
-        mainWindow.getPatternTextField().setBorder(patternTextFieldTitledBorder);
+        mainWindowContainer.getUnOrganizedText().setBorder(unOrganizedTitledBorder);
+        mainWindowContainer.getOrganizedText().setBorder(organizedTextTitledBorder);
+        mainWindowContainer.getPatternTextField().setBorder(patternTextFieldTitledBorder);
+        
+        mainWindowContainer.getPatternTextField().setOpaque(true);
+        mainWindowContainer.getPatternTextField().setText(DateHolder.DEFAULT_FORMAT);
+    }
+    
+    private void addFinishedPanelsToFrame() {
+        this.add( createTopPanel(), BorderLayout.NORTH);
+        this.add( createBottomPanel(), BorderLayout.CENTER);
     }
 
     private JPanel createTopPanel() {
-        // Top Panel Construction
         JPanel topPanel = new JPanel();
         topPanel.setLayout(new BorderLayout());
-        topPanel.add( mainWindow.getAscendDescendOrder(), BorderLayout.WEST);
-        topPanel.add( mainWindow.getPatternTextField(), BorderLayout.CENTER);
-        topPanel.add( mainWindow.getMergeBtn(), BorderLayout.EAST);
+        topPanel.add( mainWindowContainer.getAscendDescendOrder(), BorderLayout.WEST);
+        topPanel.add( mainWindowContainer.getPatternTextField(), BorderLayout.CENTER);
+        topPanel.add( mainWindowContainer.getMergeBtn(), BorderLayout.EAST);
 
         JPanel dateSection = new JPanel(new FlowLayout());
-        dateSection.add(mainWindow.getClearUnorganizedText());
-        dateSection.add(mainWindow.getFileInputButton());
-        dateSection.add(mainWindow.getFileNameInputTextField());
-        dateSection.add(mainWindow.getSelectFileBtn());
+        dateSection.add(mainWindowContainer.getClearUnorganizedText());
+        dateSection.add(mainWindowContainer.getFileInputButton());
+        dateSection.add(mainWindowContainer.getFileNameInputTextField());
+        dateSection.add(mainWindowContainer.getSelectFileBtn());
         dateSection.add(createVerticalSeparator());
         dateSection.add(new JLabel(MIN_DATE_STR));
-        dateSection.add(mainWindow.getMinDateField());
+        dateSection.add(mainWindowContainer.getMinDateField());
         dateSection.add(new JLabel(MAX_DATE_STR));
-        dateSection.add(mainWindow.getMaxDateField());
-        dateSection.add(mainWindow.getSaveToFile());
+        dateSection.add(mainWindowContainer.getMaxDateField());
+        dateSection.add(mainWindowContainer.getSaveToFile());
 
         topPanel.add(dateSection, BorderLayout.SOUTH);
         return topPanel;
     }
 
-    static JComponent createVerticalSeparator() {
-        JSeparator x = new JSeparator(SwingConstants.VERTICAL);
-        x.setPreferredSize(new Dimension(3,40));
-        return x;
+    private JComponent createVerticalSeparator() {
+        JSeparator separator = new JSeparator(SwingConstants.VERTICAL);
+        separator.setPreferredSize(new Dimension(3,40));
+        return separator;
     }
 
     private JSplitPane createBottomPanel(){
-        // Bottom Panel Construction
-        JScrollPane unOrganizedScrollPane = new JScrollPane(mainWindow.getUnOrganizedText());
-        JScrollPane organizedScrollPane   = new JScrollPane(mainWindow.getOrganizedText());
+        JScrollPane unOrganizedScrollPane = new JScrollPane(mainWindowContainer.getUnOrganizedText());
+        JScrollPane organizedScrollPane   = new JScrollPane(mainWindowContainer.getOrganizedText());
 
-        // Set scrollbars on the scroll panes
         unOrganizedScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         unOrganizedScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         organizedScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);

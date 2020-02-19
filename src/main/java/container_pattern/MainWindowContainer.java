@@ -1,6 +1,6 @@
 package container_pattern;
 
-import listeners.MergeBtnListener;
+import listeners.MergeButtonListener;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -86,7 +86,7 @@ public class MainWindowContainer {
         this.maxDateField = maxDateField;
     }
 
-    public void setMergeBtnListener(MergeBtnListener listener){this.mergeBtn.addActionListener(listener);}
+    public void setMergeButtonListener(MergeButtonListener listener){this.mergeBtn.addActionListener(listener);}
 
     public JTextField getFileNameInputTextField() {return fileNameInputTextField;}
 
