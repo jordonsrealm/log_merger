@@ -25,6 +25,8 @@ public class DateOrganizer {
 	}
 
     public void orderDateLines(boolean descendingOrder, String dateFormat) {
+    	logger.info("Working on sorting date lines - descendingOrder: {}, dateFormat: {}", descendingOrder, dateFormat);
+    	
     	organizeUsingFormat(dateFormat);
     	
     	DateHolder.setDescendingOrder(descendingOrder);
@@ -71,6 +73,7 @@ public class DateOrganizer {
     public void handleDateBoundariesReturnList(String date1, String date2) {
     	
     	if(!(date1.isEmpty() && date2.isEmpty())) {
+    		logger.info("Working on boundary dates - date1: {}, date2: {}", date1, date2);
     		
         	Date minimumDate = DateHolder.getDateFromStringSupplied(date1, "");
             Date maximumDate = DateHolder.getDateFromStringSupplied(date2, "");

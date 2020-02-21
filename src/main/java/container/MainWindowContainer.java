@@ -1,12 +1,20 @@
 package container;
 
 import listeners.MergeButtonListener;
+import threads.GlassPaneProcessingThread;
+
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import components.MainWindow;
+import factory.CenteredPointFactory;
+import factory.CenteredPointType;
+
 import javax.swing.*;
 import javax.swing.filechooser.FileSystemView;
+
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
@@ -30,7 +38,14 @@ public class MainWindowContainer {
     private JButton saveToFile;
     private JScrollPane unOrganizedScrollPane;
     private JScrollPane organizedScrollPane;
+    private JPanel topPanel;
+    private JSplitPane bottomSplitPane;
+    private MainWindow mainWindow;
 
+    
+    public MainWindowContainer(MainWindow frame) {
+    	this.setMainWindow(frame);
+    }
 
     public JButton getMergeBtn() {
         return mergeBtn;
@@ -88,17 +103,29 @@ public class MainWindowContainer {
         this.maxDateField = maxDateField;
     }
 
-    public void setMergeButtonListener(MergeButtonListener listener){this.mergeBtn.addActionListener(listener);}
+    public void setMergeButtonListener(MergeButtonListener listener){
+    	this.mergeBtn.addActionListener(listener);
+    }
 
-    public JTextField getFileNameInputTextField() {return fileNameInputTextField;}
+    public JTextField getFileNameInputTextField() {
+    	return fileNameInputTextField;
+    }
 
-    public void setFileNameInputTextField(JTextField fileNameInput) {this.fileNameInputTextField = fileNameInput; }
+    public void setFileNameInputTextField(JTextField fileNameInput) {
+    	this.fileNameInputTextField = fileNameInput;
+    }
 
-    public JButton getSelectFileBtn() { return selectFileBtn; }
+    public JButton getSelectFileBtn() {
+    	return selectFileBtn;
+    }
 
-    public JButton getInputFileBtn() { return inputFileBtn; }
+    public JButton getInputFileBtn() {
+    	return inputFileBtn;
+    }
 
-    public void setInputFileBtn(JButton inputFileBtn) { this.inputFileBtn = inputFileBtn; }
+    public void setInputFileBtn(JButton inputFileBtn) {
+    	this.inputFileBtn = inputFileBtn;
+    }
 
     public JButton getClearUnorganizedText() {
         clearUnorganizedText.addActionListener(new ActionListener() {
@@ -151,29 +178,56 @@ public class MainWindowContainer {
         selectFileBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+            	
+            	selectFileBtn.setEnabled(false);
+            	unOrganizedText.setEnabled(false);
+            	
                 File file = new File(fileNameInputTextField.getText());
                 String result = unOrganizedText.getText();
-
-                try{
+                
+                Point centeredPoint = CenteredPointFactory.getCenteredPoint(CenteredPointType.NOT_ORDERED, mainWindow).getCenteredPoint();
+            	GlassPaneProcessingThread processingThread = new GlassPaneProcessingThread(mainWindow, centeredPoint);
+            	processingThread.startProcessing();
+            	
+            	try{
                     result += IOUtils.toString(new FileInputStream(file), StandardCharsets.UTF_8);
+                    result = result.strip();
                 } catch(IOException exx){
+                	logger.error("Unable to read file input:{} and add to text area", file, exx);
                 }
-
-                result = result.strip();
-
-                //logger.debug(result);
 
                 unOrganizedText.setText(result);
                 unOrganizedText.setCaretPosition(0);
                 
                 unOrganizedScrollPane.getHorizontalScrollBar().setValue(0);
+                
+                processingThread.stopProcessing();
+                
+                selectFileBtn.setEnabled(true);
+                unOrganizedText.setEnabled(true);
             }
         });
         
         this.selectFileBtn = selectFileBtn;
     }
 
-    public JButton getFileInputButton() { return inputFileBtn; }
+    public JScrollPane getUnOrganizedScrollPane() {
+		return unOrganizedScrollPane;
+	}
+
+	public void setUnOrganizedScrollPane(JScrollPane unOrganizedScrollPane) {
+		this.unOrganizedScrollPane = unOrganizedScrollPane;
+	}
+
+	public JScrollPane getOrganizedScrollPane() {
+		return organizedScrollPane;
+	}
+
+	public void setOrganizedScrollPane(JScrollPane organizedScrollPane) {
+		this.organizedScrollPane = organizedScrollPane;
+	}
+
+	public JButton getFileInputButton() { return inputFileBtn; }
 
     public void setFileInputButton(JButton fileInput) {
         fileInput.addActionListener(new ActionListener() {
@@ -194,21 +248,28 @@ public class MainWindowContainer {
         this.inputFileBtn = fileInput;
     }
 
-	public JScrollPane getUnOrganizedScrollPane() {
-		return unOrganizedScrollPane;
+	public MainWindow getMainWindow() {
+		return mainWindow;
 	}
 
-	public void setUnOrganizedScrollPane(JScrollPane unOrganizedScrollPane ) {
-		this.unOrganizedScrollPane = unOrganizedScrollPane ;
+	public void setMainWindow(MainWindow mainWindow) {
+		this.mainWindow = mainWindow;
 	}
 
-	public JScrollPane getOrganizedScrollPane() {
-		return organizedScrollPane;
+	public void setTopPanel(JPanel topPanel) {
+		this.topPanel = topPanel;
 	}
-
-	public void setOrganizedScrollPane(JScrollPane organizedScrollPane) {
-		this.organizedScrollPane = organizedScrollPane;
+	
+	public JPanel getTopPanel() {
+		return this.topPanel;
 	}
-
+	
+	public JSplitPane getBottomSplitPane() {
+		return this.bottomSplitPane;
+	}
+	
+	public void setBottomSplitPane(JSplitPane splitPane) {
+		this.bottomSplitPane = splitPane;
+	}
 
 }
