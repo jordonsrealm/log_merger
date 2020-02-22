@@ -24,23 +24,23 @@ import java.nio.charset.StandardCharsets;
 public class MainWindowContainer {
 
     private static final Logger logger = LoggerFactory.getLogger(MainWindowContainer.class);
-    private JButton mergeBtn;
-    private JTextField patternTextField;
-    private JTextArea unOrganizedText;
-    private JTextArea organizedText;
-    private JCheckBox ascendDescendOrder;
-    private JTextField minDateField;
-    private JTextField maxDateField;
     private JTextField fileNameInputTextField;
-    private JButton selectFileBtn;
-    private JButton inputFileBtn;
-    private JButton clearUnorganizedText;
-    private JButton saveToFile;
     private JScrollPane unOrganizedScrollPane;
     private JScrollPane organizedScrollPane;
-    private JPanel topPanel;
+    private JButton clearUnorganizedText;
+    private JCheckBox ascendDescendOrder;
+    private JTextField patternTextField;
     private JSplitPane bottomSplitPane;
+    private JTextArea unOrganizedText;
+    private JTextArea organizedText;
+    private JTextField minDateField;
+    private JTextField maxDateField;
+    private JButton selectFileBtn;
     private MainWindow mainWindow;
+    private JButton inputFileBtn;
+    private JButton mergeBtn;
+    private JButton saveToFile;
+    private JPanel topPanel;
 
     
     public MainWindowContainer(MainWindow frame) {
@@ -227,7 +227,9 @@ public class MainWindowContainer {
 		this.organizedScrollPane = organizedScrollPane;
 	}
 
-	public JButton getFileInputButton() { return inputFileBtn; }
+	public JButton getFileInputButton() { 
+		return inputFileBtn; 
+	}
 
     public void setFileInputButton(JButton fileInput) {
         fileInput.addActionListener(new ActionListener() {

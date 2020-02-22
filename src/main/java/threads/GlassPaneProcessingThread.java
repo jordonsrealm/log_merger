@@ -1,8 +1,10 @@
 package threads;
 
-import java.awt.Component;
 import java.awt.Point;
 import java.util.concurrent.atomic.AtomicBoolean;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import components.MainWindow;
 import drawing.GlassPaneGraphicsProcessor;
@@ -10,6 +12,7 @@ import drawing.GlassPaneGraphicsProcessor;
 
 public class GlassPaneProcessingThread extends GlassPaneGraphicsProcessor implements Runnable{
 
+	private static final Logger logger = LoggerFactory.getLogger(GlassPaneProcessingThread.class);
 	private Thread worker;
     private final AtomicBoolean running = new AtomicBoolean(false);
     private Point centerPoint;
@@ -18,13 +21,13 @@ public class GlassPaneProcessingThread extends GlassPaneGraphicsProcessor implem
     public GlassPaneProcessingThread(MainWindow frame, Point centerPoint) {
     	super(frame.getMainWindowContainer());
     	this.centerPoint = centerPoint;
-    	
     }
   
     public void startProcessing() {
         worker = new Thread(this);
         worker.start();
         setTickCounter(0);
+        getGlassPane().setVisible(true);
     }
   
     public void stopProcessing() {
@@ -36,28 +39,21 @@ public class GlassPaneProcessingThread extends GlassPaneGraphicsProcessor implem
     public void run() { 
         running.set(true);
         
-        Component glassPane = getGlassPane();
-
-        
-        glassPane.setVisible(true);
-        
         while (running.get()) {
         	tick();
-        	
-        	Point unOrganizedCenterPoint = centerPoint;
         	
         	String processingString = buildProcessingLogo();
         	
         	if(getTickCounter() == 1) {
-        		clearProcessingLogoArea( processingString, unOrganizedCenterPoint);
+        		clearProcessingLogoArea( processingString, centerPoint);
         	}
         	
-        	drawGlassPaneString(processingString, unOrganizedCenterPoint.x, unOrganizedCenterPoint.y);
+        	drawGlassPaneString(processingString, centerPoint);
         	
         	try {
-        		//glassPane.repaint();
 				Thread.sleep(20);
 			} catch (InterruptedException e) {
+				logger.error("Unable to pause current thread - tickCount: {}", getTickCounter(), e);
 			}
         }
     }

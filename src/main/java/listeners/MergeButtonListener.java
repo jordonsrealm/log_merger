@@ -2,8 +2,8 @@ package listeners;
 
 import javax.swing.*;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+// import org.slf4j.Logger;
+// import org.slf4j.LoggerFactory;
 
 import components.MainWindow;
 import container.MainWindowContainer;
@@ -19,7 +19,7 @@ import java.awt.event.ActionListener;
 
 public class MergeButtonListener implements ActionListener {
 	
-	private static final Logger logger = LoggerFactory.getLogger(MergeButtonListener.class);
+	//private static final Logger logger = LoggerFactory.getLogger(MergeButtonListener.class);
     private JTextField formatField;
     private JTextField minDateField;
     private JTextField maxDateField;
@@ -28,6 +28,7 @@ public class MergeButtonListener implements ActionListener {
     private JCheckBox descendingOrderCheckBox;
     private JScrollPane organizedPane;
     private MainWindow mainWindow;
+    private Point centerPoint;
     
     
     public MergeButtonListener(MainWindowContainer mainWindowContainer){
@@ -39,18 +40,16 @@ public class MergeButtonListener implements ActionListener {
         this.maxDateField         	 = mainWindowContainer.getMaxDateField();
         this.organizedPane			 = mainWindowContainer.getOrganizedScrollPane();
         this.mainWindow 			 = mainWindowContainer.getMainWindow();
+        centerPoint = CenteredPointFactory.getCenteredPoint(CenteredPointType.ORDERED, this.mainWindow).getCenteredPoint();
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
     	
     	JButton btnPressed = (JButton) e.getSource();
-    	
     	btnPressed.setEnabled(false);
     	
     	organizedTextArea.setText("");
-    	
-    	Point centerPoint = CenteredPointFactory.getCenteredPoint(CenteredPointType.ORDERED, mainWindow).getCenteredPoint();
     	
     	GlassPaneProcessingThread processingThread = new GlassPaneProcessingThread(mainWindow, centerPoint);
     	processingThread.startProcessing();

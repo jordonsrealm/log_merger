@@ -11,9 +11,9 @@ import container.MainWindowContainer;
 
 public class GlassPaneGraphicsProcessor {
 
-	private MainWindowContainer mainWindowContainer;
     private static final String PROCESSING = "Processing";
     public static final int MAX_NUMBER_OF_PERIODS  = 40;
+    private MainWindowContainer mainWindowContainer;
     private int tickCounter = 0;
 	
 	
@@ -24,7 +24,7 @@ public class GlassPaneGraphicsProcessor {
     
     protected void clearProcessingLogoArea(String processingString, Point centerPoint) {
     	FontMetrics metrics = getGlassPaneFontMetrics();
-    	Graphics g = getGlassPaneGraphics();
+    	Graphics glassPaneGraphics = getGlassPaneGraphics();
     	
     	int processingStrWidth  = getGlassPaneFontMetrics().stringWidth(processingString);
     	int periodWidth = metrics.stringWidth(".");
@@ -36,11 +36,11 @@ public class GlassPaneGraphicsProcessor {
 		int finalWidth = processingStrWidth + textPadding + MAX_NUMBER_OF_PERIODS * periodWidth;
 		int finalHeight = textHeight + textHeight;
 		
-    	g.setColor(Color.WHITE);
-    	g.fillRect( finalX, finalY, finalWidth, finalHeight);
+    	glassPaneGraphics.setColor(Color.WHITE);
+    	glassPaneGraphics.fillRect( finalX, finalY, finalWidth, finalHeight);
     	
-    	g.setColor(Color.RED);
-    	g.drawRect( finalX, finalY, finalWidth, finalHeight);
+    	glassPaneGraphics.setColor(Color.RED);
+    	glassPaneGraphics.drawRect( finalX, finalY, finalWidth, finalHeight);
     }
     
     protected String buildProcessingLogo() {
@@ -89,9 +89,9 @@ public class GlassPaneGraphicsProcessor {
 		return getGlassPane().getGraphics().getFontMetrics();
 	}
 	
-	protected void drawGlassPaneString(String processingString, int ptX, int ptY) {
+	protected void drawGlassPaneString(String processingString, Point point) {
 		Graphics g = getGlassPaneGraphics();
 		g.setColor(Color.BLACK);
-		g.drawString( processingString, ptX, ptY);
+		g.drawString( processingString, point.x, point.y);
 	}
 }
