@@ -1,24 +1,18 @@
 package container;
 
 import listeners.MergeButtonListener;
-import threads.GlassPaneProcessingThread;
-
-import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import components.MainWindow;
-import factory.CenteredPointFactory;
-import factory.CenteredPointType;
-
+import components.OrderedTextArea;
 import javax.swing.*;
 import javax.swing.filechooser.FileSystemView;
 
-import java.awt.Point;
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 
 
 public class MainWindowContainer {
@@ -28,24 +22,19 @@ public class MainWindowContainer {
     private JScrollPane unOrganizedScrollPane;
     private JScrollPane organizedScrollPane;
     private JButton clearUnorganizedText;
-    private JCheckBox ascendDescendOrder;
     private JTextField patternTextField;
     private JSplitPane bottomSplitPane;
     private JTextArea unOrganizedText;
-    private JTextArea organizedText;
+    private OrderedTextArea organizedText;
     private JTextField minDateField;
     private JTextField maxDateField;
-    private JButton selectFileBtn;
-    private MainWindow mainWindow;
+    private JButton useFileBtn;
     private JButton inputFileBtn;
     private JButton mergeBtn;
     private JButton saveToFile;
     private JPanel topPanel;
-
+    private Component glassPane;
     
-    public MainWindowContainer(MainWindow frame) {
-    	this.setMainWindow(frame);
-    }
 
     public JButton getMergeBtn() {
         return mergeBtn;
@@ -60,6 +49,7 @@ public class MainWindowContainer {
     }
 
     public void setPatternTextField(JTextField patternTextField) {
+    	patternTextField.setBackground(Color.decode("0xffffff"));
         this.patternTextField = patternTextField;
     }
 
@@ -71,20 +61,12 @@ public class MainWindowContainer {
         this.unOrganizedText = unOrganizedText;
     }
 
-    public JTextArea getOrganizedText() {
+    public OrderedTextArea getOrganizedText() {
         return organizedText;
     }
 
-    public void setOrganizedText(JTextArea organizedText) {
+    public void setOrganizedText(OrderedTextArea organizedText) {
         this.organizedText = organizedText;
-    }
-
-    public JCheckBox getAscendDescendOrder() {
-        return ascendDescendOrder;
-    }
-
-    public void setAscendDescendOrder(JCheckBox ascendDescendOrder) {
-        this.ascendDescendOrder = ascendDescendOrder;
     }
 
     public JTextField getMinDateField() {
@@ -115,8 +97,8 @@ public class MainWindowContainer {
     	this.fileNameInputTextField = fileNameInput;
     }
 
-    public JButton getSelectFileBtn() {
-    	return selectFileBtn;
+    public JButton getUseFileBtn() {
+    	return useFileBtn;
     }
 
     public JButton getInputFileBtn() {
@@ -134,6 +116,7 @@ public class MainWindowContainer {
                 unOrganizedText.setText("");
             }
         });
+        
         return clearUnorganizedText;
     }
 
@@ -174,41 +157,8 @@ public class MainWindowContainer {
     	this.clearUnorganizedText = clearUnorganizedText; 
     }
 
-    public void setSelectFileBtn(JButton selectFileBtn) {
-        selectFileBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-            	
-            	selectFileBtn.setEnabled(false);
-            	unOrganizedText.setEnabled(false);
-            	
-                File file = new File(fileNameInputTextField.getText());
-                String result = unOrganizedText.getText();
-                
-                Point centeredPoint = CenteredPointFactory.getCenteredPoint(CenteredPointType.NOT_ORDERED, mainWindow).getCenteredPoint();
-            	GlassPaneProcessingThread processingThread = new GlassPaneProcessingThread(mainWindow, centeredPoint);
-            	processingThread.startProcessing();
-            	
-            	try{
-                    result += IOUtils.toString(new FileInputStream(file), StandardCharsets.UTF_8);
-                    result = result.strip();
-                } catch(IOException exx){
-                	logger.error("Unable to read file input:{} and add to text area", file, exx);
-                }
-
-                unOrganizedText.setText(result);
-                unOrganizedText.setCaretPosition(0);
-                
-                unOrganizedScrollPane.getHorizontalScrollBar().setValue(0);
-                
-                processingThread.stopProcessing();
-                
-                selectFileBtn.setEnabled(true);
-                unOrganizedText.setEnabled(true);
-            }
-        });
-        
-        this.selectFileBtn = selectFileBtn;
+    public void setUseFileBtn(JButton selectFileBtn) {
+        this.useFileBtn = selectFileBtn;
     }
 
     public JScrollPane getUnOrganizedScrollPane() {
@@ -250,14 +200,6 @@ public class MainWindowContainer {
         this.inputFileBtn = fileInput;
     }
 
-	public MainWindow getMainWindow() {
-		return mainWindow;
-	}
-
-	public void setMainWindow(MainWindow mainWindow) {
-		this.mainWindow = mainWindow;
-	}
-
 	public void setTopPanel(JPanel topPanel) {
 		this.topPanel = topPanel;
 	}
@@ -274,4 +216,11 @@ public class MainWindowContainer {
 		this.bottomSplitPane = splitPane;
 	}
 
+	public Component getGlassPane() {
+		return glassPane;
+	}
+
+	public void setGlassPane(Component glassPane) {
+		this.glassPane = glassPane;
+	}
 }

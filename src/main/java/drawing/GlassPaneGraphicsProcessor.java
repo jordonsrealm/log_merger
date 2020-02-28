@@ -6,19 +6,17 @@ import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Point;
 
-import container.MainWindowContainer;
-
 
 public class GlassPaneGraphicsProcessor {
 
     private static final String PROCESSING = "Processing";
     public static final int MAX_NUMBER_OF_PERIODS  = 40;
-    private MainWindowContainer mainWindowContainer;
+    protected Component glassPane;
     private int tickCounter = 0;
 	
 	
-	public GlassPaneGraphicsProcessor(MainWindowContainer mainWindowContainer) {
-		this.mainWindowContainer = mainWindowContainer;
+	public GlassPaneGraphicsProcessor(Component glassPane) {
+		this.glassPane = glassPane;
 	}
 	
     
@@ -70,23 +68,15 @@ public class GlassPaneGraphicsProcessor {
 	}
 	
 	protected Component getGlassPane() {
-		return this.mainWindowContainer.getMainWindow().getGlassPane();
-	}
-
-	public MainWindowContainer getMainWindowContainer() {
-		return mainWindowContainer;
-	}
-
-	public void setMainWindowContainer(MainWindowContainer mainWindowContainer) {
-		this.mainWindowContainer = mainWindowContainer;
+		return glassPane;
 	}
 	
 	protected Graphics getGlassPaneGraphics() {
-        return getGlassPane().getGraphics();
+        return glassPane.getGraphics();
 	}
 	
 	protected FontMetrics getGlassPaneFontMetrics() {
-		return getGlassPane().getGraphics().getFontMetrics();
+		return glassPane.getGraphics().getFontMetrics();
 	}
 	
 	protected void drawGlassPaneString(String processingString, Point point) {

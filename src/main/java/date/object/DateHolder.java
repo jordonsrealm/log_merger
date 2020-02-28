@@ -125,7 +125,7 @@ public class DateHolder implements Comparable<DateHolder>{
     }
     
     public static Boolean isDescending() {
-    	return orderDescending;
+    	return orderDescending && Boolean.TRUE;
     }
     
     public static void setDescendingOrder(Boolean setDescending) {

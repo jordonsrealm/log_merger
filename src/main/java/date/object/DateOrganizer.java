@@ -24,17 +24,19 @@ public class DateOrganizer {
 		this.stringContents = startingString;
 	}
 
-    public void orderDateLines(boolean descendingOrder, String dateFormat) {
-    	logger.info("Working on sorting date lines - descendingOrder: {}, dateFormat: {}", descendingOrder, dateFormat);
+    public DateOrganizer orderDateLines(boolean descendingOrder, String dateFormat) {
     	
     	organizeUsingFormat(dateFormat);
     	
     	DateHolder.setDescendingOrder(descendingOrder);
     	
     	Collections.sort(this.contentsAsDateLines);
+    	
+    	return this;
     }
     
     private void organizeUsingFormat(String format){
+    	logger.info("Ordering Date Lines");
     	
     	BufferedReader bufferedReader = new BufferedReader(new StringReader(this.stringContents));
         
@@ -70,7 +72,7 @@ public class DateOrganizer {
         return unboundedList;
     }
     
-    public void handleDateBoundariesReturnList(String date1, String date2) {
+    public DateOrganizer handleDateBoundariesReturnList(String date1, String date2) {
     	
     	if(!(date1.isEmpty() && date2.isEmpty())) {
     		logger.info("Working on boundary dates - date1: {}, date2: {}", date1, date2);
@@ -80,7 +82,7 @@ public class DateOrganizer {
 
             DateHolder holder;
             
-            for(int index = this.contentsAsDateLines.size() - 1; index > -1;index--){
+            for(int index = this.contentsAsDateLines.size() - 1; index > -1; index--){
 
             	holder = this.contentsAsDateLines.get(index);
             	
@@ -89,6 +91,8 @@ public class DateOrganizer {
                 }
             }
     	}
+    	
+    	return this;
     }
     
     public static String returnAsString(ArrayList<DateHolder> dateHolderListSorted) {

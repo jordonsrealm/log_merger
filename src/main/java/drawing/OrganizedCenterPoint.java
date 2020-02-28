@@ -1,11 +1,11 @@
 package drawing;
 
-import components.MainWindow;
+import container.MainWindowContainer;
 
 
 public class OrganizedCenterPoint extends CentroidPoint {
 
-	public OrganizedCenterPoint(MainWindow mainWindow) {
-		super(mainWindow.getMainWindowContainer().getTopPanel(), mainWindow.getMainWindowContainer().getOrganizedScrollPane());
+	public OrganizedCenterPoint(MainWindowContainer mainWindowContainer) {
+		super(mainWindowContainer.getTopPanel(), mainWindowContainer.getOrganizedScrollPane());
 	}
 }

@@ -1,12 +1,12 @@
 package threads;
 
+import java.awt.Component;
 import java.awt.Point;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import components.MainWindow;
 import drawing.GlassPaneGraphicsProcessor;
 
 
@@ -18,8 +18,8 @@ public class GlassPaneProcessingThread extends GlassPaneGraphicsProcessor implem
     private Point centerPoint;
     
  
-    public GlassPaneProcessingThread(MainWindow frame, Point centerPoint) {
-    	super(frame.getMainWindowContainer());
+    public GlassPaneProcessingThread(Component glassPane, Point centerPoint) {
+    	super(glassPane);
     	this.centerPoint = centerPoint;
     }
   
@@ -27,12 +27,12 @@ public class GlassPaneProcessingThread extends GlassPaneGraphicsProcessor implem
         worker = new Thread(this);
         worker.start();
         setTickCounter(0);
-        getGlassPane().setVisible(true);
+        glassPane.setVisible(true);
     }
   
     public void stopProcessing() {
         running.set(false);
-        getGlassPane().setVisible(false);
+        glassPane.setVisible(false);
     }
  
     @Override
