@@ -3,7 +3,7 @@ package components;
 import listeners.ClearTextAreaListener;
 import listeners.MergeButtonListener;
 import listeners.SelectFileListener;
-import runnables.OrderingDateLinesProcessor;
+import runnables.OrderingDateLineProcessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,7 +37,7 @@ public class MainWindow extends JFrame {
     private ConfigurationGetter configGetter           = new ConfigurationGetter();
     private JPanel topPanel 						   = new JPanel();
     private JSplitPane bottomSplitPane;
-    private OrderingDateLinesProcessor processor;
+    private OrderingDateLineProcessor processor;
     private static final int TEXT_AREA_ROWS_CNT 	   = 5;
     private static final int TEXT_AREA_COLUMNS_CNT     = 70;
     private static final int TEXT_FIELD_COLUMNS_CNT    = 15;
@@ -94,7 +94,7 @@ public class MainWindow extends JFrame {
     private void initializeMainWindowContainer(){
         mainWindowContainer.setUnOrganizedText(unOrganizedText);
         mainWindowContainer.setMergeBtn(mergeButton);
-        processor = new OrderingDateLinesProcessor(mainWindowContainer);
+        processor = new OrderingDateLineProcessor(mainWindowContainer);
         mainWindowContainer.setOrganizedText(organizedText);
         organizedText.setRunnable(processor);
         mainWindowContainer.setFileNameInputTextField(fileInput);

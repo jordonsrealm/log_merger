@@ -6,10 +6,10 @@ import javax.swing.JTextField;
 
 import components.OrderedTextArea;
 import container.MainWindowContainer;
-import date.object.DateOrganizer;
+import date.object.DateLineOrganizer;
 
 
-public class OrderingDateLinesProcessor implements Runnable {
+public class OrderingDateLineProcessor implements Runnable {
 
 	private MainWindowContainer mainWindowContainer;
 	private OrderedTextArea organizedTextArea;
@@ -21,7 +21,7 @@ public class OrderingDateLinesProcessor implements Runnable {
 	private Boolean completedOrderingLines = false;
 	
 	
-	public OrderingDateLinesProcessor(MainWindowContainer mainWindowContainer) {
+	public OrderingDateLineProcessor(MainWindowContainer mainWindowContainer) {
 		this.mainWindowContainer = mainWindowContainer;
 	}
 	
@@ -35,7 +35,7 @@ public class OrderingDateLinesProcessor implements Runnable {
 		minDateField 		 = mainWindowContainer.getMinDateField();
 		formatField 	  	 = mainWindowContainer.getPatternTextField();
 		
-		DateOrganizer dateOrganizer = new DateOrganizer(unOrganizedTextArea.getText())
+		DateLineOrganizer dateOrganizer = new DateLineOrganizer(unOrganizedTextArea.getText())
 													    .orderDateLines( organizedTextArea.isDescending(), formatField.getText())
 														.handleDateBoundariesReturnList( minDateField.getText(), maxDateField.getText());
         

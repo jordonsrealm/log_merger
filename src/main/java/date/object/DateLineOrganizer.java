@@ -13,18 +13,18 @@ import org.slf4j.LoggerFactory;
 import transfer.object.DatedLine;
 
 
-public class DateOrganizer {
+public class DateLineOrganizer {
 	
-	private static final Logger logger = LoggerFactory.getLogger(DateOrganizer.class);
+	private static final Logger logger = LoggerFactory.getLogger(DateLineOrganizer.class);
 	private final String stringContents;
 	private ArrayList<DateHolder> contentsAsDateLines = new ArrayList<DateHolder>();
 	
 	
-	public DateOrganizer(String startingString) {
+	public DateLineOrganizer(String startingString) {
 		this.stringContents = startingString;
 	}
 
-    public DateOrganizer orderDateLines(boolean descendingOrder, String dateFormat) {
+    public DateLineOrganizer orderDateLines(boolean descendingOrder, String dateFormat) {
     	
     	organizeUsingFormat(dateFormat);
     	
@@ -72,7 +72,7 @@ public class DateOrganizer {
         return unboundedList;
     }
     
-    public DateOrganizer handleDateBoundariesReturnList(String date1, String date2) {
+    public DateLineOrganizer handleDateBoundariesReturnList(String date1, String date2) {
     	
     	if(!(date1.isEmpty() && date2.isEmpty())) {
     		logger.info("Working on boundary dates - date1: {}, date2: {}", date1, date2);

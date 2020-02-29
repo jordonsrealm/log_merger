@@ -2,7 +2,7 @@ package factory;
 
 import container.MainWindowContainer;
 import drawing.CentroidPoint;
-import drawing.OrganizedCenterPoint;
+import drawing.OrderedCenterPoint;
 import drawing.UnOrganizedCenterPoint;
 
 
@@ -18,7 +18,7 @@ public class CenteredPointFactory {
 				centroidPoint = new UnOrganizedCenterPoint(mainWindowContainer);
 				break;
 			case ORDERED: 
-				centroidPoint = new OrganizedCenterPoint(mainWindowContainer);
+				centroidPoint = new OrderedCenterPoint(mainWindowContainer);
 				break;
 		}
 		

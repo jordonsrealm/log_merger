@@ -3,9 +3,9 @@ package drawing;
 import container.MainWindowContainer;
 
 
-public class OrganizedCenterPoint extends CentroidPoint {
+public class OrderedCenterPoint extends CentroidPoint {
 
-	public OrganizedCenterPoint(MainWindowContainer mainWindowContainer) {
+	public OrderedCenterPoint(MainWindowContainer mainWindowContainer) {
 		super(mainWindowContainer.getTopPanel(), mainWindowContainer.getOrganizedScrollPane());
 	}
 }

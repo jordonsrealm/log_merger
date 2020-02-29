@@ -9,7 +9,7 @@ import java.util.GregorianCalendar;
 import org.junit.Test;
 
 import date.object.DateHolder;
-import date.object.DateOrganizer;
+import date.object.DateLineOrganizer;
 
 
 public class DateOrganizerTest {
@@ -37,7 +37,7 @@ public class DateOrganizerTest {
 		Date minDate = new GregorianCalendar( year, month, dayStart).getTime();
 		Date maxDate = new GregorianCalendar( year, month, dayEnd).getTime();
 		
-		ArrayList<DateHolder> boundedDates = DateOrganizer.returnListWithBoundedDates(unboundedList, minDate, maxDate);
+		ArrayList<DateHolder> boundedDates = DateLineOrganizer.returnListWithBoundedDates(unboundedList, minDate, maxDate);
 		assertEquals( 3, boundedDates.size());
 	}
 	
@@ -64,7 +64,7 @@ public class DateOrganizerTest {
 		Date minDate = new GregorianCalendar( year, month, dayStart).getTime();
 		Date maxDate = new GregorianCalendar( year, month, dayEnd).getTime();
 		
-		ArrayList<DateHolder> boundedDates = DateOrganizer.returnListWithBoundedDates(unboundedList, minDate, maxDate);
+		ArrayList<DateHolder> boundedDates = DateLineOrganizer.returnListWithBoundedDates(unboundedList, minDate, maxDate);
 		assertEquals( 1, boundedDates.size());
 	}
 }

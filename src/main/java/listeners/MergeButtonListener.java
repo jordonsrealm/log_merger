@@ -5,7 +5,7 @@ import javax.swing.*;
 import container.MainWindowContainer;
 import factory.CenteredPointFactory;
 import factory.CenteredPointType;
-import runnables.OrderingDateLinesProcessor;
+import runnables.OrderingDateLineProcessor;
 import threads.GlassPaneProcessingThread;
 
 import java.awt.Point;
@@ -16,12 +16,12 @@ import java.awt.event.ActionListener;
 public class MergeButtonListener implements ActionListener {
 	
 	//private static final Logger logger = LoggerFactory.getLogger(MergeButtonListener.class);
-    private OrderingDateLinesProcessor processor;
+    private OrderingDateLineProcessor processor;
     private MainWindowContainer mainWindowContainer;
     
     
     public MergeButtonListener(MainWindowContainer mainWindowContainer){
-        this.processor = new OrderingDateLinesProcessor(mainWindowContainer);
+        this.processor = new OrderingDateLineProcessor(mainWindowContainer);
         this.mainWindowContainer = mainWindowContainer;
     }
 
