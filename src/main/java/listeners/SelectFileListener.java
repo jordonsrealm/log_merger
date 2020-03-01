@@ -20,7 +20,7 @@ import org.slf4j.LoggerFactory;
 import container.MainWindowContainer;
 import factory.CenteredPointFactory;
 import factory.CenteredPointType;
-import threads.GlassPaneProcessingThread;
+import threads.ProcessingLogoThread;
 
 
 public class SelectFileListener implements ActionListener {
@@ -40,7 +40,7 @@ public class SelectFileListener implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Point centeredPoint = CenteredPointFactory.getCenteredPoint(CenteredPointType.NOT_ORDERED, mainWindowContainer).getCenteredPoint();
-		GlassPaneProcessingThread glassPaneDrawingThread = new GlassPaneProcessingThread(mainWindowContainer.getGlassPane(), centeredPoint);
+		ProcessingLogoThread glassPaneDrawingThread = new ProcessingLogoThread(mainWindowContainer.getGlassPane(), centeredPoint);
 		
 		selectFileBtn = mainWindowContainer.getUseFileBtn();
 		unOrganizedText = mainWindowContainer.getUnOrganizedText();

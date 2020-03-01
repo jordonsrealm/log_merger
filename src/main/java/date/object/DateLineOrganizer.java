@@ -16,8 +16,8 @@ import transfer.object.DatedLine;
 public class DateLineOrganizer {
 	
 	private static final Logger logger = LoggerFactory.getLogger(DateLineOrganizer.class);
-	private final String stringContents;
 	private ArrayList<DateHolder> contentsAsDateLines = new ArrayList<DateHolder>();
+	private final String stringContents;
 	
 	
 	public DateLineOrganizer(String startingString) {
@@ -95,23 +95,18 @@ public class DateLineOrganizer {
     	return this;
     }
     
-    public static String returnAsString(ArrayList<DateHolder> dateHolderListSorted) {
-    	
+	@Override
+	public String toString() {
+		
     	StringBuilder builder = new StringBuilder();
     	String appendingStr = "";
     	
-        for(DateHolder holder: dateHolderListSorted){
+        for(DateHolder holder: contentsAsDateLines){
             appendingStr = holder.getOrginalLine() + "\n";
             builder.append(appendingStr);
         }
         
         return builder.toString();
-    }
-    
-	@Override
-	public String toString() {
-		// TODO Auto-generated method stub
-		return returnAsString(this.contentsAsDateLines);
 	}
 
 	public ArrayList<DateHolder> getContentsAsDateLines() {

@@ -10,15 +10,15 @@ import org.slf4j.LoggerFactory;
 import drawing.GlassPaneGraphicsProcessor;
 
 
-public class GlassPaneProcessingThread extends GlassPaneGraphicsProcessor implements Runnable{
+public class ProcessingLogoThread extends GlassPaneGraphicsProcessor implements Runnable{
 
-	private static final Logger logger = LoggerFactory.getLogger(GlassPaneProcessingThread.class);
+	private static final Logger logger = LoggerFactory.getLogger(ProcessingLogoThread.class);
 	private Thread worker;
     private final AtomicBoolean running = new AtomicBoolean(false);
     private Point centerPoint;
     
  
-    public GlassPaneProcessingThread(Component glassPane, Point centerPoint) {
+    public ProcessingLogoThread(Component glassPane, Point centerPoint) {
     	super(glassPane);
     	this.centerPoint = centerPoint;
     }

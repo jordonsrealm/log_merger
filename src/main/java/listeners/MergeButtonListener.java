@@ -6,7 +6,7 @@ import container.MainWindowContainer;
 import factory.CenteredPointFactory;
 import factory.CenteredPointType;
 import runnables.OrderingDateLineProcessor;
-import threads.GlassPaneProcessingThread;
+import threads.ProcessingLogoThread;
 
 import java.awt.Point;
 import java.awt.event.ActionEvent;
@@ -29,7 +29,7 @@ public class MergeButtonListener implements ActionListener {
     public void actionPerformed(ActionEvent e) {
     	JButton btnPressed = (JButton) e.getSource();
     	Point centerPoint = CenteredPointFactory.getCenteredPoint( CenteredPointType.ORDERED, mainWindowContainer).getCenteredPoint();
-    	GlassPaneProcessingThread processingThread = new GlassPaneProcessingThread( mainWindowContainer.getGlassPane(), centerPoint);
+    	ProcessingLogoThread processingThread = new ProcessingLogoThread( mainWindowContainer.getGlassPane(), centerPoint);
     	
     	btnPressed.setEnabled(false);
     	
