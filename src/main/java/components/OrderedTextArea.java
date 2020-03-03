@@ -11,7 +11,7 @@ import java.awt.event.MouseListener;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 
-import runnables.OrderingDateLineProcessor;
+import runnables.DateLineProcessor;
 
 
 public class OrderedTextArea extends JTextArea implements MouseListener {
@@ -24,7 +24,7 @@ public class OrderedTextArea extends JTextArea implements MouseListener {
 	private Rectangle checkBoxRectangle 	   = new Rectangle(new Dimension( CHECKBOX_WIDTH, CHECKBOX_HEIGHT));
 	private boolean isDescending 			   = false;
 	private boolean drawCheckBox 			   = true;
-	private OrderingDateLineProcessor dateLinesRunnable;
+	private DateLineProcessor dateLinesRunnable;
 	
 	
 	public OrderedTextArea(String initString, int rowCount, int columnCount) {
@@ -33,7 +33,7 @@ public class OrderedTextArea extends JTextArea implements MouseListener {
 		addMouseListener(this);
 	}
 	
-	public void setRunnable(OrderingDateLineProcessor runnable) {
+	public void setRunnable(DateLineProcessor runnable) {
 		this.dateLinesRunnable = runnable;
 	}
 

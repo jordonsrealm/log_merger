@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 import container.MainWindowContainer;
 import factory.CenteredPointFactory;
 import factory.CenteredPointType;
-import threads.ProcessingLogoThread;
+import threads.ProcessLogo;
 
 
 public class ClearTextAreaListener implements ActionListener{
@@ -22,7 +22,7 @@ public class ClearTextAreaListener implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Point centerPoint = CenteredPointFactory.getCenteredPoint( CenteredPointType.NOT_ORDERED, mainWindowContainer).getCenteredPoint();
-		ProcessingLogoThread processingThread = new ProcessingLogoThread( mainWindowContainer.getGlassPane(), centerPoint);
+		ProcessLogo processingThread = new ProcessLogo( mainWindowContainer.getGlassPane(), centerPoint);
 		processingThread.startProcessing();
 		
 		mainWindowContainer.getUnOrganizedText().setText("");

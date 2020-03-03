@@ -3,7 +3,7 @@ package components;
 import listeners.ClearTextAreaListener;
 import listeners.MergeButtonListener;
 import listeners.SelectFileListener;
-import runnables.OrderingDateLineProcessor;
+import runnables.DateLineProcessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,20 +24,20 @@ public class MainWindow extends JFrame {
 	private static final Logger logger                 = LoggerFactory.getLogger(MainWindow.class);
     private static final String UN_ORDERED_TEXT        = "UN-ORDERED TEXT";
     private static final String CLEAR_TEXT_AREA        = "Clear";
-    private static final String SAVE_TO_FILE           = "Save To File...";
-    private static final String SELECT_FILE_STR        = "Select File...";
+    private static final String SAVE_TO_FILE           = "Save To File";
+    private static final String SELECT_FILE_STR        = "Select File";
     private static final String ORDERED_TEXT           = "ORDERED TEXT";
     private static final String PATTERN_TEXT           = "PATTERN TEXT";
     private static final String MIN_DATE_STR           = "Minimum Date";
     private static final String MAX_DATE_STR           = "Maximum Date";
     private static final String BTN_TITLE              = "Merge Files";
-    private static final String USE_FILE_STR           = "Use File...";
+    private static final String USE_FILE_STR           = "Use File";
     private static final String BLANK_STR              = "";
     private MainWindowContainer mainWindowContainer	   = new MainWindowContainer();
     private ConfigurationGetter configGetter           = new ConfigurationGetter();
     private JPanel topPanel 						   = new JPanel();
     private JSplitPane bottomSplitPane;
-    private OrderingDateLineProcessor processor;
+    private DateLineProcessor processor;
     private static final int TEXT_AREA_ROWS_CNT 	   = 5;
     private static final int TEXT_AREA_COLUMNS_CNT     = 70;
     private static final int TEXT_FIELD_COLUMNS_CNT    = 15;
@@ -94,7 +94,7 @@ public class MainWindow extends JFrame {
     private void initializeMainWindowContainer(){
         mainWindowContainer.setUnOrganizedText(unOrganizedText);
         mainWindowContainer.setMergeBtn(mergeButton);
-        processor = new OrderingDateLineProcessor(mainWindowContainer);
+        processor = new DateLineProcessor(mainWindowContainer);
         mainWindowContainer.setOrganizedText(organizedText);
         organizedText.setRunnable(processor);
         mainWindowContainer.setFileNameInputTextField(fileInput);
@@ -138,9 +138,9 @@ public class MainWindow extends JFrame {
         dateSection.add(fileInput);
         dateSection.add(useFileButton);
         dateSection.add(createVerticalSeparator());
-        dateSection.add(new JLabel(MIN_DATE_STR));
+        minDateField.setBorder(BorderFactory.createTitledBorder(MIN_DATE_STR));
         dateSection.add(minDateField);
-        dateSection.add(new JLabel(MAX_DATE_STR));
+        maxDateField.setBorder(BorderFactory.createTitledBorder(MAX_DATE_STR));
         dateSection.add(maxDateField);
         dateSection.add(saveToFileButton);
         dateSection.setBackground(Color.decode("0xffffff"));
@@ -158,6 +158,8 @@ public class MainWindow extends JFrame {
         mainWindowContainer.setOrganizedScrollPane(organizedScrollPane);
 
         bottomSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, unOrganizedScrollPane, organizedScrollPane);
+        
+        bottomSplitPane.setDividerLocation(configGetter.getWindowWidth()/2);
 
         return  bottomSplitPane;
     }

@@ -9,7 +9,7 @@ import container.MainWindowContainer;
 import date.object.DateLineOrganizer;
 
 
-public class OrderingDateLineProcessor implements Runnable {
+public class DateLineProcessor implements Runnable {
 
 	private MainWindowContainer mainWindowContainer;
 	private OrderedTextArea organizedTextArea;
@@ -21,7 +21,7 @@ public class OrderingDateLineProcessor implements Runnable {
 	private Boolean completedOrderingLines = false;
 	
 	
-	public OrderingDateLineProcessor(MainWindowContainer mainWindowContainer) {
+	public DateLineProcessor(MainWindowContainer mainWindowContainer) {
 		this.mainWindowContainer = mainWindowContainer;
 	}
 	

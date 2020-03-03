@@ -1,9 +1,9 @@
-package merge;
+package logmerger;
 
 import components.MainWindow;
 
 
-public class Merger {
+public class LogMerger {
 
     public static void main(String[] args){
         MainWindow mainWindow = new MainWindow();
