@@ -1,23 +1,14 @@
 package container;
 
 import listeners.MergeButtonListener;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import components.OrderedTextArea;
 import javax.swing.*;
-import javax.swing.filechooser.FileSystemView;
-
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.*;
 
 
 public class MainWindowContainer {
 
-    private static final Logger logger = LoggerFactory.getLogger(MainWindowContainer.class);
     private JTextField fileNameInputTextField;
     private JScrollPane unOrganizedScrollPane;
     private JScrollPane organizedScrollPane;
@@ -110,13 +101,6 @@ public class MainWindowContainer {
     }
 
     public JButton getClearUnorganizedText() {
-        clearUnorganizedText.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                unOrganizedText.setText("");
-            }
-        });
-        
         return clearUnorganizedText;
     }
 
@@ -125,31 +109,6 @@ public class MainWindowContainer {
     }
 
     public void setSaveToFile(JButton saveToFile) {
-        saveToFile.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
-                jfc.setDialogTitle("Specify a file to save");
-
-                int userSelection = jfc.showSaveDialog(null);
-
-                if (userSelection == JFileChooser.APPROVE_OPTION) {
-                    File fileToSave = jfc.getSelectedFile();
-                    logger.debug("Saving file as: " + fileToSave.getAbsolutePath());
-
-                    try(FileOutputStream outputStream = new FileOutputStream(fileToSave)){
-                        byte[] bytes = organizedText.getText().getBytes();
-                        outputStream.write(bytes);
-                    } catch(FileNotFoundException ex){
-                        logger.error("Unable to find the file to save to...", ex);
-                    } catch (IOException ioEx){
-                        logger.error("Uable to create file to save to...", ioEx);
-                    }
-
-                    logger.info("Saved to file: {}", fileToSave.getName());
-                }
-            }
-        });
         this.saveToFile = saveToFile;
     }
 
@@ -182,21 +141,6 @@ public class MainWindowContainer {
 	}
 
     public void setFileInputButton(JButton fileInput) {
-        fileInput.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
-
-                int returnValue = jfc.showOpenDialog(null);
-
-                if (returnValue == JFileChooser.APPROVE_OPTION) {
-                    File selectedFile = jfc.getSelectedFile();
-                    
-                    fileNameInputTextField.setText(selectedFile.getAbsolutePath());
-                }
-            }
-        });
-        
         this.inputFileBtn = fileInput;
     }
 

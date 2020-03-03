@@ -2,6 +2,8 @@ package components;
 
 import listeners.ClearTextAreaListener;
 import listeners.MergeButtonListener;
+import listeners.OpenFileDialog;
+import listeners.SaveFileListener;
 import listeners.SelectFileListener;
 import runnables.DateLineProcessor;
 import org.slf4j.Logger;
@@ -103,8 +105,10 @@ public class MainWindow extends JFrame {
         mainWindowContainer.setMaxDateField(maxDateField);
         mainWindowContainer.setClearUnorganizedText(clearUnorganizedText);
         mainWindowContainer.setFileInputButton(fileInputButton);
+        mainWindowContainer.getFileInputButton().addActionListener(new OpenFileDialog(fileInput));
         mainWindowContainer.setUseFileBtn(useFileButton);
         mainWindowContainer.setSaveToFile(saveToFileButton);
+        mainWindowContainer.getSaveToFile().addActionListener(new SaveFileListener(organizedText));
         mainWindowContainer.setTopPanel(topPanel);
         mainWindowContainer.setBottomSplitPane(bottomSplitPane);
         mainWindowContainer.setGlassPane(glassPane);
@@ -138,10 +142,13 @@ public class MainWindow extends JFrame {
         dateSection.add(fileInput);
         dateSection.add(useFileButton);
         dateSection.add(createVerticalSeparator());
+        
         minDateField.setBorder(BorderFactory.createTitledBorder(MIN_DATE_STR));
         dateSection.add(minDateField);
+        
         maxDateField.setBorder(BorderFactory.createTitledBorder(MAX_DATE_STR));
         dateSection.add(maxDateField);
+        
         dateSection.add(saveToFileButton);
         dateSection.setBackground(Color.decode("0xffffff"));
 
