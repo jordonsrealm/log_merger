@@ -13,6 +13,5 @@ public class LogMerger {
         MainWindow mainWindow = new MainWindow(mainExecutor);
         mainWindow.populateFrame();
         mainWindow.setFrameConstraints();
-        
     }
 }

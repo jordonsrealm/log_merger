@@ -1,13 +1,15 @@
 package threads;
 
-import java.awt.Component;
 import java.awt.Point;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import container.MainWindowContainer;
 import drawing.GlassPaneGraphicsProcessor;
+import factory.CenteredPointFactory;
+import factory.CenteredPointType;
 
 
 public class ProcessLogo extends GlassPaneGraphicsProcessor implements Runnable{
@@ -18,9 +20,9 @@ public class ProcessLogo extends GlassPaneGraphicsProcessor implements Runnable{
     private Point centerPoint;
     
  
-    public ProcessLogo(Component glassPane, Point centerPoint) {
-    	super(glassPane);
-    	this.centerPoint = centerPoint;
+    public ProcessLogo(MainWindowContainer mainWindowContainer, CenteredPointType centerPointType) {
+    	super(mainWindowContainer.getGlassPane());
+    	this.centerPoint = CenteredPointFactory.getCenteredPoint( centerPointType, mainWindowContainer).getCenteredPoint();;
     }
   
     public void startProcessing() {

@@ -1,6 +1,5 @@
 package listeners;
 
-import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -19,7 +18,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import container.MainWindowContainer;
-import factory.CenteredPointFactory;
 import factory.CenteredPointType;
 import threads.ProcessLogo;
 
@@ -53,8 +51,7 @@ public class SelectFileListener implements ActionListener {
     	
         File file = new File(fileNameInputTextField.getText());
         
-		Point centeredPoint = CenteredPointFactory.getCenteredPoint(CenteredPointType.NOT_ORDERED, mainWindowContainer).getCenteredPoint();
-		ProcessLogo glassPaneDrawingThread = new ProcessLogo(mainWindowContainer.getGlassPane(), centeredPoint);
+		ProcessLogo glassPaneDrawingThread = new ProcessLogo(mainWindowContainer, CenteredPointType.NOT_ORDERED);
 		glassPaneDrawingThread.startProcessing();
     	
 		try{
