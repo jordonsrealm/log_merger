@@ -18,6 +18,7 @@ import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.concurrent.ExecutorService;
 
 
 public class MainWindow extends JFrame {
@@ -35,18 +36,6 @@ public class MainWindow extends JFrame {
     private static final String BTN_TITLE              = "Merge Files";
     private static final String USE_FILE_STR           = "Use File";
     private static final String BLANK_STR              = "";
-    private MainWindowContainer mainWindowContainer	   = new MainWindowContainer();
-    private ConfigurationGetter configGetter           = new ConfigurationGetter();
-    private JPanel topPanel 						   = new JPanel();
-    private JSplitPane bottomSplitPane;
-    private DateLineProcessor processor;
-    private static final int TEXT_AREA_ROWS_CNT 	   = 5;
-    private static final int TEXT_AREA_COLUMNS_CNT     = 70;
-    private static final int TEXT_FIELD_COLUMNS_CNT    = 15;
-    private static final int PATTERN_FIELD_COLUMN_CNT  = 50;
-    private static final int FILENAME_FIELD_COLUMN_CNT = 60;
-    private static final int SEPARATOR_ROW_COUNT	   = 3;
-    private static final int SEPARATOR_COLUMN_COUNT	   = 40;
     private JTextField fieldPattern 				   = new JTextField(PATTERN_FIELD_COLUMN_CNT);
     private JTextArea unOrganizedText 				   = new JTextArea(BLANK_STR,TEXT_AREA_ROWS_CNT,TEXT_AREA_COLUMNS_CNT);
     private JButton mergeButton 					   = new JButton(BTN_TITLE);
@@ -58,9 +47,26 @@ public class MainWindow extends JFrame {
     private JButton fileInputButton 				   = new JButton(SELECT_FILE_STR);
     private JButton useFileButton 					   = new JButton(USE_FILE_STR);
     private JButton saveToFileButton 				   = new JButton(SAVE_TO_FILE);
+    private MainWindowContainer mainWindowContainer	   = new MainWindowContainer();
+    private ConfigurationGetter configGetter           = new ConfigurationGetter();
+    private JPanel topPanel 						   = new JPanel();
+    private static final int TEXT_AREA_ROWS_CNT 	   = 5;
+    private static final int TEXT_AREA_COLUMNS_CNT     = 70;
+    private static final int TEXT_FIELD_COLUMNS_CNT    = 15;
+    private static final int PATTERN_FIELD_COLUMN_CNT  = 50;
+    private static final int FILENAME_FIELD_COLUMN_CNT = 60;
+    private static final int SEPARATOR_ROW_COUNT	   = 3;
+    private static final int SEPARATOR_COLUMN_COUNT	   = 40;
+    private JSplitPane bottomSplitPane;
+    private DateLineProcessor processor;
     private Component glassPane = getGlassPane();
+    private ExecutorService executor;
     
 
+    public MainWindow(ExecutorService executor) {
+    	this.setExecutor(executor);
+    }
+    
     public void populateFrame(){
         logger.debug("Logger user directory: {}" , System.getProperty("user.dir"));
         
@@ -113,9 +119,9 @@ public class MainWindow extends JFrame {
         mainWindowContainer.setBottomSplitPane(bottomSplitPane);
         mainWindowContainer.setGlassPane(glassPane);
         
-        useFileButton.addActionListener(new SelectFileListener(mainWindowContainer));
-        mergeButton.addActionListener(new MergeButtonListener(mainWindowContainer));
-        clearUnorganizedText.addActionListener(new ClearTextAreaListener(mainWindowContainer));
+        useFileButton.addActionListener(new SelectFileListener(mainWindowContainer, executor));
+        mergeButton.addActionListener(new MergeButtonListener(mainWindowContainer, executor));
+        clearUnorganizedText.addActionListener(new ClearTextAreaListener(mainWindowContainer, executor));
     }
 
     private void setTitledBordersAndConfigurePatternTextField(){
@@ -192,6 +198,14 @@ public class MainWindow extends JFrame {
 
 	public void setMainWindowContainer(MainWindowContainer mainWindowContainer) {
 		this.mainWindowContainer = mainWindowContainer;
+	}
+
+	public ExecutorService getExecutor() {
+		return executor;
+	}
+
+	public void setExecutor(ExecutorService executor) {
+		this.executor = executor;
 	}
 	
 }

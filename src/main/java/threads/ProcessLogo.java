@@ -27,12 +27,12 @@ public class ProcessLogo extends GlassPaneGraphicsProcessor implements Runnable{
         worker = new Thread(this);
         worker.start();
         setTickCounter(0);
-        glassPane.setVisible(true);
+        getGlassPane().setVisible(true);
     }
   
     public void stopProcessing() {
         running.set(false);
-        glassPane.setVisible(false);
+        getGlassPane().setVisible(false);
     }
  
     @Override

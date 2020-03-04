@@ -11,6 +11,7 @@ import threads.ProcessLogo;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.concurrent.ExecutorService;
 
 
 public class MergeButtonListener implements ActionListener {
@@ -18,11 +19,13 @@ public class MergeButtonListener implements ActionListener {
 	//private static final Logger logger = LoggerFactory.getLogger(MergeButtonListener.class);
     private DateLineProcessor processor;
     private MainWindowContainer mainWindowContainer;
+    private ExecutorService executorService;
     
     
-    public MergeButtonListener(MainWindowContainer mainWindowContainer){
+    public MergeButtonListener(MainWindowContainer mainWindowContainer, ExecutorService executorService){
         this.processor = new DateLineProcessor(mainWindowContainer);
         this.mainWindowContainer = mainWindowContainer;
+        this.executorService = executorService;
     }
 
     @Override
@@ -37,9 +40,9 @@ public class MergeButtonListener implements ActionListener {
     	
     	processingThread.startProcessing();
     	
-    	SwingUtilities.invokeLater(processor);
+    	processor.run();
     	
-        processingThread.stopProcessing();
+    	processingThread.stopProcessing();;
         
         btnPressed.setEnabled(true);
     }

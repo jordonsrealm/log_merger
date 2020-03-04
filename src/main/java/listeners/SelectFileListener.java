@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.concurrent.ExecutorService;
 
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
@@ -31,16 +32,16 @@ public class SelectFileListener implements ActionListener {
 	JTextField fileNameInputTextField;
 	JScrollPane unOrganizedScrollPane;
 	MainWindowContainer mainWindowContainer;
+	ExecutorService executorService;
 	
 	
-	public SelectFileListener( MainWindowContainer mainWindowContainer) {
+	public SelectFileListener( MainWindowContainer mainWindowContainer, ExecutorService executorService) {
 		this.mainWindowContainer = mainWindowContainer;
+		this.executorService 	 = executorService;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		Point centeredPoint = CenteredPointFactory.getCenteredPoint(CenteredPointType.NOT_ORDERED, mainWindowContainer).getCenteredPoint();
-		ProcessLogo glassPaneDrawingThread = new ProcessLogo(mainWindowContainer.getGlassPane(), centeredPoint);
 		
 		selectFileBtn = mainWindowContainer.getUseFileBtn();
 		unOrganizedText = mainWindowContainer.getUnOrganizedText();
@@ -51,24 +52,26 @@ public class SelectFileListener implements ActionListener {
     	unOrganizedText.setEnabled(false);
     	
         File file = new File(fileNameInputTextField.getText());
-        String result = unOrganizedText.getText();
         
-    	glassPaneDrawingThread.startProcessing();
+		Point centeredPoint = CenteredPointFactory.getCenteredPoint(CenteredPointType.NOT_ORDERED, mainWindowContainer).getCenteredPoint();
+		ProcessLogo glassPaneDrawingThread = new ProcessLogo(mainWindowContainer.getGlassPane(), centeredPoint);
+		glassPaneDrawingThread.startProcessing();
     	
-    	try{
+		try{
+			String result = unOrganizedText.getText();
             result += IOUtils.toString(new FileInputStream(file), StandardCharsets.UTF_8);
             result = result.strip();
+            
+            unOrganizedText.setText(result);
+            unOrganizedText.setCaretPosition(0);
+            
+            unOrganizedScrollPane.getHorizontalScrollBar().setValue(0);
         } catch(IOException exx){
         	logger.error("Unable to read file input:{} and add to text area", file, exx);
         }
-
-        unOrganizedText.setText(result);
-        unOrganizedText.setCaretPosition(0);
-        
-        unOrganizedScrollPane.getHorizontalScrollBar().setValue(0);
-        
-        glassPaneDrawingThread.stopProcessing();
-        
+ 
+    	glassPaneDrawingThread.stopProcessing();
+    	
         selectFileBtn.setEnabled(true);
         unOrganizedText.setEnabled(true);
 	}

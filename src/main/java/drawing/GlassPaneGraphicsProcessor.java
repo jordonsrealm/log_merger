@@ -11,7 +11,7 @@ public class GlassPaneGraphicsProcessor {
 
     private static final String PROCESSING = "Processing";
     public static final int MAX_NUMBER_OF_PERIODS  = 40;
-    protected Component glassPane;
+    private Component glassPane;
     private int tickCounter = 0;
 	
 	
@@ -67,7 +67,7 @@ public class GlassPaneGraphicsProcessor {
 		this.tickCounter = tickCounter;
 	}
 	
-	protected Component getGlassPane() {
+	public Component getGlassPane() {
 		return glassPane;
 	}
 	
