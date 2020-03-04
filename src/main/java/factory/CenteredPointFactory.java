@@ -14,10 +14,10 @@ public class CenteredPointFactory {
 		CentroidPoint centroidPoint = null;
 		
 		switch(type) {
-			case NOT_ORDERED: 
+			case UN_ORDERED_TEXT_AREA: 
 				centroidPoint = new UnOrganizedCenterPoint(mainWindowContainer);
 				break;
-			case ORDERED: 
+			case ORDERED_TEXT_AREA: 
 				centroidPoint = new OrderedCenterPoint(mainWindowContainer);
 				break;
 		}

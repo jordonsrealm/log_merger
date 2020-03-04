@@ -23,7 +23,7 @@ public class ClearTextAreaListener implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
-		ProcessLogo processingThread = new ProcessLogo( mainWindowContainer, CenteredPointType.NOT_ORDERED);
+		ProcessLogo processingThread = new ProcessLogo( mainWindowContainer, CenteredPointType.UN_ORDERED_TEXT_AREA);
 		
 		processingThread.startProcessing();
 		

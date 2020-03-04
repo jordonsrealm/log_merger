@@ -29,11 +29,11 @@ public class MergeButtonListener implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
     	JButton btnPressed = (JButton) e.getSource();
-    	ProcessLogo processingThread = new ProcessLogo( mainWindowContainer, CenteredPointType.ORDERED);
+    	ProcessLogo processingThread = new ProcessLogo( mainWindowContainer, CenteredPointType.ORDERED_TEXT_AREA);
     	
     	btnPressed.setEnabled(false);
     	
-    	this.mainWindowContainer.getOrganizedText().setText("");
+    	mainWindowContainer.getOrganizedText().setText("");
     	
     	processingThread.startProcessing();
     	

@@ -5,11 +5,12 @@ import java.awt.Component;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Point;
+import java.awt.Rectangle;
 
 
 public class GlassPaneGraphicsProcessor {
 
-    private static final String PROCESSING = "Processing";
+    private static final String DEFAULT_PROCESSING_STRING_LABEL = "Processing";
     public static final int MAX_NUMBER_OF_PERIODS  = 40;
     private Component glassPane;
     private int tickCounter = 0;
@@ -19,30 +20,35 @@ public class GlassPaneGraphicsProcessor {
 		this.glassPane = glassPane;
 	}
 	
-    
-    protected void clearProcessingLogoArea(String processingString, Point centerPoint) {
-    	FontMetrics metrics = getGlassPaneFontMetrics();
-    	Graphics glassPaneGraphics = getGlassPaneGraphics();
+	private Rectangle getProcessingLogoDimensions(String strToDraw, Point centeredPoint) {
+		FontMetrics metrics = getGlassPaneFontMetrics();
     	
-    	int processingStrWidth  = getGlassPaneFontMetrics().stringWidth(processingString);
+    	int processingStrWidth  = getGlassPaneFontMetrics().stringWidth(strToDraw);
     	int periodWidth = metrics.stringWidth(".");
     	int textHeight = metrics.getHeight();
     	int textPadding = textHeight;
     	
-    	int finalX = centerPoint.x - textPadding;
-		int finalY = centerPoint.y - textHeight;
+    	int finalX = centeredPoint.x - textPadding;
+		int finalY = centeredPoint.y - textHeight;
 		int finalWidth = processingStrWidth + textPadding + MAX_NUMBER_OF_PERIODS * periodWidth;
 		int finalHeight = textHeight + textHeight;
 		
+		return new Rectangle(finalX, finalY, finalWidth, finalHeight);
+	}
+    
+    protected void clearProcessingLogoArea(String processingString, Point centerPoint) {
+    	Rectangle dimensions = getProcessingLogoDimensions(processingString, centerPoint);
+    	Graphics glassPaneGraphics = getGlassPaneGraphics();
+		
     	glassPaneGraphics.setColor(Color.WHITE);
-    	glassPaneGraphics.fillRect( finalX, finalY, finalWidth, finalHeight);
+    	glassPaneGraphics.fillRect( dimensions.x, dimensions.y, dimensions.width, dimensions.height);
     	
     	glassPaneGraphics.setColor(Color.RED);
-    	glassPaneGraphics.drawRect( finalX, finalY, finalWidth, finalHeight);
+    	glassPaneGraphics.drawRect( dimensions.x, dimensions.y, dimensions.width, dimensions.height);
     }
     
     protected String buildProcessingLogo() {
-    	String processingString = PROCESSING;
+    	String processingString = DEFAULT_PROCESSING_STRING_LABEL;
     	
     	for(int t=getTickCounter(); t > 0; t--) {
     		processingString+=".";
@@ -52,10 +58,10 @@ public class GlassPaneGraphicsProcessor {
     }
     
     public void tick() {
-    	tickCounter++;
-    	
     	if(tickCounter > MAX_NUMBER_OF_PERIODS) {
     		tickCounter = 0;
+    	} else{
+    		tickCounter++;
     	}
     }
 

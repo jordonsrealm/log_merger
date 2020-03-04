@@ -41,12 +41,16 @@ public class ProcessLogo extends GlassPaneGraphicsProcessor implements Runnable{
     public void run() { 
         running.set(true);
         
+        String processingString = buildProcessingLogo();
+        
+        clearProcessingLogoArea( processingString, centerPoint);
+        
         while (running.get()) {
         	tick();
         	
-        	String processingString = buildProcessingLogo();
+        	processingString = buildProcessingLogo();
         	
-        	if(getTickCounter() == 1) {
+        	if(getTickCounter() == 0) {
         		clearProcessingLogoArea( processingString, centerPoint);
         	}
         	

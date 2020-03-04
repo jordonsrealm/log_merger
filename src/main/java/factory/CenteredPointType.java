@@ -2,8 +2,8 @@ package factory;
 
 public enum CenteredPointType {
 
-	ORDERED("ORDERED", 1),
-	NOT_ORDERED("NOT_ORDERED",0);
+	ORDERED_TEXT_AREA("ORDERED_TEXT_AREA", 1),
+	UN_ORDERED_TEXT_AREA("UN_ORDERED_TEXT_AREA",0);
 	
 	private final String key;
     private final Integer value;
