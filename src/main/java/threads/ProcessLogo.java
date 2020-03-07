@@ -19,7 +19,7 @@ public class ProcessLogo extends GlassPaneGraphicsProcessor implements Runnable{
     private final AtomicBoolean running = new AtomicBoolean(false);
     private Point centerPoint;
     
- 
+    
     public ProcessLogo(MainWindowContainer mainWindowContainer, CenteredPointType centerPointType) {
     	super(mainWindowContainer.getGlassPane());
     	this.centerPoint = CenteredPointFactory.getCenteredPoint( centerPointType, mainWindowContainer).getCenteredPoint();;

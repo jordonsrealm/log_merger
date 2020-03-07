@@ -8,11 +8,10 @@ import runnables.DateLineProcessor;
 import threads.ProcessLogo;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.concurrent.ExecutorService;
 
 
-public class MergeButtonListener implements ActionListener {
+public class MergeButtonListener extends DrawingComponentListener {
 	
 	//private static final Logger logger = LoggerFactory.getLogger(MergeButtonListener.class);
     private DateLineProcessor processor;
@@ -21,9 +20,7 @@ public class MergeButtonListener implements ActionListener {
     
     
     public MergeButtonListener(MainWindowContainer mainWindowContainer, ExecutorService executorService){
-        this.processor = new DateLineProcessor(mainWindowContainer);
-        this.mainWindowContainer = mainWindowContainer;
-        //this.executorService = executorService;
+    	super(mainWindowContainer, executorService);
     }
 
     @Override

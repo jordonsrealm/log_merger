@@ -1,5 +1,7 @@
 package components;
 
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -8,10 +10,13 @@ import java.awt.Polygon;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import javax.swing.JTextArea;
-import javax.swing.SwingUtilities;
 
+import javax.swing.JFrame;
+import javax.swing.JTextArea;
+
+import factory.CenteredPointType;
 import runnables.DateLineProcessor;
+import threads.ProcessLogo;
 
 
 public class OrderedTextArea extends JTextArea implements MouseListener {
@@ -48,18 +53,24 @@ public class OrderedTextArea extends JTextArea implements MouseListener {
 
 	private void drawArrow(Graphics2D g) {
         Polygon arrowHead = new Polygon();
-
+    	Color origColor = g.getColor();
+    	
         if(isDescending) {
-            arrowHead.addPoint(CHECKBOX_X_OFFSET, CHECKBOX_Y_OFFSET);
-            arrowHead.addPoint(CHECKBOX_X_OFFSET + CHECKBOX_WIDTH, CHECKBOX_Y_OFFSET);
+        	g.setColor(Color.GREEN);
+            arrowHead.addPoint(CHECKBOX_X_OFFSET,  CHECKBOX_Y_OFFSET);
+            arrowHead.addPoint(CHECKBOX_X_OFFSET + CHECKBOX_WIDTH,   CHECKBOX_Y_OFFSET);
             arrowHead.addPoint(CHECKBOX_X_OFFSET + CHECKBOX_WIDTH/2, CHECKBOX_Y_OFFSET + (int)(CHECKBOX_HEIGHT*0.8));
+            
         } else {
-            arrowHead.addPoint(CHECKBOX_X_OFFSET, CHECKBOX_Y_OFFSET + (int)(CHECKBOX_HEIGHT*0.8));
-            arrowHead.addPoint(CHECKBOX_X_OFFSET + CHECKBOX_WIDTH,  + (int)(CHECKBOX_HEIGHT*0.8) + CHECKBOX_Y_OFFSET);
+        	g.setColor(Color.RED);
+            arrowHead.addPoint(CHECKBOX_X_OFFSET,  CHECKBOX_Y_OFFSET + (int)(CHECKBOX_HEIGHT*0.8));
+            arrowHead.addPoint(CHECKBOX_X_OFFSET + CHECKBOX_WIDTH,   + (int)(CHECKBOX_HEIGHT*0.8) + CHECKBOX_Y_OFFSET);
             arrowHead.addPoint(CHECKBOX_X_OFFSET + CHECKBOX_WIDTH/2, CHECKBOX_Y_OFFSET);
         }
         
         g.fill(arrowHead);
+        
+        g.setColor(origColor);
 	}
 
 	public boolean isDescending() {
@@ -75,10 +86,20 @@ public class OrderedTextArea extends JTextArea implements MouseListener {
 		
 		if(checkBoxRectangle.contains(e.getPoint())) {
 			isDescending = !isDescending;
-			SwingUtilities.invokeLater(dateLinesRunnable);
+			Object comp = this.getParent();
+			while(!(comp instanceof JFrame)) {
+				comp = ((Component) comp).getParent();
+				System.out.println(comp.toString());
+			}
+			
+			ProcessLogo processingThread = new ProcessLogo( ((MainWindow) comp).getMainWindowContainer(), CenteredPointType.ORDERED_TEXT_AREA);
+			this.setText("");
+			processingThread.startProcessing();
+			dateLinesRunnable.run();
+			processingThread.stopProcessing();
 		}
 		
-		invalidate();
+		repaint();
 	}
 
 	@Override
