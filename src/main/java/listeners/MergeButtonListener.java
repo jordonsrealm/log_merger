@@ -15,12 +15,11 @@ public class MergeButtonListener extends DrawingComponentListener {
 	
 	//private static final Logger logger = LoggerFactory.getLogger(MergeButtonListener.class);
     private DateLineProcessor processor;
-    private MainWindowContainer mainWindowContainer;
-    //private ExecutorService executorService;
     
     
     public MergeButtonListener(MainWindowContainer mainWindowContainer, ExecutorService executorService){
     	super(mainWindowContainer, executorService);
+    	processor = new DateLineProcessor(this.mainWindowContainer);
     }
 
     @Override

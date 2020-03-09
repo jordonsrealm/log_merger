@@ -8,8 +8,8 @@ import container.MainWindowContainer;
 
 public abstract class DrawingComponentListener implements ActionListener {
 
-	private MainWindowContainer mainWindowContainer;
-	private ExecutorService executorService;
+	protected MainWindowContainer mainWindowContainer;
+	protected ExecutorService executorService;
 	
 	
 	public DrawingComponentListener(MainWindowContainer mainWindowContainer, ExecutorService executorService) {
@@ -22,16 +22,13 @@ public abstract class DrawingComponentListener implements ActionListener {
 		return mainWindowContainer;
 	}
 
-
 	public void setMainWindowContainer(MainWindowContainer mainWindowContainer) {
 		this.mainWindowContainer = mainWindowContainer;
 	}
 
-
 	public ExecutorService getExecutorService() {
 		return executorService;
 	}
-
 
 	public void setExecutorService(ExecutorService executorService) {
 		this.executorService = executorService;

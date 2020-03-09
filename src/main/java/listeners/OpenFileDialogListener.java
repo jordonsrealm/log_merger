@@ -8,12 +8,12 @@ import javax.swing.JFileChooser;
 import javax.swing.JTextField;
 import javax.swing.filechooser.FileSystemView;
 
-public class OpenFileDialog implements ActionListener {
+public class OpenFileDialogListener implements ActionListener {
 
 	JTextField fileNameInputTextField;
 	
 	
-	public OpenFileDialog(JTextField fileNameInputTextField) {
+	public OpenFileDialogListener(JTextField fileNameInputTextField) {
 		this.fileNameInputTextField = fileNameInputTextField;
 	}
 	

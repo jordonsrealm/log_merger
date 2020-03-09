@@ -17,9 +17,20 @@ public class ConfigurationGetter {
 	private Integer windowWidth;
 	private Integer windowHeight;
 	private String appIconName;
+	private String highlightHexColor;
 	
+	private final String CONFIG_PROPERTIES_FILENAME = "config.properties";
+	
+	class Constants{
+		static final String APPLICATION_NAME = "application_name";
+		static final String WINDOW_WIDTH = "window_width";
+		static final String WINDOW_HEIGHT = "window_height";
+		static final String APP_ICON_NAME = "app_icon_name";
+		static final String HIGHLIGHT_HEX_COLOR = "highlight_hex_color";
+	}
 	
 	public ConfigurationGetter() {
+		
 		try {
 			getPropValues();
 		} catch (IOException e) {
@@ -33,23 +44,23 @@ public class ConfigurationGetter {
 		
 		try {
 			Properties prop = new Properties();
-			String propFileName = "config.properties";
  
-			inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
+			inputStream = getClass().getClassLoader().getResourceAsStream(CONFIG_PROPERTIES_FILENAME);
  
 			if (inputStream != null) {
 				prop.load(inputStream);
 			} else {
-				throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
+				throw new FileNotFoundException("property file '" + CONFIG_PROPERTIES_FILENAME + "' not found in the classpath");
 			}
  
 			Date time = new Date(System.currentTimeMillis());
  
 			// get the property value and print it out
-			applicationName = prop.getProperty("application_name");
-			windowWidth = Integer.parseInt(prop.getProperty("window_width"));
-			windowHeight = Integer.parseInt(prop.getProperty("window_height"));
-			appIconName = prop.getProperty("app_icon_name");
+			applicationName = prop.getProperty(Constants.APPLICATION_NAME);
+			windowWidth = Integer.parseInt(prop.getProperty(Constants.WINDOW_WIDTH));
+			windowHeight = Integer.parseInt(prop.getProperty(Constants.WINDOW_HEIGHT));
+			appIconName = prop.getProperty(Constants.APP_ICON_NAME);
+			highlightHexColor = prop.getProperty(Constants.HIGHLIGHT_HEX_COLOR);
  
 			String result = "Property List = " + applicationName + ", " + windowWidth + ", " + windowHeight + ", " + appIconName;
 			System.out.println(result + "\nProgram Ran on " + time);
@@ -92,6 +103,14 @@ public class ConfigurationGetter {
 
 	public void setAppIconName(String appIconName) {
 		this.appIconName = appIconName;
+	}
+
+	public String getHighlightHexColor() {
+		return highlightHexColor;
+	}
+
+	public void setHighlightHexColor(String highlightHexColor) {
+		this.highlightHexColor = highlightHexColor;
 	}
 	
 }

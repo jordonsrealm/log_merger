@@ -36,13 +36,12 @@ public class SelectFileListener extends DrawingComponentListener{
 	JTextArea unOrganizedText;
 	JTextField fileNameInputTextField;
 	JScrollPane unOrganizedScrollPane;
-	MainWindowContainer mainWindowContainer;
-	ExecutorService executorService;
-	static UnorganizedHighlighter myHighlightPainter = new UnorganizedHighlighter(Color.decode("0xB9FF8E"));
+	static UnorganizedHighlighter myHighlightPainter;
 
 
-	public SelectFileListener( MainWindowContainer mainWindowContainer, ExecutorService executorService) {
+	public SelectFileListener( MainWindowContainer mainWindowContainer, ExecutorService executorService, String highlightHexColor) {
 		super(mainWindowContainer, executorService);
+		myHighlightPainter = new UnorganizedHighlighter(Color.decode(highlightHexColor));
 	}
 
 	public void actionPerformed(ActionEvent e) {
@@ -66,7 +65,7 @@ public class SelectFileListener extends DrawingComponentListener{
 				String result = "";
 
 				try{
-					result = unOrganizedText.getText();
+					result =  unOrganizedText.getText();
 					result += IOUtils.toString(new FileInputStream(file), StandardCharsets.UTF_8);
 					result = result.strip();
 
@@ -123,7 +122,6 @@ public class SelectFileListener extends DrawingComponentListener{
 
 		while (m.find()) {
 			pos = m.start();
-			System.out.println("Position: " + pos);
 		    hilite.addHighlight(pos, pos + pattern.length(), myHighlightPainter);
 			pos += pattern.length();
 		}

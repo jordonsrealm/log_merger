@@ -2,7 +2,7 @@ package components;
 
 import listeners.ClearTextAreaListener;
 import listeners.MergeButtonListener;
-import listeners.OpenFileDialog;
+import listeners.OpenFileDialogListener;
 import listeners.SaveFileListener;
 import listeners.SelectFileListener;
 import runnables.DateLineProcessor;
@@ -25,12 +25,9 @@ public class MainWindow extends JFrame {
 	private static final long serialVersionUID         = 1L;
 	private static final Logger logger                 = LoggerFactory.getLogger(MainWindow.class);
 	
-	
-    private static final String UN_ORDERED_TEXT        = "UN-ORDERED TEXT";
     private static final String CLEAR_TEXT_AREA        = "Clear";
     private static final String SAVE_TO_FILE           = "Save To File";
     private static final String SELECT_FILE_STR        = "Select File";
-    private static final String ORDERED_TEXT           = "ORDERED TEXT";
     private static final String DATE_PATTERN           = " DATE PATTERN: ";
     private static final String MIN_DATE_STR           = "Minimum Date";
     private static final String MAX_DATE_STR           = "Maximum Date";
@@ -84,12 +81,13 @@ public class MainWindow extends JFrame {
     }
 
     private JSplitPane createBottomPanel(){
-        
         mainWindowContainer.setUnOrganizedScrollPane(new JScrollPane(unOrganizedText));
-        mainWindowContainer.setOrganizedScrollPane(new JScrollPane(organizedText));
+        JPanel jpanel = new JPanel(new BorderLayout());
+        jpanel.add(new OrganizedToolsPanel(), BorderLayout.NORTH);
+        jpanel.add(organizedText, BorderLayout.CENTER);
+        mainWindowContainer.setOrganizedScrollPane(new JScrollPane(jpanel));
 
         bottomSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, mainWindowContainer.getUnOrganizedScrollPane(), mainWindowContainer.getOrganizedScrollPane());
-        
         bottomSplitPane.setDividerLocation(configGetter.getWindowWidth()/2);
 
         return bottomSplitPane;
@@ -131,7 +129,6 @@ public class MainWindow extends JFrame {
 
     private void addComponentsToMainWindowContainer(){
     	
-    	unOrganizedText.setBorder(BorderFactory.createTitledBorder(UN_ORDERED_TEXT));
         mainWindowContainer.setUnOrganizedText(unOrganizedText);
         
         mergeButton.addActionListener(new MergeButtonListener(mainWindowContainer, executor));
@@ -139,7 +136,7 @@ public class MainWindow extends JFrame {
         
         mainWindowContainer.setFileInputButton(fileInputButton);
 
-        mainWindowContainer.getFileInputButton().addActionListener(new OpenFileDialog(fileInput));
+        mainWindowContainer.getFileInputButton().addActionListener(new OpenFileDialogListener(fileInput));
 
         fieldPattern.setText(DateHolder.DEFAULT_FORMAT);
         fieldPattern.setOpaque(true);
@@ -152,12 +149,11 @@ public class MainWindow extends JFrame {
         mainWindowContainer.setMinDateField(minDateField);
         mainWindowContainer.setMaxDateField(maxDateField);
 
-        useFileButton.addActionListener(new SelectFileListener(mainWindowContainer, executor));
         mainWindowContainer.setUseFileBtn(useFileButton);
+        mainWindowContainer.getUseFileBtn().addActionListener(new SelectFileListener(mainWindowContainer, executor, configGetter.getHighlightHexColor()));
         
         mainWindowContainer.setSaveToFile(saveToFileButton);
         
-        organizedText.setBorder(BorderFactory.createTitledBorder(ORDERED_TEXT));
         processor = new DateLineProcessor(mainWindowContainer);
         organizedText.setRunnable(processor);
         mainWindowContainer.setOrganizedText(organizedText);

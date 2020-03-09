@@ -9,9 +9,6 @@ import threads.ProcessLogo;
 
 
 public class ClearTextAreaListener extends DrawingComponentListener {
-
-	private MainWindowContainer mainWindowContainer;
-	//private ExecutorService executorService;
 	
 	
 	public ClearTextAreaListener(MainWindowContainer mainWindowContainer, ExecutorService executorService){
