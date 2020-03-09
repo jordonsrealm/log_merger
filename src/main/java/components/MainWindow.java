@@ -25,26 +25,27 @@ public class MainWindow extends JFrame {
 	private static final long serialVersionUID         = 1L;
 	private static final Logger logger                 = LoggerFactory.getLogger(MainWindow.class);
 	
-    private static final String CLEAR_TEXT_AREA        = "Clear";
+    private static final String CLEAR_TEXT_AREA        = "X";
+    private static final String CLEAR_TOOLTIP		   = "Clear Text Area";
     private static final String SAVE_TO_FILE           = "Save To File";
     private static final String SELECT_FILE_STR        = "Select File";
     private static final String DATE_PATTERN           = " DATE PATTERN: ";
     private static final String MIN_DATE_STR           = "Minimum Date";
     private static final String MAX_DATE_STR           = "Maximum Date";
     private static final String BTN_TITLE              = "Merge Files";
-    private static final String USE_FILE_STR           = "Use File";
+    private static final String ADD_FILE_STR           = "Add File";
     private static final String BLANK_STR              = "";
-    private JTextField fieldPattern 				   = new JTextField(PATTERN_FIELD_COLUMN_CNT);
-    private JTextArea unOrganizedText 				   = new JTextArea(BLANK_STR,TEXT_AREA_ROWS_CNT,TEXT_AREA_COLUMNS_CNT);
-    private JButton mergeButton 					   = new JButton(BTN_TITLE);
-    private JTextField fileInput 					   = new JTextField(FILENAME_FIELD_COLUMN_CNT);
     private OrderedTextArea organizedText 			   = new OrderedTextArea(BLANK_STR,TEXT_AREA_ROWS_CNT,TEXT_AREA_COLUMNS_CNT);
+    private JTextArea unOrganizedText 				   = new JTextArea(BLANK_STR,TEXT_AREA_ROWS_CNT,TEXT_AREA_COLUMNS_CNT);
+    private JTextField fileInput 					   = new JTextField(FILENAME_FIELD_COLUMN_CNT);
+    private JTextField fieldPattern 				   = new JTextField(PATTERN_FIELD_COLUMN_CNT);
     private JTextField minDateField 				   = new JTextField(TEXT_FIELD_COLUMNS_CNT);
     private JTextField maxDateField 				   = new JTextField(TEXT_FIELD_COLUMNS_CNT);
     private JButton clearUnorganizedText 			   = new JButton(CLEAR_TEXT_AREA);
     private JButton fileInputButton 				   = new JButton(SELECT_FILE_STR);
-    private JButton useFileButton 					   = new JButton(USE_FILE_STR);
+    private JButton addFileButton 					   = new JButton(ADD_FILE_STR);
     private JButton saveToFileButton 				   = new JButton(SAVE_TO_FILE);
+    private JButton mergeButton 					   = new JButton(BTN_TITLE);
     private MainWindowContainer mainWindowContainer	   = new MainWindowContainer();
     private ConfigurationGetter configGetter           = new ConfigurationGetter();
     private JPanel topPanel 						   = new JPanel();
@@ -83,7 +84,7 @@ public class MainWindow extends JFrame {
     private JSplitPane createBottomPanel(){
         mainWindowContainer.setUnOrganizedScrollPane(new JScrollPane(unOrganizedText));
         JPanel jpanel = new JPanel(new BorderLayout());
-        jpanel.add(new OrganizedToolsPanel(), BorderLayout.NORTH);
+        jpanel.add(new OrganizedToolsPanel(organizedText), BorderLayout.NORTH);
         jpanel.add(organizedText, BorderLayout.CENTER);
         mainWindowContainer.setOrganizedScrollPane(new JScrollPane(jpanel));
 
@@ -98,16 +99,17 @@ public class MainWindow extends JFrame {
         
         JLabel dateLabel = new JLabel(DATE_PATTERN);
         dateLabel.setOpaque(true);
-        dateLabel.setBackground(Color.decode("0xffffff"));
+        dateLabel.setBackground(Color.WHITE);
         topPanel.add(dateLabel, BorderLayout.WEST);
         topPanel.add(fieldPattern, BorderLayout.CENTER);
         topPanel.add(mergeButton, BorderLayout.EAST);
 
         JPanel dateSection = new JPanel(new FlowLayout());
+        clearUnorganizedText.setToolTipText(CLEAR_TOOLTIP);
         dateSection.add(clearUnorganizedText);
         dateSection.add(fileInputButton);
         dateSection.add(fileInput);
-        dateSection.add(useFileButton);
+        dateSection.add(addFileButton);
         
         JSeparator separator = new JSeparator(SwingConstants.VERTICAL);
         separator.setPreferredSize(new Dimension(SEPARATOR_ROW_COUNT,SEPARATOR_COLUMN_COUNT));
@@ -149,7 +151,7 @@ public class MainWindow extends JFrame {
         mainWindowContainer.setMinDateField(minDateField);
         mainWindowContainer.setMaxDateField(maxDateField);
 
-        mainWindowContainer.setUseFileBtn(useFileButton);
+        mainWindowContainer.setUseFileBtn(addFileButton);
         mainWindowContainer.getUseFileBtn().addActionListener(new SelectFileListener(mainWindowContainer, executor, configGetter.getHighlightHexColor()));
         
         mainWindowContainer.setSaveToFile(saveToFileButton);
