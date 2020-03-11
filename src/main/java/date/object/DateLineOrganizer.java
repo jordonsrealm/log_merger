@@ -10,6 +10,7 @@ import java.util.Date;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import container.MainWindowContainer;
 import transfer.object.DatedLine;
 
 
@@ -17,14 +18,18 @@ public class DateLineOrganizer {
 	
 	private static final Logger logger = LoggerFactory.getLogger(DateLineOrganizer.class);
 	private ArrayList<DateHolder> contentsAsDateLines = new ArrayList<DateHolder>();
-	private final String stringContents;
+	private MainWindowContainer mainWindowContainer;
 	
 	
-	public DateLineOrganizer(String startingString) {
-		this.stringContents = startingString;
+	public DateLineOrganizer(MainWindowContainer mainWindowContainer) {
+		this.mainWindowContainer = mainWindowContainer;
 	}
 
-    public DateLineOrganizer orderDateLines(boolean descendingOrder, String dateFormat) {
+    public DateLineOrganizer orderDateLines() {
+    	
+    	boolean descendingOrder = mainWindowContainer.getIsDescendingCheckBox().isSelected();
+    	
+    	String dateFormat = mainWindowContainer.getPatternTextField().getText();
     	
     	organizeUsingFormat(dateFormat);
     	
@@ -38,7 +43,7 @@ public class DateLineOrganizer {
     private void organizeUsingFormat(String format){
     	logger.info("Ordering Date Lines");
     	
-    	BufferedReader bufferedReader = new BufferedReader(new StringReader(this.stringContents));
+    	BufferedReader bufferedReader = new BufferedReader(new StringReader(mainWindowContainer.getUnOrganizedText().getText()));
         
         String lineRead;
         ArrayList<DateHolder> dateHolderList = new ArrayList<>();
@@ -50,7 +55,9 @@ public class DateLineOrganizer {
                 if(dateLineFromReadLine.isValidDate()){
                     dateHolderList.add(new DateHolder(lineRead, format));
                 } else{
-                    dateHolderList.get(dateHolderList.size() - 1).appendToOriginalDateString(lineRead);
+                	if(!dateHolderList.isEmpty()) {
+                		dateHolderList.get(dateHolderList.size() - 1).appendToOriginalDateString(lineRead);
+                	}
                 }
             }
         } catch (IOException ex) {
@@ -72,7 +79,9 @@ public class DateLineOrganizer {
         return unboundedList;
     }
     
-    public DateLineOrganizer handleDateBoundariesReturnList(String date1, String date2) {
+    public DateLineOrganizer handleDateBoundariesReturnList() {
+    	String date1 = mainWindowContainer.getMinDateField().getText();
+    	String date2 = mainWindowContainer.getMaxDateField().getText();
     	
     	if(!(date1.isEmpty() && date2.isEmpty())) {
     		logger.info("Working on boundary dates - date1: {}, date2: {}", date1, date2);

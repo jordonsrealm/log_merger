@@ -28,9 +28,9 @@ public class GlassPaneGraphicsProcessor {
     	int textHeight = metrics.getHeight();
     	int textPadding = textHeight;
     	
-    	int finalX = centeredPoint.x - textPadding;
-		int finalY = centeredPoint.y - textHeight;
-		int finalWidth = processingStrWidth + textPadding + MAX_NUMBER_OF_PERIODS * periodWidth;
+    	int finalX = centeredPoint.x - MAX_NUMBER_OF_PERIODS * periodWidth;
+		int finalY = centeredPoint.y - textHeight/2;
+		int finalWidth = textPadding + processingStrWidth + MAX_NUMBER_OF_PERIODS * periodWidth;
 		int finalHeight = textHeight + textHeight;
 		
 		return new Rectangle(finalX, finalY, finalWidth, finalHeight);
@@ -87,7 +87,11 @@ public class GlassPaneGraphicsProcessor {
 	
 	protected void drawGlassPaneString(String processingString, Point point) {
 		Graphics g = getGlassPaneGraphics();
+		FontMetrics fm = g.getFontMetrics();
+		int periodWidth = fm.stringWidth(".");
+    	int textHeight = fm.getHeight();
+    	int textPadding = textHeight;
 		g.setColor(Color.BLACK);
-		g.drawString( processingString, point.x, point.y);
+		g.drawString( processingString, point.x + textPadding/2 - MAX_NUMBER_OF_PERIODS * periodWidth, point.y + textHeight);
 	}
 }

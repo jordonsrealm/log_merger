@@ -17,11 +17,12 @@ public class LogMerger {
 	
     public static void main(String[] args){
     	
-    	try {
-			UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-		}  catch (Exception e) {
-			logger.error("Unable to set cross platform look and feel UI", e);
-		}
+		/*
+		 * try {
+		 * UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName()); }
+		 * catch (Exception e) {
+		 * logger.error("Unable to set cross platform look and feel UI", e); }
+		 */
     	
     	ExecutorService mainExecutor = Executors.newFixedThreadPool(4);
         MainWindow mainWindow = new MainWindow(mainExecutor);

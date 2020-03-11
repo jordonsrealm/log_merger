@@ -1,44 +1,42 @@
 package drawing;
 
+import java.awt.Component;
 import java.awt.Point;
 
 import javax.swing.JComponent;
-import javax.swing.JPanel;
+import javax.swing.JFrame;
 
 
 public class CentroidPoint implements Centroid{
 
-	protected JPanel topPanel;
-	protected JComponent childWindow;
+	private JComponent childWindow;
 	
 	
-	public CentroidPoint(JPanel topPanel, JComponent childWindow) {
-		this.topPanel    = topPanel;
+	public CentroidPoint(JComponent childWindow) {
 		this.childWindow = childWindow;
 	}
 
 	@Override
 	public Point getCenteredPoint() {
-    	Point pt   = childWindow.getLocation();
-    	int width  = childWindow.getWidth();
-    	int height = childWindow.getHeight();
+    	Point pt = getPointFromOrigin();
     	
-		return new Point((pt.x + width/2), (pt.y + height/2) + topPanel.getHeight());
+		return new Point((pt.x), (pt.y));
 	}
-
-	public JPanel getTopPanel() {
-		return topPanel;
-	}
-
-	public void setTopPanel(JPanel topPanel) {
-		this.topPanel = topPanel;
-	}
-
-	public JComponent getChildWindow() {
-		return childWindow;
-	}
-
-	public void setChildWindow(JComponent childWindow) {
-		this.childWindow = childWindow;
+	
+	private Point getPointFromOrigin() {
+		
+		Component comp = childWindow;
+		Point currentPt;
+		int totalX = 0;
+		int totalY = 0;
+		
+		while(!(comp instanceof JFrame)) {
+			comp = comp.getParent();
+			currentPt = comp.getLocation();
+			totalX += currentPt.x;
+			totalY += currentPt.y;
+		}
+		
+		return new Point(totalX, totalY);
 	}
 }

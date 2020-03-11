@@ -8,21 +8,20 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import javax.swing.JFileChooser;
+import javax.swing.JTextArea;
 import javax.swing.filechooser.FileSystemView;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import components.OrderedTextArea;
-
 
 public class SaveFileListener implements ActionListener {
 
 	private static final Logger logger = LoggerFactory.getLogger(SaveFileListener.class);
-	private OrderedTextArea organizedText;
+	private JTextArea organizedText;
 	
 	
-	public SaveFileListener(OrderedTextArea organizedText) {
+	public SaveFileListener(JTextArea organizedText) {
 		this.organizedText = organizedText;
 	}
 	

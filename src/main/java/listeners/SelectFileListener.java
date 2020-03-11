@@ -45,57 +45,59 @@ public class SelectFileListener extends DrawingComponentListener{
 	}
 
 	public void actionPerformed(ActionEvent e) {
+		
+		if(!mainWindowContainer.getFileNameInputTextField().getText().isEmpty()) {
+			selectFileBtn = mainWindowContainer.getUseFileBtn();
+			unOrganizedText = mainWindowContainer.getUnOrganizedText();
+			fileNameInputTextField = mainWindowContainer.getFileNameInputTextField();
+			unOrganizedScrollPane = mainWindowContainer.getUnOrganizedScrollPane();
 
-		selectFileBtn = mainWindowContainer.getUseFileBtn();
-		unOrganizedText = mainWindowContainer.getUnOrganizedText();
-		fileNameInputTextField = mainWindowContainer.getFileNameInputTextField();
-		unOrganizedScrollPane = mainWindowContainer.getUnOrganizedScrollPane();
-
-		SwingWorker<String, Void> worker = new SwingWorker<String, Void>() {
-			ProcessLogo glassPaneDrawingThread = new ProcessLogo(mainWindowContainer, CenteredPointType.UN_ORDERED_TEXT_AREA);
+			SwingWorker<String, Void> worker = new SwingWorker<String, Void>() {
+				ProcessLogo glassPaneDrawingThread = new ProcessLogo(mainWindowContainer, CenteredPointType.UN_ORDERED_TEXT_AREA);
 
 
-			public String doInBackground() throws IOException {
-				selectFileBtn.setEnabled(false);
+				public String doInBackground() throws IOException {
+					selectFileBtn.setEnabled(false);
 
-				File file = new File(fileNameInputTextField.getText());
+					File file = new File(fileNameInputTextField.getText());
 
-				glassPaneDrawingThread.startProcessing();
+					glassPaneDrawingThread.startProcessing();
 
-				String result = "";
+					String result = "";
 
-				try{
-					result =  unOrganizedText.getText();
-					result += IOUtils.toString(new FileInputStream(file), StandardCharsets.UTF_8);
-					result = result.strip();
+					try{
+						result =  unOrganizedText.getText();
+						result += IOUtils.toString(new FileInputStream(file), StandardCharsets.UTF_8);
+						result = result.strip();
 
-				} catch(IOException exx){
-					logger.error("Unable to read file input:{} and add to text area", file, exx);
+					} catch(IOException exx){
+						logger.error("Unable to read file input:{} and add to text area", file, exx);
+					}
+
+					return result;
 				}
 
-				return result; // heavy task
-			}
+				public void done() {
+					try {
+						unOrganizedText.setText(get());
+						unOrganizedText.setCaretPosition(0);
+						
+						removeHighlights(unOrganizedText);
+						highlight(unOrganizedText, mainWindowContainer.getPatternTextField().getText());
 
-			public void done() {
-				try {
-					unOrganizedText.setText(get());
-					unOrganizedText.setCaretPosition(0);
-					
-					removeHighlights(unOrganizedText);
-					highlight(unOrganizedText, mainWindowContainer.getPatternTextField().getText());
+						unOrganizedScrollPane.getHorizontalScrollBar().setValue(0);
 
-					unOrganizedScrollPane.getHorizontalScrollBar().setValue(0);
+						glassPaneDrawingThread.stopProcessing();
 
-					glassPaneDrawingThread.stopProcessing();
-
-					selectFileBtn.setEnabled(true);
-					unOrganizedText.setEnabled(true);
-				} catch (Exception ex) {
-					ex.printStackTrace();
+						selectFileBtn.setEnabled(true);
+						unOrganizedText.setEnabled(true);
+					} catch (Exception ex) {
+						ex.printStackTrace();
+					}
 				}
-			}
-		};
-		worker.execute();
+			};
+			worker.execute();
+		}
 	}
 
 	public static void highlight(JTextComponent textComp, String pattern) throws Exception {
@@ -111,7 +113,6 @@ public class SelectFileListener extends DrawingComponentListener{
 		  .replace(":", "\\:")
 		  .replace(".","\\.");
 
-		System.out.println("Regex Pattern: " + regex);
 		Highlighter hilite = textComp.getHighlighter();
 		Document doc = textComp.getDocument();
 		String text = doc.getText(0, doc.getLength());

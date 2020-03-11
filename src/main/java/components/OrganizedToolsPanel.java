@@ -1,5 +1,6 @@
 package components;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -16,31 +17,30 @@ import javax.swing.event.MouseInputListener;
 public class OrganizedToolsPanel extends JComponent implements MouseInputListener {
 
 	private static final long serialVersionUID = 1L;
-	private OrderedTextArea orderedTextArea;
 	
 	private static final int ORDERING_PLACE_X = 8;
 	private static final int ORDERING_PLACE_Y = 2;
 	private static final int ORDERING_WIDTH   = 14;
 	private static final int ORDERING_HEIGHT  = 14;
 	private static final int DRAW_BOX_PADDING = 2;
-	private Rectangle orderingTriangle = new Rectangle(ORDERING_PLACE_X, ORDERING_PLACE_Y, ORDERING_WIDTH, ORDERING_HEIGHT);
+	private Rectangle orderingTriangleRectangle = new Rectangle(ORDERING_PLACE_X, ORDERING_PLACE_Y, ORDERING_WIDTH, ORDERING_HEIGHT);
 	private Color defaultColor;
 	private boolean descending;
 	private boolean drawBox;
 	private boolean repaintBoxArea;
 	
 	
-	public OrganizedToolsPanel(OrderedTextArea orderedTextArea) {
+	public OrganizedToolsPanel() {
 		Dimension setDimensions = new Dimension(0,20);
 		setMinimumSize(setDimensions);
 		setMaximumSize(setDimensions);
 		setPreferredSize(setDimensions);
-		this.orderedTextArea = orderedTextArea;
 		this.descending = false;
 		this.drawBox = false;
 		this.addMouseListener(this);
 		this.addMouseMotionListener(this);
 		this.repaintBoxArea = false;
+		setLayout(new BorderLayout());
 	}
 	
 	
@@ -49,7 +49,7 @@ public class OrganizedToolsPanel extends JComponent implements MouseInputListene
 		super.paintComponent(g);
 		defaultColor = g.getColor();
 
-		drawBottomBorderLine(g);
+		drawBottomBorderLineAndBox(g);
 		
 		if(drawBox) {
 			drawOrderingTriagleBox(g);
@@ -60,17 +60,21 @@ public class OrganizedToolsPanel extends JComponent implements MouseInputListene
 		drawOrderingTriangle(g);
 	}
 	
-	private void drawBottomBorderLine(Graphics g) {
+	private void drawBottomBorderLineAndBox(Graphics g) {
+		g.setColor(Color.WHITE);
+		g.fillRect(orderingTriangleRectangle.x, orderingTriangleRectangle.y, ORDERING_WIDTH, ORDERING_HEIGHT);
 		g.setColor(Color.decode("0xc8c8c8"));
 		g.drawLine(0, getHeight()-1, getWidth(), getHeight()-1);
+		
+		g.setColor(Color.decode("0xa8a8a8"));
+		g.drawRect(ORDERING_PLACE_X + 1, ORDERING_PLACE_Y + 1, ORDERING_WIDTH - 2, ORDERING_HEIGHT - 2);
 		g.setColor(defaultColor);
 	}
 	
 	private void drawOrderingTriagleBox(Graphics g) {
 		g.setColor(Color.decode("0xc0c0c0"));
 		g.drawRect(ORDERING_PLACE_X, ORDERING_PLACE_Y, ORDERING_WIDTH, ORDERING_HEIGHT);
-		g.setColor(Color.decode("0xd8d8d8"));
-		g.drawRect(ORDERING_PLACE_X + 1, ORDERING_PLACE_Y + 1, ORDERING_WIDTH - 2, ORDERING_HEIGHT - 2);
+		
 		g.setColor(defaultColor);
 	}
 	
@@ -83,17 +87,24 @@ public class OrganizedToolsPanel extends JComponent implements MouseInputListene
 		Polygon arrowHead = new Polygon();
 		Graphics2D newGraphics = (Graphics2D)g;
 		
+		int xCoordinate 		 = ORDERING_PLACE_X + DRAW_BOX_PADDING;
+		int midPoint 			 = ORDERING_PLACE_X + ORDERING_WIDTH/2;
+		int xCoordinateWithWidth = ORDERING_PLACE_X + ORDERING_WIDTH - DRAW_BOX_PADDING;
+		
+		int yCoordinate = ORDERING_PLACE_Y + DRAW_BOX_PADDING;
+		int yCoordinateWithHeight = ORDERING_PLACE_Y + ORDERING_HEIGHT - DRAW_BOX_PADDING;
+		
 		if(descending) {
 			g.setColor(Color.RED);
-			arrowHead.addPoint(ORDERING_PLACE_X + DRAW_BOX_PADDING, ORDERING_PLACE_Y + ORDERING_HEIGHT - DRAW_BOX_PADDING);
-			arrowHead.addPoint(ORDERING_PLACE_X + ORDERING_WIDTH/2, ORDERING_PLACE_Y + DRAW_BOX_PADDING);
-			arrowHead.addPoint(ORDERING_PLACE_X  + ORDERING_WIDTH - DRAW_BOX_PADDING, ORDERING_PLACE_Y + ORDERING_HEIGHT - DRAW_BOX_PADDING);
+			arrowHead.addPoint(xCoordinate, yCoordinateWithHeight);
+			arrowHead.addPoint(midPoint, yCoordinate);
+			arrowHead.addPoint(xCoordinateWithWidth, yCoordinateWithHeight);
 		} else {
 			g.setColor(Color.GREEN);
-			arrowHead.addPoint(ORDERING_PLACE_X + DRAW_BOX_PADDING, ORDERING_PLACE_Y + DRAW_BOX_PADDING);
-			arrowHead.addPoint(ORDERING_PLACE_X + ORDERING_WIDTH - DRAW_BOX_PADDING, ORDERING_PLACE_Y + DRAW_BOX_PADDING);
-			arrowHead.addPoint(ORDERING_PLACE_X + ORDERING_WIDTH/2, ORDERING_PLACE_Y + ORDERING_HEIGHT - DRAW_BOX_PADDING);
-		}	
+			arrowHead.addPoint(xCoordinate, yCoordinate + 1);
+			arrowHead.addPoint(midPoint, yCoordinateWithHeight);
+			arrowHead.addPoint(xCoordinateWithWidth, yCoordinate + 1);
+		}
 		
 		newGraphics.fill(arrowHead);
 	}
@@ -101,13 +112,10 @@ public class OrganizedToolsPanel extends JComponent implements MouseInputListene
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		Point ptClicked = e.getPoint();
-		if(orderingTriangle.contains(ptClicked)) {
+		if(orderingTriangleRectangle.contains(ptClicked)) {
 			descending = !descending;
-			System.out.println("Descending: "+ descending);
 			
-			repaint();
-			
-			orderedTextArea.updateTextArea();
+			repaint(orderingTriangleRectangle);
 		}
 	}
 
@@ -147,7 +155,7 @@ public class OrganizedToolsPanel extends JComponent implements MouseInputListene
 		
 		boolean oldRedrawBox = drawBox;
 		
-		if(orderingTriangle.contains(movedPoint)) {
+		if(orderingTriangleRectangle.contains(movedPoint)) {
 			drawBox = true;
 			setToolTipText(descending?"Descending":"Ascending");
 		} else {

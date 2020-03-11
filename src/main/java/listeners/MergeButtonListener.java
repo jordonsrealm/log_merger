@@ -15,27 +15,31 @@ public class MergeButtonListener extends DrawingComponentListener {
 	
 	//private static final Logger logger = LoggerFactory.getLogger(MergeButtonListener.class);
     private DateLineProcessor processor;
+    JButton btnPressed;
     
     
     public MergeButtonListener(MainWindowContainer mainWindowContainer, ExecutorService executorService){
     	super(mainWindowContainer, executorService);
-    	processor = new DateLineProcessor(this.mainWindowContainer);
+    	
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-    	JButton btnPressed = (JButton) e.getSource();
-    	ProcessLogo processingThread = new ProcessLogo( mainWindowContainer, CenteredPointType.ORDERED_TEXT_AREA);
+    	btnPressed = (JButton) e.getSource();
+    	
+    	processor = new DateLineProcessor(mainWindowContainer);
     	
     	btnPressed.setEnabled(false);
     	
     	mainWindowContainer.getOrganizedText().setText("");
     	
+    	ProcessLogo processingThread = new ProcessLogo( mainWindowContainer, CenteredPointType.ORDERED_TEXT_AREA);
+    	
     	processingThread.startProcessing();
     	
     	processor.run();
     	
-    	processingThread.stopProcessing();;
+    	processingThread.stopProcessing();
         
         btnPressed.setEnabled(true);
     }

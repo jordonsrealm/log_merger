@@ -1,7 +1,6 @@
 package container;
 
 import listeners.MergeButtonListener;
-import components.OrderedTextArea;
 import javax.swing.*;
 import java.awt.Color;
 import java.awt.Component;
@@ -16,7 +15,7 @@ public class MainWindowContainer {
     private JTextField patternTextField;
     private JSplitPane bottomSplitPane;
     private JTextArea unOrganizedText;
-    private OrderedTextArea organizedText;
+    private JTextArea organizedText;
     private JTextField minDateField;
     private JTextField maxDateField;
     private JButton useFileBtn;
@@ -25,6 +24,7 @@ public class MainWindowContainer {
     private JButton saveToFile;
     private JPanel topPanel;
     private Component glassPane;
+    private JCheckBox isDescendingCheckBox;
     
 
     public JButton getMergeBtn() {
@@ -52,11 +52,11 @@ public class MainWindowContainer {
         this.unOrganizedText = unOrganizedText;
     }
 
-    public OrderedTextArea getOrganizedText() {
+    public JTextArea getOrganizedText() {
         return organizedText;
     }
 
-    public void setOrganizedText(OrderedTextArea organizedText) {
+    public void setOrganizedText(JTextArea organizedText) {
         this.organizedText = organizedText;
     }
 
@@ -128,7 +128,7 @@ public class MainWindowContainer {
 		this.unOrganizedScrollPane = unOrganizedScrollPane;
 	}
 
-	public JScrollPane getOrganizedScrollPane() {
+	public JScrollPane getOrderedScrollPane() {
 		return organizedScrollPane;
 	}
 
@@ -166,5 +166,13 @@ public class MainWindowContainer {
 
 	public void setGlassPane(Component glassPane) {
 		this.glassPane = glassPane;
+	}
+
+	public JCheckBox getIsDescendingCheckBox() {
+		return isDescendingCheckBox;
+	}
+
+	public void setIsDescendingCheckBox(JCheckBox isDescendingCheckBox) {
+		this.isDescendingCheckBox = isDescendingCheckBox;
 	}
 }

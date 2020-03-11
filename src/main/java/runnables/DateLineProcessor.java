@@ -2,9 +2,7 @@ package runnables;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
 
-import components.OrderedTextArea;
 import container.MainWindowContainer;
 import date.object.DateLineOrganizer;
 
@@ -12,13 +10,8 @@ import date.object.DateLineOrganizer;
 public class DateLineProcessor implements Runnable {
 
 	private MainWindowContainer mainWindowContainer;
-	private OrderedTextArea organizedTextArea;
-	private JTextArea unOrganizedTextArea;
-	private JTextField minDateField;
-	private JTextField maxDateField;
-	private JTextField formatField;
-	private JScrollPane organizedPane;
-	private Boolean completedOrderingLines = false;
+	private JTextArea organizedTextArea;
+	private JScrollPane organizedScrollPane;
 	
 	
 	public DateLineProcessor(MainWindowContainer mainWindowContainer) {
@@ -27,33 +20,16 @@ public class DateLineProcessor implements Runnable {
 	
 	@Override
 	public void run() {
-		this.completedOrderingLines = false;
 		
-		organizedTextArea 	 = mainWindowContainer.getOrganizedText();
-		unOrganizedTextArea  = mainWindowContainer.getUnOrganizedText();
-		maxDateField 		 = mainWindowContainer.getMaxDateField();
-		minDateField 		 = mainWindowContainer.getMinDateField();
-		formatField 	  	 = mainWindowContainer.getPatternTextField();
+		organizedTextArea = mainWindowContainer.getOrganizedText();
 		
-		DateLineOrganizer dateOrganizer = new DateLineOrganizer(unOrganizedTextArea.getText())
-													    .orderDateLines( organizedTextArea.isDescending(), formatField.getText())
-														.handleDateBoundariesReturnList( minDateField.getText(), maxDateField.getText());
+		DateLineOrganizer dateOrganizer = new DateLineOrganizer(mainWindowContainer).orderDateLines().handleDateBoundariesReturnList();
         
         organizedTextArea.setText(dateOrganizer.toString());
         organizedTextArea.setCaretPosition(0);
         
-        if(organizedPane != null && organizedPane.getHorizontalScrollBar()!=null) {
-        	organizedPane.getHorizontalScrollBar().setValue(0);
+        if(organizedScrollPane != null && organizedScrollPane.getHorizontalScrollBar()!=null) {
+        	organizedScrollPane.getHorizontalScrollBar().setValue(0);
         }
-        
-        this.completedOrderingLines = true;
-	}
-
-	public Boolean getCompletedOrderingLines() {
-		return completedOrderingLines;
-	}
-
-	public void setCompletedOrderingLines(Boolean completedOrderingLines) {
-		this.completedOrderingLines = completedOrderingLines;
 	}
 }
