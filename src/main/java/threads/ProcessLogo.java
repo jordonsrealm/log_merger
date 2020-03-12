@@ -6,10 +6,10 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import container.MainWindowContainer;
-import drawing.GlassPaneGraphicsProcessor;
-import factory.CenteredPointFactory;
-import factory.CenteredPointType;
+import centerpoint.factory.CenteredPointFactory;
+import centerpoint.object.CenteredPointType;
+import glasspane.drawing.GlassPaneGraphicsProcessor;
+import mainwindow.container.MainWindowContainer;
 
 
 public class ProcessLogo extends GlassPaneGraphicsProcessor implements Runnable{

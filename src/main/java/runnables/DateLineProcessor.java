@@ -3,8 +3,8 @@ package runnables;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-import container.MainWindowContainer;
-import date.object.DateLineOrganizer;
+import date.line.DateLineOrganizer;
+import mainwindow.container.MainWindowContainer;
 
 
 public class DateLineProcessor implements Runnable {
