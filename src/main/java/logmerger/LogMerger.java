@@ -21,7 +21,9 @@ public class LogMerger {
 			logger.error("Unable to set cross platform look and feel UI", e); 
 		}
 		
-		ExecutorService mainExecutor = Executors.newFixedThreadPool(4);
+		int cores = Runtime.getRuntime().availableProcessors();
+		
+		ExecutorService mainExecutor = Executors.newFixedThreadPool(cores);
 		MainWindow mainWindow = new MainWindow(mainExecutor);
 		mainWindow.initializeFrame();
 		mainWindow.setFrameDimensionsAndBehaviors();
