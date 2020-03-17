@@ -62,7 +62,7 @@ public class ConfigurationGetter {
 			appIconName = prop.getProperty(Constants.APP_ICON_NAME);
 			highlightHexColor = prop.getProperty(Constants.HIGHLIGHT_HEX_COLOR);
  
-			String result = "Property List = " + applicationName + ", " + windowWidth + ", " + windowHeight + ", " + appIconName;
+			String result = "Property List = " + applicationName + ", " + windowWidth + ", " + windowHeight + ", " + appIconName + "," + highlightHexColor;
 			System.out.println(result + "\nProgram Ran on " + time);
 		} catch (Exception e) {
 			System.out.println("Exception: " + e);

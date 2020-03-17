@@ -4,30 +4,24 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 
-import mainwindow.container.MainWindowContainer;
-
 
 public abstract class AbstractMainWindowContainerButton extends JButton implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
-	private LogMergerWindow mainWindow;
+	private LogMergerWindow logMergerWindow;
 	
-	public AbstractMainWindowContainerButton(LogMergerWindow mainWindow) {
-		this(mainWindow,null);
+	public AbstractMainWindowContainerButton(LogMergerWindow logMergerWindow) {
+		this(logMergerWindow,null);
 	}
 	
-	public AbstractMainWindowContainerButton(LogMergerWindow mainWindow, String title) {
+	public AbstractMainWindowContainerButton(LogMergerWindow logMergerWindow, String title) {
 		super(title);
-		this.mainWindow =  mainWindow;
+		this.logMergerWindow =  logMergerWindow;
 		this.addActionListener(this);
 	}
 
-	public LogMergerWindow getMainWindow() {
-		return mainWindow;
-	}
-
-	public MainWindowContainer getMainWindowContainer() {
-		return mainWindow.getMainWindowContainer();
+	public LogMergerWindow getLogMergerWindow() {
+		return logMergerWindow;
 	}
 	
 }

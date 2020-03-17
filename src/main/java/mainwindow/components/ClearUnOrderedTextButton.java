@@ -29,7 +29,7 @@ public class ClearUnOrderedTextButton extends AbstractMainWindowContainerButton 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
-		MainWindowContainer mainWindowContainer = getMainWindowContainer();
+		MainWindowContainer mainWindowContainer = getLogMergerWindow().getMainWindowContainer();
 		ProcessLogo processingThread = new ProcessLogo( mainWindowContainer, CenteredPointType.UN_ORDERED_TEXT_AREA);
 		
 		processingThread.startProcessing();

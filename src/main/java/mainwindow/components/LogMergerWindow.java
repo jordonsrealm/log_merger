@@ -3,55 +3,26 @@ package mainwindow.components;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import configuration.ConfigurationGetter;
-import date.object.DateHolder;
 import mainwindow.container.MainWindowContainer;
 
-import javax.imageio.ImageIO;
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ComponentEvent;
+import java.util.concurrent.ExecutorService;
+import configuration.ConfigurationGetter;
 import java.awt.event.ComponentListener;
+import java.awt.event.ComponentEvent;
+import javax.imageio.ImageIO;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.concurrent.ExecutorService;
+import javax.swing.*;
+import java.awt.*;
 
 
 public class LogMergerWindow extends JFrame implements ComponentListener {
 
-	private static final long serialVersionUID         = 1L;
-	private static final Logger logger                 = LoggerFactory.getLogger(LogMergerWindow.class);
+	private static final long serialVersionUID = 1L;
+	private static final Logger logger         = LoggerFactory.getLogger(LogMergerWindow.class);
 	
-    private static final String DATE_PATTERN           = "DATE PATTERN";
-    private static final String MIN_DATE_STR           = "Min Date";
-    private static final String MAX_DATE_STR           = "Max Date";
-    private static final String BLANK_STR              = "";
-    
-    private JTextArea organizedText 			   	   = new JTextArea(BLANK_STR,TEXT_AREA_ROWS_CNT,TEXT_AREA_COLUMNS_CNT);
-    private JTextArea unOrganizedText 				   = new JTextArea(BLANK_STR,TEXT_AREA_ROWS_CNT,TEXT_AREA_COLUMNS_CNT);
-    private JTextField regexPattern 				   = new JTextField(REGEX_PATTERN_COLUMN_CNT);
-    private JTextField fileInput 					   = new JTextField(FILENAME_FIELD_COLUMN_CNT);
-    private JTextField minDateField 				   = new JTextField(TEXT_FIELD_COLUMNS_CNT);
-    private JTextField maxDateField 				   = new JTextField(TEXT_FIELD_COLUMNS_CNT);
-    private JScrollPane unOrganizedScrollPane		   = new JScrollPane(unOrganizedText);
-    private JScrollPane organizedScrollPane			   = new JScrollPane(organizedText);
-    private MainWindowContainer mainWindowContainer	   = new MainWindowContainer();
-    private ConfigurationGetter configGetter           = new ConfigurationGetter();
-    private JPanel topPanel 						   = new JPanel();
-    private static final int TEXT_AREA_ROWS_CNT 	   = 5;
-    private static final int TEXT_AREA_COLUMNS_CNT     = 70;
-    private static final int TEXT_FIELD_COLUMNS_CNT    = 15;
-    private static final int REGEX_PATTERN_COLUMN_CNT  = 30;
-    private static final int FILENAME_FIELD_COLUMN_CNT = 60;
-    
-    private DescendingCheckBox isDescendingCheckBox;
-    private ClearUnOrderedTextButton clearUnorganizedTextButton = new ClearUnOrderedTextButton(this);
-    private SearchButton searchButton = new SearchButton(this);
-    private AddFileButton addFileButton = new AddFileButton(this);
-    private SaveFileButton saveFileButton = new SaveFileButton(this);
-    private MergeFileButton mergeButton = new MergeFileButton(this);
-    private JSplitPane bottomSplitPane;
-    private Component glassPane = getGlassPane();
+    private ConfigurationGetter configGetter   = new ConfigurationGetter();
+    private MainWindowContainer mainWindowContainer;
     private ExecutorService executor;
     
 
@@ -59,88 +30,17 @@ public class LogMergerWindow extends JFrame implements ComponentListener {
     	logger.debug("User directory: {}" , System.getProperty("user.dir"));
     	
         setLayout(new BorderLayout());
-        addComponentListener(this);
         setTitle(configGetter.getApplicationName());
-        add( createTopPanel(), BorderLayout.NORTH);
-        add( createBottomPanel(), BorderLayout.CENTER);
-        
     	setExecutor(executor);
-        addComponentsToMainWindowContainer();
+        addComponentListener(this);
+        
+        mainWindowContainer = new MainWindowContainer(this);
+        
+        add( mainWindowContainer.getTopPanel(), BorderLayout.NORTH);
+        add( mainWindowContainer.getBottomPanel(), BorderLayout.CENTER);
+        
         setImageIconForApplication();
         setFrameDimensionsAndBehaviors();
-    }
-
-    private JSplitPane createBottomPanel(){
-        
-        JPanel rightUpperPanel = new JPanel(new FlowLayout());
-        isDescendingCheckBox = new DescendingCheckBox( mainWindowContainer);
-        rightUpperPanel.add(isDescendingCheckBox);
-        rightUpperPanel.add(new JLabel(MIN_DATE_STR));
-        rightUpperPanel.add(minDateField);
-        rightUpperPanel.add(new JLabel(MAX_DATE_STR));
-        rightUpperPanel.add(maxDateField);
-        rightUpperPanel.add(saveFileButton);
-        JPanel rightPanel = new JPanel(new BorderLayout());
-        rightPanel.add(rightUpperPanel, BorderLayout.NORTH);
-        rightPanel.add(organizedScrollPane, BorderLayout.CENTER);
-        
-        //LineNumbersView lineNumbers = new LineNumbersView(mainWindowContainer.getUnOrganizedText());
-        //JScrollPane scroll = new JScrollPane(mainWindowContainer.getUnOrganizedText());
-        //scroll.setRowHeaderView(lineNumbers);
-        JPanel patternAndClearPanel = new JPanel(new FlowLayout());
-        patternAndClearPanel.add(clearUnorganizedTextButton);
-        JLabel dateLabel = new JLabel(DATE_PATTERN);
-        patternAndClearPanel.add(dateLabel);
-        patternAndClearPanel.add(regexPattern);
-        patternAndClearPanel.add(mergeButton);
-        JPanel leftPanel = new JPanel(new BorderLayout());
-        leftPanel.add(patternAndClearPanel, BorderLayout.NORTH);
-        leftPanel.add(unOrganizedScrollPane, BorderLayout.CENTER);
-
-        bottomSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, rightPanel);
-        bottomSplitPane.setDividerLocation(configGetter.getWindowWidth()/2);
-
-        return bottomSplitPane;
-    }
-
-    private JPanel createTopPanel() {
-        topPanel.setLayout(new BorderLayout());
-
-        JPanel dateSection = new JPanel(new FlowLayout());
-        dateSection.add(searchButton);
-        dateSection.add(fileInput);
-        dateSection.add(addFileButton);
-        dateSection.setBackground(Color.WHITE);
-
-        topPanel.add(dateSection, BorderLayout.CENTER);
-        
-        return topPanel;
-    }
-
-    private void addComponentsToMainWindowContainer(){
-    	
-        mainWindowContainer.setUnOrganizedText(unOrganizedText);
-        mainWindowContainer.setUnOrganizedScrollPane(unOrganizedScrollPane);
-        
-        mainWindowContainer.setOrganizedText(organizedText);
-        mainWindowContainer.setOrganizedScrollPane(organizedScrollPane);
-
-        regexPattern.setText(DateHolder.DEFAULT_FORMAT);
-        regexPattern.setOpaque(true);
-        mainWindowContainer.setPatternTextField(regexPattern);
-        
-        mainWindowContainer.setFileNameInputTextField(fileInput);
-        mainWindowContainer.setMinDateField(minDateField);
-        mainWindowContainer.setMaxDateField(maxDateField);
-
-        mainWindowContainer.setClearUnOrderedTextButton(clearUnorganizedTextButton);
-        mainWindowContainer.setSearchButton(searchButton);
-        mainWindowContainer.setSaveFileButton(saveFileButton);
-        mainWindowContainer.setMergeButton(mergeButton);
-        mainWindowContainer.setAddFileButton(addFileButton);
-        
-        mainWindowContainer.setGlassPane(glassPane);
-        mainWindowContainer.setIsDescendingCheckBox(isDescendingCheckBox);
     }
     
     private void setImageIconForApplication() {
@@ -166,14 +66,6 @@ public class LogMergerWindow extends JFrame implements ComponentListener {
         this.setVisible(true);
     }
 
-	public MainWindowContainer getMainWindowContainer() {
-		return mainWindowContainer;
-	}
-
-	public void setMainWindowContainer(MainWindowContainer mainWindowContainer) {
-		this.mainWindowContainer = mainWindowContainer;
-	}
-
 	public ExecutorService getExecutor() {
 		return executor;
 	}
@@ -188,7 +80,7 @@ public class LogMergerWindow extends JFrame implements ComponentListener {
 
 	@Override
 	public void componentResized(ComponentEvent e) {
-		bottomSplitPane.setDividerLocation(getWidth()/2);
+		this.mainWindowContainer.getBottomPanel().setDividerLocation(getWidth()/2);
 	}
 
 	@Override
@@ -204,6 +96,10 @@ public class LogMergerWindow extends JFrame implements ComponentListener {
 	@Override
 	public void componentHidden(ComponentEvent e) {
 		// Didn't want to extend the ComponentAdapter
+	}
+
+	public MainWindowContainer getMainWindowContainer() {
+		return mainWindowContainer;
 	}
 	
 }

@@ -21,7 +21,7 @@ public class MergeFileButton extends AbstractMainWindowContainerButton {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		MainWindowContainer mainWindowContainer = getMainWindowContainer();
+		MainWindowContainer mainWindowContainer = getLogMergerWindow().getMainWindowContainer();
     	
 		DateLineProcessor processor = new DateLineProcessor(mainWindowContainer);
     	

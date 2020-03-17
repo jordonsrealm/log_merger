@@ -82,7 +82,8 @@ public class GlassPaneGraphicsProcessor {
 	}
 	
 	protected FontMetrics getGlassPaneFontMetrics() {
-		return glassPane.getGraphics().getFontMetrics();
+		Graphics g = glassPane.getGraphics();
+		return g.getFontMetrics();
 	}
 	
 	protected void drawGlassPaneString(String processingString, Point point) {

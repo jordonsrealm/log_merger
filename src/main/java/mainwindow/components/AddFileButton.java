@@ -34,31 +34,32 @@ public class AddFileButton extends AbstractMainWindowContainerButton {
 	private static final long serialVersionUID = 1L;
 	private static final Dimension setDim = new Dimension( 25, 25);
 	private static final Logger logger = LoggerFactory.getLogger(AddFileButton.class);
-	static UnorganizedHighlighter myHighlightPainter;
+	private static UnorganizedHighlighter myHighlightPainter;
 	private static final String ADD_FILE_TOOL_TIP = "Add File";
 	
 	
-	public AddFileButton(LogMergerWindow mainWindow) {
-		super(mainWindow);
+	public AddFileButton(LogMergerWindow logMergerWindow) {
+		super(logMergerWindow);
 		this.setPreferredSize(setDim);
 		this.setMinimumSize(setDim);
 		this.setMaximumSize(setDim);
-		myHighlightPainter = new UnorganizedHighlighter(Color.decode(mainWindow.getConfigGetter().getHighlightHexColor()));
+		logMergerWindow.getConfigGetter();
+		myHighlightPainter = new UnorganizedHighlighter(Color.decode(logMergerWindow.getConfigGetter().getHighlightHexColor()));
 		setToolTipText(ADD_FILE_TOOL_TIP);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		MainWindowContainer mainWindowContainer = getMainWindowContainer();
+		MainWindowContainer logMergerWindow = getLogMergerWindow().getMainWindowContainer();
 		
-		if(!mainWindowContainer.getFileNameInputTextField().getText().isEmpty()) {
-			SearchButton selectFileBtn = mainWindowContainer.getSearchButton();
-			JTextArea unOrganizedText = mainWindowContainer.getUnOrganizedText();
-			JTextField fileNameInputTextField = mainWindowContainer.getFileNameInputTextField();
-			JScrollPane unOrganizedScrollPane = mainWindowContainer.getUnOrganizedScrollPane();
+		if(!logMergerWindow.getFileNameInputTextField().getText().isEmpty()) {
+			SearchButton selectFileBtn = logMergerWindow.getSearchButton();
+			JTextArea unOrganizedText = logMergerWindow.getUnOrganizedText();
+			JTextField fileNameInputTextField = logMergerWindow.getFileNameInputTextField();
+			JScrollPane unOrganizedScrollPane = logMergerWindow.getUnOrganizedScrollPane();
 
 			SwingWorker<String, Void> worker = new SwingWorker<String, Void>() {
-				ProcessLogo glassPaneDrawingThread = new ProcessLogo(mainWindowContainer, CenteredPointType.UN_ORDERED_TEXT_AREA);
+				ProcessLogo glassPaneDrawingThread = new ProcessLogo(logMergerWindow, CenteredPointType.UN_ORDERED_TEXT_AREA);
 
 
 				public String doInBackground() throws IOException {
@@ -88,7 +89,7 @@ public class AddFileButton extends AbstractMainWindowContainerButton {
 						unOrganizedText.setCaretPosition(0);
 						
 						removeHighlights(unOrganizedText);
-						highlight(unOrganizedText, mainWindowContainer.getPatternTextField().getText());
+						highlight(unOrganizedText, logMergerWindow.getPatternTextField().getText());
 
 						unOrganizedScrollPane.getHorizontalScrollBar().setValue(0);
 
@@ -133,7 +134,6 @@ public class AddFileButton extends AbstractMainWindowContainerButton {
 		    hilite.addHighlight(pos, pos + pattern.length(), myHighlightPainter);
 			pos += pattern.length();
 		}
-
 	}
 
 	public static void removeHighlights(JTextComponent textComp) {
