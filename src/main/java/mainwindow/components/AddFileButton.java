@@ -89,7 +89,7 @@ public class AddFileButton extends AbstractMainWindowContainerButton {
 						unOrganizedText.setCaretPosition(0);
 						
 						removeHighlights(unOrganizedText);
-						highlight(unOrganizedText, logMergerWindow.getPatternTextField().getText());
+						highlight(unOrganizedText, logMergerWindow.getRegexPatternTextField().getText());
 
 						unOrganizedScrollPane.getHorizontalScrollBar().setValue(0);
 

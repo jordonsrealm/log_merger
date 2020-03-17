@@ -83,7 +83,7 @@ public class SelectFileListener extends DrawingComponentListener{
 						unOrganizedText.setCaretPosition(0);
 						
 						removeHighlights(unOrganizedText);
-						highlight(unOrganizedText, mainWindowContainer.getPatternTextField().getText());
+						highlight(unOrganizedText, mainWindowContainer.getRegexPatternTextField().getText());
 
 						unOrganizedScrollPane.getHorizontalScrollBar().setValue(0);
 

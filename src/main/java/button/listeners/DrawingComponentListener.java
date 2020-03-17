@@ -3,6 +3,8 @@ package button.listeners;
 import java.awt.event.ActionListener;
 import java.util.concurrent.ExecutorService;
 
+import javax.swing.JButton;
+
 import mainwindow.container.MainWindowContainer;
 
 
@@ -10,6 +12,7 @@ public abstract class DrawingComponentListener implements ActionListener {
 
 	protected MainWindowContainer mainWindowContainer;
 	protected ExecutorService executorService;
+	protected JButton btnPressed;
 	
 	
 	public DrawingComponentListener(MainWindowContainer mainWindowContainer, ExecutorService executorService) {

@@ -2,6 +2,9 @@ package button.listeners;
 
 import javax.swing.*;
 
+//import org.slf4j.Logger;
+//import org.slf4j.LoggerFactory;
+
 import centerpoint.object.CenteredPointType;
 import mainwindow.container.MainWindowContainer;
 import runnables.DateLineProcessor;
@@ -14,20 +17,16 @@ import java.util.concurrent.ExecutorService;
 public class MergeButtonListener extends DrawingComponentListener {
 	
 	//private static final Logger logger = LoggerFactory.getLogger(MergeButtonListener.class);
-    private DateLineProcessor processor;
-    JButton btnPressed;
-    
-    
+
     public MergeButtonListener(MainWindowContainer mainWindowContainer, ExecutorService executorService){
     	super(mainWindowContainer, executorService);
-    	
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
     	btnPressed = (JButton) e.getSource();
     	
-    	processor = new DateLineProcessor(mainWindowContainer);
+    	DateLineProcessor processor = new DateLineProcessor(mainWindowContainer);
     	
     	btnPressed.setEnabled(false);
     	

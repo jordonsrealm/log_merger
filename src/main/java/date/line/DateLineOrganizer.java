@@ -18,7 +18,7 @@ import transfer.object.DatedLine;
 public class DateLineOrganizer {
 	
 	private static final Logger logger = LoggerFactory.getLogger(DateLineOrganizer.class);
-	private ArrayList<DateHolder> contentsAsDateLines = new ArrayList<DateHolder>();
+	private ArrayList<DateHolder> contentsAsDateLines = new ArrayList<>();
 	private MainWindowContainer mainWindowContainer;
 	
 	
@@ -30,7 +30,7 @@ public class DateLineOrganizer {
     	
     	boolean descendingOrder = mainWindowContainer.getIsDescendingCheckBox().isSelected();
     	
-    	String dateFormat = mainWindowContainer.getPatternTextField().getText();
+    	String dateFormat = mainWindowContainer.getRegexPatternTextField().getText();
     	
     	organizeUsingFormat(dateFormat);
     	

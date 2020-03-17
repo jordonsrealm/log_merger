@@ -21,12 +21,22 @@ public class MainWindowContainer {
 
     private ConfigurationGetter configGetter = new ConfigurationGetter();
     
+    private static final int TEXT_AREA_ROWS_CNT 	   = 5;
+    private static final int TEXT_AREA_COLUMNS_CNT     = 70;
+    private static final int TEXT_FIELD_COLUMNS_CNT    = 15;
+    private static final int REGEX_PATTERN_COLUMN_CNT  = 30;
+    private static final int FILENAME_FIELD_COLUMN_CNT = 60;
+    private static final String DEFAULT_REGEX = "yyyy-MM-dd HH:mm:ss.SSS";
+    private static final String DATE_PATTERN = "DATE PATTERN";
+    private static final String MIN_DATE_STR = "Min Date";
+    private static final String MAX_DATE_STR = "Max Date";
+    private static final String BLANK_STR    = "";
     private JTextField fileNameInputTextField = new JTextField(FILENAME_FIELD_COLUMN_CNT);
-    private JScrollPane unOrganizedScrollPane = new JScrollPane(this.unOrganizedText);
-    private JScrollPane organizedScrollPane	= new JScrollPane(this.organizedText);
-    private JTextField regexPatternTextField = new JTextField(REGEX_PATTERN_COLUMN_CNT);
     private JTextArea unOrganizedText = new JTextArea(BLANK_STR,TEXT_AREA_ROWS_CNT,TEXT_AREA_COLUMNS_CNT);
     private JTextArea organizedText = new JTextArea(BLANK_STR,TEXT_AREA_ROWS_CNT,TEXT_AREA_COLUMNS_CNT);
+    private JTextField regexPatternTextField = new JTextField(REGEX_PATTERN_COLUMN_CNT);
+    private JScrollPane unOrganizedScrollPane = new JScrollPane(this.unOrganizedText);
+    private JScrollPane organizedScrollPane	= new JScrollPane(this.organizedText);
     private JTextField minDateField = new JTextField(TEXT_FIELD_COLUMNS_CNT);
     private JTextField maxDateField = new JTextField(TEXT_FIELD_COLUMNS_CNT);
     private JCheckBox isDescendingCheckBox = new DescendingCheckBox(this);
@@ -35,35 +45,24 @@ public class MainWindowContainer {
     private AddFileButton addFileButton;
     private MergeFileButton mergeButton;
     private SearchButton searchButton;
-    private JSplitPane bottomPanel;
     private Component glassPane;
+    private JSplitPane bottomPanel;
     private JPanel topPanel;
-    
-    private static final String DEFAULT_REGEX = "yyyy-MM-dd HH:mm:ss.SSS";
-    private static final String DATE_PATTERN = "DATE PATTERN";
-    private static final String MIN_DATE_STR = "Min Date";
-    private static final String MAX_DATE_STR = "Max Date";
-    private static final String BLANK_STR    = "";
-    private static final int TEXT_AREA_ROWS_CNT 	   = 5;
-    private static final int TEXT_AREA_COLUMNS_CNT     = 70;
-    private static final int TEXT_FIELD_COLUMNS_CNT    = 15;
-    private static final int REGEX_PATTERN_COLUMN_CNT  = 30;
-    private static final int FILENAME_FIELD_COLUMN_CNT = 60;
     
     private LogMergerWindow logMergerWindow;
     
     
     public MainWindowContainer(LogMergerWindow logMergerWindow) {
     	
-    	this.logMergerWindow 	 = logMergerWindow;
-    	
-        clearUnOrderedTextButton = new ClearUnOrderedTextButton(this.logMergerWindow);
-        searchButton			 = new SearchButton(this.logMergerWindow);
-        addFileButton 			 = new AddFileButton(this.logMergerWindow);
-        saveFileButton 			 = new SaveFileButton(this.logMergerWindow);
-        mergeButton 		     = new MergeFileButton(this.logMergerWindow);
-        glassPane 				 = this.logMergerWindow.getGlassPane();
+        this.glassPane 				  = logMergerWindow.getGlassPane();
+        this.clearUnOrderedTextButton = new ClearUnOrderedTextButton(logMergerWindow);
+        this.saveFileButton 		  = new SaveFileButton(logMergerWindow);
+        this.addFileButton 			  = new AddFileButton(logMergerWindow);
+        this.mergeButton 		      = new MergeFileButton(logMergerWindow);
+        this.searchButton			  = new SearchButton(logMergerWindow);
         
+    	this.logMergerWindow 	      = logMergerWindow;
+    	
         this.topPanel  = createTopPanel();
         this.bottomPanel = createBottomPanel();
 	}
@@ -101,8 +100,8 @@ public class MainWindowContainer {
     }
     
     public JPanel createTopPanel() {
-        JPanel topPanel = new JPanel();
-        topPanel.setLayout(new BorderLayout());
+        JPanel topMostPanel = new JPanel();
+        topMostPanel.setLayout(new BorderLayout());
 
         JPanel dateSection = new JPanel(new FlowLayout());
         dateSection.add(searchButton);
@@ -110,61 +109,28 @@ public class MainWindowContainer {
         dateSection.add(addFileButton);
         dateSection.setBackground(Color.WHITE);
 
-        topPanel.add(dateSection, BorderLayout.CENTER);
+        topMostPanel.add(dateSection, BorderLayout.CENTER);
         
-        return topPanel;
+        return topMostPanel;
     }
 
-    public JTextField getPatternTextField() {
-        return regexPatternTextField;
-    }
+	public ConfigurationGetter getConfigGetter() {
+		return configGetter;
+	}
 
-    public void setPatternTextField(JTextField patternTextField) {
-    	patternTextField.setBackground(Color.decode("0xffffff"));
-        this.regexPatternTextField = patternTextField;
-    }
+	public void setConfigGetter(ConfigurationGetter configGetter) {
+		this.configGetter = configGetter;
+	}
 
-    public JTextArea getUnOrganizedText() {
-        return unOrganizedText;
-    }
+	public JTextField getFileNameInputTextField() {
+		return fileNameInputTextField;
+	}
 
-    public void setUnOrganizedText(JTextArea unOrganizedText) {
-        this.unOrganizedText = unOrganizedText;
-    }
+	public void setFileNameInputTextField(JTextField fileNameInputTextField) {
+		this.fileNameInputTextField = fileNameInputTextField;
+	}
 
-    public JTextArea getOrganizedText() {
-        return organizedText;
-    }
-
-    public void setOrganizedText(JTextArea organizedText) {
-        this.organizedText = organizedText;
-    }
-
-    public JTextField getMinDateField() {
-        return minDateField;
-    }
-
-    public void setMinDateField(JTextField minDateField) {
-        this.minDateField = minDateField;
-    }
-
-    public JTextField getMaxDateField() {
-        return maxDateField;
-    }
-
-    public void setMaxDateField(JTextField maxDateField) {
-        this.maxDateField = maxDateField;
-    }
-
-    public JTextField getFileNameInputTextField() {
-    	return fileNameInputTextField;
-    }
-
-    public void setFileNameInputTextField(JTextField fileNameInput) {
-    	this.fileNameInputTextField = fileNameInput;
-    }
-
-    public JScrollPane getUnOrganizedScrollPane() {
+	public JScrollPane getUnOrganizedScrollPane() {
 		return unOrganizedScrollPane;
 	}
 
@@ -180,12 +146,45 @@ public class MainWindowContainer {
 		this.organizedScrollPane = organizedScrollPane;
 	}
 
-	public Component getGlassPane() {
-		return glassPane;
+	public JTextField getRegexPatternTextField() {
+		return regexPatternTextField;
 	}
 
-	public void setGlassPane(Component glassPane) {
-		this.glassPane = glassPane;
+	public void setRegexPatternTextField(JTextField regexPatternTextField) {
+		regexPatternTextField.setBackground(Color.decode("0xffffff"));
+        this.regexPatternTextField = regexPatternTextField;
+	}
+
+	public JTextArea getUnOrganizedText() {
+		return unOrganizedText;
+	}
+
+	public void setUnOrganizedText(JTextArea unOrganizedText) {
+		this.unOrganizedText = unOrganizedText;
+	}
+
+	public JTextArea getOrganizedText() {
+		return organizedText;
+	}
+
+	public void setOrganizedText(JTextArea organizedText) {
+		this.organizedText = organizedText;
+	}
+
+	public JTextField getMinDateField() {
+		return minDateField;
+	}
+
+	public void setMinDateField(JTextField minDateField) {
+		this.minDateField = minDateField;
+	}
+
+	public JTextField getMaxDateField() {
+		return maxDateField;
+	}
+
+	public void setMaxDateField(JTextField maxDateField) {
+		this.maxDateField = maxDateField;
 	}
 
 	public JCheckBox getIsDescendingCheckBox() {
@@ -196,12 +195,28 @@ public class MainWindowContainer {
 		this.isDescendingCheckBox = isDescendingCheckBox;
 	}
 
+	public ClearUnOrderedTextButton getClearUnOrderedTextButton() {
+		return clearUnOrderedTextButton;
+	}
+
+	public void setClearUnOrderedTextButton(ClearUnOrderedTextButton clearUnOrderedTextButton) {
+		this.clearUnOrderedTextButton = clearUnOrderedTextButton;
+	}
+
 	public SaveFileButton getSaveFileButton() {
 		return saveFileButton;
 	}
 
 	public void setSaveFileButton(SaveFileButton saveFileButton) {
 		this.saveFileButton = saveFileButton;
+	}
+
+	public AddFileButton getAddFileButton() {
+		return addFileButton;
+	}
+
+	public void setAddFileButton(AddFileButton addFileButton) {
+		this.addFileButton = addFileButton;
 	}
 
 	public MergeFileButton getMergeButton() {
@@ -220,20 +235,12 @@ public class MainWindowContainer {
 		this.searchButton = searchButton;
 	}
 
-	public ClearUnOrderedTextButton getClearUnOrderedTextButton() {
-		return clearUnOrderedTextButton;
+	public Component getGlassPane() {
+		return glassPane;
 	}
 
-	public void setClearUnOrderedTextButton(ClearUnOrderedTextButton clearUnOrderedTextButton) {
-		this.clearUnOrderedTextButton = clearUnOrderedTextButton;
-	}
-
-	public AddFileButton getAddFileButton() {
-		return addFileButton;
-	}
-
-	public void setAddFileButton(AddFileButton addFileButton) {
-		this.addFileButton = addFileButton;
+	public void setGlassPane(Component glassPane) {
+		this.glassPane = glassPane;
 	}
 
 	public JSplitPane getBottomPanel() {
@@ -251,4 +258,13 @@ public class MainWindowContainer {
 	public void setTopPanel(JPanel topPanel) {
 		this.topPanel = topPanel;
 	}
+
+	public LogMergerWindow getLogMergerWindow() {
+		return logMergerWindow;
+	}
+
+	public void setLogMergerWindow(LogMergerWindow logMergerWindow) {
+		this.logMergerWindow = logMergerWindow;
+	}
+
 }

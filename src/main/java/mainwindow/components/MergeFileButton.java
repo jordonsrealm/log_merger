@@ -1,6 +1,5 @@
 package mainwindow.components;
 
-import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 
 import centerpoint.object.CenteredPointType;
@@ -39,10 +38,4 @@ public class MergeFileButton extends AbstractMainWindowContainerButton {
         
         setEnabled(true);
 	}
-
-	@Override
-	protected void paintComponent(Graphics g) {
-		super.paintComponent(g);
-	}
-
 }
