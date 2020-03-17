@@ -15,7 +15,7 @@ public class MergeFileButton extends AbstractMainWindowContainerButton {
     private static final String BTN_TITLE = "Merge Files";
 	
 	
-	public MergeFileButton(MainWindow mainWindow) {
+	public MergeFileButton(LogMergerWindow mainWindow) {
 		super(mainWindow, BTN_TITLE);
 	}
 

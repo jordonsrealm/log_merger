@@ -21,7 +21,7 @@ public class SaveFileButton extends AbstractMainWindowContainerButton {
     private static final String BTN_TITLE = "Save...";
 	
 
-	public SaveFileButton(MainWindow mainWindow) {
+	public SaveFileButton(LogMergerWindow mainWindow) {
 		super(mainWindow, BTN_TITLE);
 	}
 

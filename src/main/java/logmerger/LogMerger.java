@@ -7,12 +7,18 @@ import javax.swing.UIManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import mainwindow.components.MainWindow;
+import mainwindow.components.LogMergerWindow;
 
 public class LogMerger {
 
 	private static final Logger logger = LoggerFactory.getLogger(LogMerger.class);
-
+	static int availableCores;
+	static ExecutorService logMergerExecutor;
+	static LogMergerWindow logMergerWindow;
+	
+	
+	private LogMerger() {}
+	
 	public static void main(String[] args) {
 
 		try {
@@ -21,11 +27,9 @@ public class LogMerger {
 			logger.error("Unable to set cross platform look and feel UI", e); 
 		}
 		
-		int cores = Runtime.getRuntime().availableProcessors();
+		availableCores = Runtime.getRuntime().availableProcessors();
 		
-		ExecutorService mainExecutor = Executors.newFixedThreadPool(cores);
-		MainWindow mainWindow = new MainWindow(mainExecutor);
-		mainWindow.initializeFrame();
-		mainWindow.setFrameDimensionsAndBehaviors();
+		logMergerExecutor = Executors.newFixedThreadPool(availableCores);
+		logMergerWindow   = new LogMergerWindow(logMergerExecutor);
 	}
 }

@@ -17,7 +17,7 @@ public class SearchButton extends AbstractMainWindowContainerButton {
 	private static final String SEARCH_TOOL_TIP = "Search Files";
 	
 	
-	public SearchButton(MainWindow mainWindow) {
+	public SearchButton(LogMergerWindow mainWindow) {
 		super(mainWindow);
 		this.setPreferredSize(setDim);
 		this.setMinimumSize(setDim);

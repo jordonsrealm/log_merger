@@ -18,7 +18,7 @@ public class ClearUnOrderedTextButton extends AbstractMainWindowContainerButton 
     private static final String CLEAR_TOOLTIP = "Clear Text Area";
 	
 
-	public ClearUnOrderedTextButton(MainWindow mainWindow) {
+	public ClearUnOrderedTextButton(LogMergerWindow mainWindow) {
 		super(mainWindow, BTN_TITLE);
 		this.setPreferredSize(setDim);
 		this.setMinimumSize(setDim);

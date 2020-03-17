@@ -10,19 +10,19 @@ import mainwindow.container.MainWindowContainer;
 public abstract class AbstractMainWindowContainerButton extends JButton implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
-	private MainWindow mainWindow;
+	private LogMergerWindow mainWindow;
 	
-	public AbstractMainWindowContainerButton(MainWindow mainWindow) {
+	public AbstractMainWindowContainerButton(LogMergerWindow mainWindow) {
 		this(mainWindow,null);
 	}
 	
-	public AbstractMainWindowContainerButton(MainWindow mainWindow, String title) {
+	public AbstractMainWindowContainerButton(LogMergerWindow mainWindow, String title) {
 		super(title);
 		this.mainWindow =  mainWindow;
 		this.addActionListener(this);
 	}
 
-	public MainWindow getMainWindow() {
+	public LogMergerWindow getMainWindow() {
 		return mainWindow;
 	}
 

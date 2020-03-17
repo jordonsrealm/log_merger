@@ -38,7 +38,7 @@ public class AddFileButton extends AbstractMainWindowContainerButton {
 	private static final String ADD_FILE_TOOL_TIP = "Add File";
 	
 	
-	public AddFileButton(MainWindow mainWindow) {
+	public AddFileButton(LogMergerWindow mainWindow) {
 		super(mainWindow);
 		this.setPreferredSize(setDim);
 		this.setMinimumSize(setDim);
