@@ -2,6 +2,7 @@ package mainwindow.components.holder;
 
 import mainwindow.components.AddFileButton;
 import mainwindow.components.ClearUnOrderedTextButton;
+import mainwindow.components.LogMergerWindow;
 import mainwindow.components.MergeFileButton;
 import mainwindow.components.SaveFileButton;
 import mainwindow.components.SearchButton;
@@ -14,6 +15,15 @@ public class ButtonHolder {
     private AddFileButton addFileButton;
     private MergeFileButton mergeButton;
     private SearchButton searchButton;
+    
+    
+    public ButtonHolder(LogMergerWindow logMergerWindow) {
+    	clearUnOrderedTextButton = new ClearUnOrderedTextButton(logMergerWindow);
+		saveFileButton = new SaveFileButton(logMergerWindow);
+		addFileButton = new AddFileButton(logMergerWindow);
+		mergeButton = new MergeFileButton(logMergerWindow);
+		searchButton = new SearchButton(logMergerWindow);
+	}
     
 	public ClearUnOrderedTextButton getClearUnOrderedTextButton() {
 		return clearUnOrderedTextButton;

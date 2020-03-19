@@ -70,6 +70,4 @@ public class TextHolder {
 	public void setMaxDateField(JTextField maxDateField) {
 		this.maxDateField = maxDateField;
 	}
-    
-    
 }

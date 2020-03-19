@@ -24,8 +24,8 @@ public class MainWindowHolder {
     private static final String MAX_DATE_STR = "Max Date";
 
     private JCheckBox isDescendingCheckBox = new DescendingCheckBox(this);
-    private ButtonHolder btnHolder = new ButtonHolder();
     private TextHolder txtHolder = new TextHolder();
+    private ButtonHolder btnHolder;
     private Component glassPane;
     private JSplitPane bottomPanel;
     private JPanel topPanel;
@@ -36,6 +36,8 @@ public class MainWindowHolder {
     	
         this.glassPane 		 = logMergerWindow.getGlassPane();
     	this.logMergerWindow = logMergerWindow;
+    	btnHolder = new ButtonHolder(logMergerWindow);
+
         this.topPanel        = createTopPanel();
         this.bottomPanel 	 = createBottomPanel();
 	}
@@ -78,6 +80,7 @@ public class MainWindowHolder {
         topMostPanel.setLayout(new BorderLayout());
 
         JPanel dateSection = new JPanel(new FlowLayout());
+        System.out.println("" + btnHolder.getSearchButton()==null);
         dateSection.add(btnHolder.getSearchButton());
         dateSection.add(txtHolder.getFileNameInputTextField());
         dateSection.add(btnHolder.getAddFileButton());
