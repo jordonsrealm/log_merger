@@ -25,7 +25,7 @@ import org.slf4j.LoggerFactory;
 
 import centerpoint.object.CenteredPointType;
 import highlighter.UnorganizedHighlighter;
-import mainwindow.container.MainWindowContainer;
+import mainwindow.holder.MainWindowHolder;
 import threads.ProcessLogo;
 
 
@@ -50,16 +50,16 @@ public class AddFileButton extends AbstractMainWindowContainerButton {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		MainWindowContainer logMergerWindow = getLogMergerWindow().getMainWindowContainer();
+		MainWindowHolder windowHolder = getLogMergerWindow().getWindowHolder();
 		
-		if(!logMergerWindow.getFileNameInputTextField().getText().isEmpty()) {
-			SearchButton selectFileBtn = logMergerWindow.getSearchButton();
-			JTextArea unOrganizedText = logMergerWindow.getUnOrganizedText();
-			JTextField fileNameInputTextField = logMergerWindow.getFileNameInputTextField();
-			JScrollPane unOrganizedScrollPane = logMergerWindow.getUnOrganizedScrollPane();
+		if(!windowHolder.getTxtHolder().getFileNameInputTextField().getText().isEmpty()) {
+			SearchButton selectFileBtn = windowHolder.getBtnHolder().getSearchButton();
+			JTextArea unOrganizedText = windowHolder.getTxtHolder().getUnOrganizedText();
+			JTextField fileNameInputTextField = windowHolder.getTxtHolder().getFileNameInputTextField();
+			JScrollPane unOrganizedScrollPane = windowHolder.getTxtHolder().getUnOrganizedScrollPane();
 
 			SwingWorker<String, Void> worker = new SwingWorker<String, Void>() {
-				ProcessLogo glassPaneDrawingThread = new ProcessLogo(logMergerWindow, CenteredPointType.UN_ORDERED_TEXT_AREA);
+				ProcessLogo glassPaneDrawingThread = new ProcessLogo(windowHolder, CenteredPointType.UN_ORDERED_TEXT_AREA);
 
 
 				public String doInBackground() throws IOException {
@@ -89,7 +89,7 @@ public class AddFileButton extends AbstractMainWindowContainerButton {
 						unOrganizedText.setCaretPosition(0);
 						
 						removeHighlights(unOrganizedText);
-						highlight(unOrganizedText, logMergerWindow.getRegexPatternTextField().getText());
+						highlight(unOrganizedText, windowHolder.getTxtHolder().getRegexPatternTextField().getText());
 
 						unOrganizedScrollPane.getHorizontalScrollBar().setValue(0);
 

@@ -1,11 +1,11 @@
 package centerpoint.object;
 
-import mainwindow.container.MainWindowContainer;
+import mainwindow.holder.MainWindowHolder;
 
 
 public class UnOrderedCenterPoint extends CentroidPoint{
 
-	public UnOrderedCenterPoint(MainWindowContainer mainWindowContainer) {
-		super(mainWindowContainer.getUnOrganizedScrollPane());
+	public UnOrderedCenterPoint(MainWindowHolder windowHolder) {
+		super(windowHolder.getTxtHolder().getUnOrganizedScrollPane());
 	}
 }

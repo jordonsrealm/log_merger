@@ -6,7 +6,7 @@ import javax.swing.*;
 //import org.slf4j.LoggerFactory;
 
 import centerpoint.object.CenteredPointType;
-import mainwindow.container.MainWindowContainer;
+import mainwindow.holder.MainWindowHolder;
 import runnables.DateLineProcessor;
 import threads.ProcessLogo;
 
@@ -18,7 +18,7 @@ public class MergeButtonListener extends DrawingComponentListener {
 	
 	//private static final Logger logger = LoggerFactory.getLogger(MergeButtonListener.class);
 
-    public MergeButtonListener(MainWindowContainer mainWindowContainer, ExecutorService executorService){
+    public MergeButtonListener(MainWindowHolder mainWindowContainer, ExecutorService executorService){
     	super(mainWindowContainer, executorService);
     }
 
@@ -26,13 +26,13 @@ public class MergeButtonListener extends DrawingComponentListener {
     public void actionPerformed(ActionEvent e) {
     	btnPressed = (JButton) e.getSource();
     	
-    	DateLineProcessor processor = new DateLineProcessor(mainWindowContainer);
+    	DateLineProcessor processor = new DateLineProcessor(windowHolder);
     	
     	btnPressed.setEnabled(false);
     	
-    	mainWindowContainer.getOrganizedText().setText("");
+    	windowHolder.getTxtHolder().getOrganizedText().setText("");
     	
-    	ProcessLogo processingThread = new ProcessLogo( mainWindowContainer, CenteredPointType.ORDERED_TEXT_AREA);
+    	ProcessLogo processingThread = new ProcessLogo( windowHolder, CenteredPointType.ORDERED_TEXT_AREA);
     	
     	processingThread.startProcessing();
     	

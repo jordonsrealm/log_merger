@@ -11,7 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import date.object.DateHolder;
-import mainwindow.container.MainWindowContainer;
+import mainwindow.holder.MainWindowHolder;
 import transfer.object.DatedLine;
 
 
@@ -19,18 +19,18 @@ public class DateLineOrganizer {
 	
 	private static final Logger logger = LoggerFactory.getLogger(DateLineOrganizer.class);
 	private ArrayList<DateHolder> contentsAsDateLines = new ArrayList<>();
-	private MainWindowContainer mainWindowContainer;
+	private MainWindowHolder windowHolder;
 	
 	
-	public DateLineOrganizer(MainWindowContainer mainWindowContainer) {
-		this.mainWindowContainer = mainWindowContainer;
+	public DateLineOrganizer(MainWindowHolder mainWindowContainer) {
+		this.windowHolder = mainWindowContainer;
 	}
 
     public DateLineOrganizer orderDateLines() {
     	
-    	boolean descendingOrder = mainWindowContainer.getIsDescendingCheckBox().isSelected();
+    	boolean descendingOrder = windowHolder.getIsDescendingCheckBox().isSelected();
     	
-    	String dateFormat = mainWindowContainer.getRegexPatternTextField().getText();
+    	String dateFormat = windowHolder.getTxtHolder().getRegexPatternTextField().getText();
     	
     	organizeUsingFormat(dateFormat);
     	
@@ -44,7 +44,7 @@ public class DateLineOrganizer {
     private void organizeUsingFormat(String format){
     	logger.info("Ordering Date Lines");
     	
-    	BufferedReader bufferedReader = new BufferedReader(new StringReader(mainWindowContainer.getUnOrganizedText().getText()));
+    	BufferedReader bufferedReader = new BufferedReader(new StringReader(windowHolder.getTxtHolder().getUnOrganizedText().getText()));
         
         String lineRead;
         ArrayList<DateHolder> dateHolderList = new ArrayList<>();
@@ -81,8 +81,8 @@ public class DateLineOrganizer {
     }
     
     public DateLineOrganizer handleDateBoundariesReturnList() {
-    	String date1 = mainWindowContainer.getMinDateField().getText();
-    	String date2 = mainWindowContainer.getMaxDateField().getText();
+    	String date1 = windowHolder.getTxtHolder().getMinDateField().getText();
+    	String date2 = windowHolder.getTxtHolder().getMaxDateField().getText();
     	
     	if(!(date1.isEmpty() && date2.isEmpty())) {
     		logger.info("Working on boundary dates - date1: {}, date2: {}", date1, date2);

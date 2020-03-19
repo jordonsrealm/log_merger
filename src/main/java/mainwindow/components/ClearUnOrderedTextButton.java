@@ -6,7 +6,7 @@ import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 
 import centerpoint.object.CenteredPointType;
-import mainwindow.container.MainWindowContainer;
+import mainwindow.holder.MainWindowHolder;
 import threads.ProcessLogo;
 
 
@@ -29,12 +29,12 @@ public class ClearUnOrderedTextButton extends AbstractMainWindowContainerButton 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
-		MainWindowContainer mainWindowContainer = getLogMergerWindow().getMainWindowContainer();
+		MainWindowHolder mainWindowContainer = getLogMergerWindow().getWindowHolder();
 		ProcessLogo processingThread = new ProcessLogo( mainWindowContainer, CenteredPointType.UN_ORDERED_TEXT_AREA);
 		
 		processingThread.startProcessing();
 		
-		mainWindowContainer.getUnOrganizedText().setText("");
+		mainWindowContainer.getTxtHolder().getUnOrganizedText().setText("");
 		
 		processingThread.stopProcessing();
 	}

@@ -25,7 +25,7 @@ import org.slf4j.LoggerFactory;
 
 import centerpoint.object.CenteredPointType;
 import highlighter.UnorganizedHighlighter;
-import mainwindow.container.MainWindowContainer;
+import mainwindow.holder.MainWindowHolder;
 import threads.ProcessLogo;
 
 
@@ -39,21 +39,21 @@ public class SelectFileListener extends DrawingComponentListener{
 	static UnorganizedHighlighter myHighlightPainter;
 
 
-	public SelectFileListener( MainWindowContainer mainWindowContainer, ExecutorService executorService, String highlightHexColor) {
+	public SelectFileListener( MainWindowHolder mainWindowContainer, ExecutorService executorService, String highlightHexColor) {
 		super(mainWindowContainer, executorService);
 		myHighlightPainter = new UnorganizedHighlighter(Color.decode(highlightHexColor));
 	}
 
 	public void actionPerformed(ActionEvent e) {
 		
-		if(!mainWindowContainer.getFileNameInputTextField().getText().isEmpty()) {
-			selectFileBtn = mainWindowContainer.getAddFileButton();
-			unOrganizedText = mainWindowContainer.getUnOrganizedText();
-			fileNameInputTextField = mainWindowContainer.getFileNameInputTextField();
-			unOrganizedScrollPane = mainWindowContainer.getUnOrganizedScrollPane();
+		if(!windowHolder.getTxtHolder().getFileNameInputTextField().getText().isEmpty()) {
+			selectFileBtn = windowHolder.getBtnHolder().getAddFileButton();
+			unOrganizedText = windowHolder.getTxtHolder().getUnOrganizedText();
+			fileNameInputTextField = windowHolder.getTxtHolder().getFileNameInputTextField();
+			unOrganizedScrollPane = windowHolder.getTxtHolder().getUnOrganizedScrollPane();
 
 			SwingWorker<String, Void> worker = new SwingWorker<String, Void>() {
-				ProcessLogo glassPaneDrawingThread = new ProcessLogo(mainWindowContainer, CenteredPointType.UN_ORDERED_TEXT_AREA);
+				ProcessLogo glassPaneDrawingThread = new ProcessLogo(windowHolder, CenteredPointType.UN_ORDERED_TEXT_AREA);
 
 
 				public String doInBackground() throws IOException {
@@ -83,7 +83,7 @@ public class SelectFileListener extends DrawingComponentListener{
 						unOrganizedText.setCaretPosition(0);
 						
 						removeHighlights(unOrganizedText);
-						highlight(unOrganizedText, mainWindowContainer.getRegexPatternTextField().getText());
+						highlight(unOrganizedText, windowHolder.getTxtHolder().getRegexPatternTextField().getText());
 
 						unOrganizedScrollPane.getHorizontalScrollBar().setValue(0);
 

@@ -4,30 +4,30 @@ import java.awt.event.ItemListener;
 
 import javax.swing.JCheckBox;
 
-import mainwindow.container.MainWindowContainer;
+import mainwindow.holder.MainWindowHolder;
 
 
 public abstract class AbstractListeningCheckBox extends JCheckBox implements ItemListener{
 
 	private static final long serialVersionUID = 1L;
-	protected MainWindowContainer mainWindowContainer;
+	protected MainWindowHolder windowHolder;
 	
 	
-	public AbstractListeningCheckBox(MainWindowContainer mainWindowContainer) {
-		this(mainWindowContainer, "");
+	public AbstractListeningCheckBox(MainWindowHolder windowHolder) {
+		this(windowHolder, "");
 	}
 	
-	public AbstractListeningCheckBox(MainWindowContainer mainWindowContainer, String title) {
+	public AbstractListeningCheckBox(MainWindowHolder windowHolder, String title) {
 		super(title);
-		this.setMainWindowContainer(mainWindowContainer);
+		this.setWindowHolder(windowHolder);
 		this.addItemListener(this);
 	}
 
-	public MainWindowContainer getMainWindowContainer() {
-		return mainWindowContainer;
+	public MainWindowHolder getWindowHolder() {
+		return windowHolder;
 	}
 
-	public void setMainWindowContainer(MainWindowContainer mainWindowContainer) {
-		this.mainWindowContainer = mainWindowContainer;
+	public void setWindowHolder(MainWindowHolder windowHolder) {
+		this.windowHolder = windowHolder;
 	}
 }

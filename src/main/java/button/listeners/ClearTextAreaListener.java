@@ -4,25 +4,25 @@ import java.awt.event.ActionEvent;
 import java.util.concurrent.ExecutorService;
 
 import centerpoint.object.CenteredPointType;
-import mainwindow.container.MainWindowContainer;
+import mainwindow.holder.MainWindowHolder;
 import threads.ProcessLogo;
 
 
 public class ClearTextAreaListener extends DrawingComponentListener {
 	
 	
-	public ClearTextAreaListener(MainWindowContainer mainWindowContainer, ExecutorService executorService){
-		super(mainWindowContainer, executorService);
+	public ClearTextAreaListener(MainWindowHolder windowHolder, ExecutorService executorService){
+		super(windowHolder, executorService);
     }
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
-		ProcessLogo processingThread = new ProcessLogo( mainWindowContainer, CenteredPointType.UN_ORDERED_TEXT_AREA);
+		ProcessLogo processingThread = new ProcessLogo( windowHolder, CenteredPointType.UN_ORDERED_TEXT_AREA);
 		
 		processingThread.startProcessing();
 		
-		mainWindowContainer.getUnOrganizedText().setText("");
+		windowHolder.getTxtHolder().getUnOrganizedText().setText("");
 		
 		processingThread.stopProcessing();
 	}

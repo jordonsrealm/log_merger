@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import centerpoint.factory.CenteredPointFactory;
 import centerpoint.object.CenteredPointType;
 import glasspane.drawing.GlassPaneGraphicsProcessor;
-import mainwindow.container.MainWindowContainer;
+import mainwindow.holder.MainWindowHolder;
 
 
 public class ProcessLogo extends GlassPaneGraphicsProcessor implements Runnable{
@@ -20,7 +20,7 @@ public class ProcessLogo extends GlassPaneGraphicsProcessor implements Runnable{
     private Point centerPoint;
     
     
-    public ProcessLogo(MainWindowContainer mainWindowContainer, CenteredPointType centerPointType) {
+    public ProcessLogo(MainWindowHolder mainWindowContainer, CenteredPointType centerPointType) {
     	super(mainWindowContainer.getGlassPane());
     	this.centerPoint = CenteredPointFactory.getCenteredPoint( centerPointType, mainWindowContainer).getCenteredPoint();
     }

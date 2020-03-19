@@ -5,33 +5,36 @@ import java.util.concurrent.ExecutorService;
 
 import javax.swing.JButton;
 
-import mainwindow.container.MainWindowContainer;
+import mainwindow.holder.MainWindowHolder;
 
 
 public abstract class DrawingComponentListener implements ActionListener {
 
-	protected MainWindowContainer mainWindowContainer;
+	protected MainWindowHolder windowHolder;
 	protected ExecutorService executorService;
 	protected JButton btnPressed;
 	
 	
-	public DrawingComponentListener(MainWindowContainer mainWindowContainer, ExecutorService executorService) {
-		this.setMainWindowContainer(mainWindowContainer);
-		this.setExecutorService(executorService);
+	public DrawingComponentListener(MainWindowHolder windowHolder, ExecutorService executorService) {
+		this.windowHolder = windowHolder;
+		this.executorService = executorService;
 	}
 
 
-	public MainWindowContainer getMainWindowContainer() {
-		return mainWindowContainer;
+	public MainWindowHolder getWindowHolder() {
+		return windowHolder;
 	}
 
-	public void setMainWindowContainer(MainWindowContainer mainWindowContainer) {
-		this.mainWindowContainer = mainWindowContainer;
+
+	public void setWindowHolder(MainWindowHolder windowHolder) {
+		this.windowHolder = windowHolder;
 	}
+
 
 	public ExecutorService getExecutorService() {
 		return executorService;
 	}
+
 
 	public void setExecutorService(ExecutorService executorService) {
 		this.executorService = executorService;

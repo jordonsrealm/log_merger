@@ -4,13 +4,13 @@ import centerpoint.object.CenteredPointType;
 import centerpoint.object.CentroidPoint;
 import centerpoint.object.OrderedCenterPoint;
 import centerpoint.object.UnOrderedCenterPoint;
-import mainwindow.container.MainWindowContainer;
+import mainwindow.holder.MainWindowHolder;
 
 
 public class CenteredPointFactory {
 	
 	
-	public static CentroidPoint getCenteredPoint(CenteredPointType type, MainWindowContainer mainWindowContainer) {
+	public static CentroidPoint getCenteredPoint(CenteredPointType type, MainWindowHolder mainWindowContainer) {
 		
 		CentroidPoint centroidPoint = null;
 		

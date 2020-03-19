@@ -38,7 +38,7 @@ public class SaveFileButton extends AbstractMainWindowContainerButton {
             logger.debug("Saving file as: " + fileToSave.getAbsolutePath());
 
             try(FileOutputStream outputStream = new FileOutputStream(fileToSave)){
-                byte[] bytes = getLogMergerWindow().getMainWindowContainer().getOrganizedText().getText().getBytes();
+                byte[] bytes = getLogMergerWindow().getWindowHolder().getTxtHolder().getOrganizedText().getText().getBytes();
                 outputStream.write(bytes);
             } catch(FileNotFoundException ex){
                 logger.error("Unable to find the file to save to...", ex);

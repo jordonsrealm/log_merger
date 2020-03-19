@@ -3,10 +3,10 @@ package mainwindow.components;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import mainwindow.container.MainWindowContainer;
-
 import java.util.concurrent.ExecutorService;
 import configuration.ConfigurationGetter;
+import mainwindow.holder.MainWindowHolder;
+
 import java.awt.event.ComponentListener;
 import java.awt.event.ComponentEvent;
 import javax.imageio.ImageIO;
@@ -22,7 +22,7 @@ public class LogMergerWindow extends JFrame implements ComponentListener {
 	private static final Logger logger         = LoggerFactory.getLogger(LogMergerWindow.class);
 	
     private ConfigurationGetter configGetter   = new ConfigurationGetter();
-    private MainWindowContainer mainWindowContainer;
+    private MainWindowHolder windowHolder;
     private ExecutorService executor;
     
 
@@ -34,10 +34,10 @@ public class LogMergerWindow extends JFrame implements ComponentListener {
     	setExecutor(executor);
         addComponentListener(this);
         
-        mainWindowContainer = new MainWindowContainer(this);
+        windowHolder = new MainWindowHolder(this);
         
-        add( mainWindowContainer.getTopPanel(), BorderLayout.NORTH);
-        add( mainWindowContainer.getBottomPanel(), BorderLayout.CENTER);
+        add( windowHolder.getTopPanel(), BorderLayout.NORTH);
+        add( windowHolder.getBottomPanel(), BorderLayout.CENTER);
         
         setImageIconForApplication();
         setFrameDimensionsAndBehaviors();
@@ -80,7 +80,7 @@ public class LogMergerWindow extends JFrame implements ComponentListener {
 
 	@Override
 	public void componentResized(ComponentEvent e) {
-		this.mainWindowContainer.getBottomPanel().setDividerLocation(getWidth()/2);
+		this.windowHolder.getBottomPanel().setDividerLocation(getWidth()/2);
 	}
 
 	@Override
@@ -98,8 +98,8 @@ public class LogMergerWindow extends JFrame implements ComponentListener {
 		// Didn't want to extend the ComponentAdapter
 	}
 
-	public MainWindowContainer getMainWindowContainer() {
-		return mainWindowContainer;
+	public MainWindowHolder getWindowHolder() {
+		return windowHolder;
 	}
 	
 }

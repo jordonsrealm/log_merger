@@ -3,7 +3,7 @@ package mainwindow.components;
 import java.awt.event.ActionEvent;
 
 import centerpoint.object.CenteredPointType;
-import mainwindow.container.MainWindowContainer;
+import mainwindow.holder.MainWindowHolder;
 import runnables.DateLineProcessor;
 import threads.ProcessLogo;
 
@@ -20,13 +20,13 @@ public class MergeFileButton extends AbstractMainWindowContainerButton {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		MainWindowContainer mainWindowContainer = getLogMergerWindow().getMainWindowContainer();
+		MainWindowHolder mainWindowContainer = getLogMergerWindow().getWindowHolder();
     	
 		DateLineProcessor processor = new DateLineProcessor(mainWindowContainer);
     	
     	setEnabled(false);
     	
-    	mainWindowContainer.getOrganizedText().setText("");
+    	mainWindowContainer.getTxtHolder().getOrganizedText().setText("");
     	
     	ProcessLogo processingThread = new ProcessLogo( mainWindowContainer, CenteredPointType.ORDERED_TEXT_AREA);
     	

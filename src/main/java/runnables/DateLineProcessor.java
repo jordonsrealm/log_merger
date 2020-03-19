@@ -4,24 +4,22 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 import date.line.DateLineOrganizer;
-import mainwindow.container.MainWindowContainer;
+import mainwindow.holder.MainWindowHolder;
 
 
 public class DateLineProcessor implements Runnable {
 
-	private MainWindowContainer mainWindowContainer;
-	private JTextArea organizedTextArea;
+	private MainWindowHolder mainWindowContainer;
 	private JScrollPane organizedScrollPane;
 	
 	
-	public DateLineProcessor(MainWindowContainer mainWindowContainer) {
+	public DateLineProcessor(MainWindowHolder mainWindowContainer) {
 		this.mainWindowContainer = mainWindowContainer;
 	}
 	
 	@Override
 	public void run() {
-		
-		organizedTextArea = mainWindowContainer.getOrganizedText();
+		JTextArea organizedTextArea = mainWindowContainer.getTxtHolder().getOrganizedText();
 		
 		DateLineOrganizer dateOrganizer = new DateLineOrganizer(mainWindowContainer).orderDateLines().handleDateBoundariesReturnList();
         

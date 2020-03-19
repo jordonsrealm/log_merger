@@ -35,7 +35,7 @@ public class SearchButton extends AbstractMainWindowContainerButton {
 		if (returnValue == JFileChooser.APPROVE_OPTION) {
 			File selectedFile = jfc.getSelectedFile();
 
-			getLogMergerWindow().getMainWindowContainer().getFileNameInputTextField().setText(selectedFile.getAbsolutePath());
+			getLogMergerWindow().getWindowHolder().getTxtHolder().getFileNameInputTextField().setText(selectedFile.getAbsolutePath());
 		}
 	}
 
