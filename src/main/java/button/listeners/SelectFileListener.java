@@ -24,7 +24,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import centerpoint.object.CenteredPointType;
-import highlighter.UnorganizedHighlighter;
+import highlighter.UnOrganizedHighlighter;
 import mainwindow.holder.MainWindowHolder;
 import threads.ProcessLogo;
 
@@ -36,12 +36,12 @@ public class SelectFileListener extends DrawingComponentListener{
 	JTextArea unOrganizedText;
 	JTextField fileNameInputTextField;
 	JScrollPane unOrganizedScrollPane;
-	static UnorganizedHighlighter myHighlightPainter;
+	static UnOrganizedHighlighter myHighlightPainter;
 
 
 	public SelectFileListener( MainWindowHolder mainWindowContainer, ExecutorService executorService, String highlightHexColor) {
 		super(mainWindowContainer, executorService);
-		myHighlightPainter = new UnorganizedHighlighter(Color.decode(highlightHexColor));
+		myHighlightPainter = new UnOrganizedHighlighter(Color.decode(highlightHexColor));
 	}
 
 	public void actionPerformed(ActionEvent e) {
@@ -134,7 +134,7 @@ public class SelectFileListener extends DrawingComponentListener{
 		Highlighter.Highlight[] hilites = hilite.getHighlights();
 
 		for (int i = 0; i < hilites.length; i++) {
-			if (hilites[i].getPainter() instanceof UnorganizedHighlighter) {
+			if (hilites[i].getPainter() instanceof UnOrganizedHighlighter) {
 				hilite.removeHighlight(hilites[i]);
 			}
 		}

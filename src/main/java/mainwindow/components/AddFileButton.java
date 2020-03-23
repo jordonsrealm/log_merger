@@ -24,7 +24,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import centerpoint.object.CenteredPointType;
-import highlighter.UnorganizedHighlighter;
+import highlighter.UnOrganizedHighlighter;
 import mainwindow.holder.MainWindowHolder;
 import threads.ProcessLogo;
 
@@ -34,7 +34,7 @@ public class AddFileButton extends AbstractMainWindowContainerButton {
 	private static final long serialVersionUID = 1L;
 	private static final Dimension setDim = new Dimension( 25, 25);
 	private static final Logger logger = LoggerFactory.getLogger(AddFileButton.class);
-	private static UnorganizedHighlighter myHighlightPainter;
+	private static UnOrganizedHighlighter myHighlightPainter;
 	private static final String ADD_FILE_TOOL_TIP = "Add File";
 	
 	
@@ -44,7 +44,7 @@ public class AddFileButton extends AbstractMainWindowContainerButton {
 		this.setMinimumSize(setDim);
 		this.setMaximumSize(setDim);
 		logMergerWindow.getConfigGetter();
-		myHighlightPainter = new UnorganizedHighlighter(Color.decode(logMergerWindow.getConfigGetter().getHighlightHexColor()));
+		myHighlightPainter = new UnOrganizedHighlighter(Color.decode(logMergerWindow.getConfigGetter().getHighlightHexColor()));
 		setToolTipText(ADD_FILE_TOOL_TIP);
 	}
 
@@ -141,7 +141,7 @@ public class AddFileButton extends AbstractMainWindowContainerButton {
 		Highlighter.Highlight[] hilites = hilite.getHighlights();
 
 		for (int i = 0; i < hilites.length; i++) {
-			if (hilites[i].getPainter() instanceof UnorganizedHighlighter) {
+			if (hilites[i].getPainter() instanceof UnOrganizedHighlighter) {
 				hilite.removeHighlight(hilites[i]);
 			}
 		}
