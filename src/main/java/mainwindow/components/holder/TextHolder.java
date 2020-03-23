@@ -23,49 +23,49 @@ public class TextHolder {
     private JTextField maxDateField = new JTextField(TEXT_FIELD_COLUMNS_CNT);
     
 	public JTextField getFileNameInputTextField() {
-		return fileNameInputTextField;
+		return this.fileNameInputTextField;
 	}
 	public void setFileNameInputTextField(JTextField fileNameInputTextField) {
 		this.fileNameInputTextField = fileNameInputTextField;
 	}
 	public JTextArea getUnOrganizedText() {
-		return unOrganizedText;
+		return this.unOrganizedText;
 	}
 	public void setUnOrganizedText(JTextArea unOrganizedText) {
 		this.unOrganizedText = unOrganizedText;
 	}
 	public JTextArea getOrganizedText() {
-		return organizedText;
+		return this.organizedText;
 	}
 	public void setOrganizedText(JTextArea organizedText) {
 		this.organizedText = organizedText;
 	}
 	public JTextField getRegexPatternTextField() {
-		return regexPatternTextField;
+		return this.regexPatternTextField;
 	}
 	public void setRegexPatternTextField(JTextField regexPatternTextField) {
 		this.regexPatternTextField = regexPatternTextField;
 	}
 	public JScrollPane getUnOrganizedScrollPane() {
-		return unOrganizedScrollPane;
+		return this.unOrganizedScrollPane;
 	}
 	public void setUnOrganizedScrollPane(JScrollPane unOrganizedScrollPane) {
 		this.unOrganizedScrollPane = unOrganizedScrollPane;
 	}
 	public JScrollPane getOrganizedScrollPane() {
-		return organizedScrollPane;
+		return this.organizedScrollPane;
 	}
 	public void setOrganizedScrollPane(JScrollPane organizedScrollPane) {
 		this.organizedScrollPane = organizedScrollPane;
 	}
 	public JTextField getMinDateField() {
-		return minDateField;
+		return this.minDateField;
 	}
 	public void setMinDateField(JTextField minDateField) {
 		this.minDateField = minDateField;
 	}
 	public JTextField getMaxDateField() {
-		return maxDateField;
+		return this.maxDateField;
 	}
 	public void setMaxDateField(JTextField maxDateField) {
 		this.maxDateField = maxDateField;

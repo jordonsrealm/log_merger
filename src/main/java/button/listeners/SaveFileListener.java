@@ -38,7 +38,7 @@ public class SaveFileListener implements ActionListener {
             logger.debug("Saving file as: " + fileToSave.getAbsolutePath());
 
             try(FileOutputStream outputStream = new FileOutputStream(fileToSave)){
-                byte[] bytes = organizedText.getText().getBytes();
+                byte[] bytes = this.organizedText.getText().getBytes();
                 outputStream.write(bytes);
             } catch(FileNotFoundException ex){
                 logger.error("Unable to find the file to save to...", ex);

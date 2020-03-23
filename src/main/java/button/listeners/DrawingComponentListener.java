@@ -22,7 +22,7 @@ public abstract class DrawingComponentListener implements ActionListener {
 
 
 	public MainWindowHolder getWindowHolder() {
-		return windowHolder;
+		return this.windowHolder;
 	}
 
 
@@ -32,7 +32,7 @@ public abstract class DrawingComponentListener implements ActionListener {
 
 
 	public ExecutorService getExecutorService() {
-		return executorService;
+		return this.executorService;
 	}
 
 

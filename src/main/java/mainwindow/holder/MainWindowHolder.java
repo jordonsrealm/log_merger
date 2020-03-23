@@ -36,7 +36,8 @@ public class MainWindowHolder {
     	
         this.glassPane 		 = logMergerWindow.getGlassPane();
     	this.logMergerWindow = logMergerWindow;
-    	btnHolder = new ButtonHolder(logMergerWindow);
+    	
+    	this.btnHolder 		 = new ButtonHolder(logMergerWindow);
 
         this.topPanel        = createTopPanel();
         this.bottomPanel 	 = createBottomPanel();
@@ -46,31 +47,31 @@ public class MainWindowHolder {
         JSplitPane bottomSplitPane;
         
         JPanel rightUpperPanel = new JPanel(new FlowLayout());
-        isDescendingCheckBox = new DescendingCheckBox(this);
-        rightUpperPanel.add(isDescendingCheckBox);
+        this.isDescendingCheckBox = new DescendingCheckBox(this);
+        rightUpperPanel.add(this.isDescendingCheckBox);
         rightUpperPanel.add(new JLabel(MIN_DATE_STR));
-        rightUpperPanel.add(txtHolder.getMinDateField());
+        rightUpperPanel.add(this.txtHolder.getMinDateField());
         rightUpperPanel.add(new JLabel(MAX_DATE_STR));
-        rightUpperPanel.add(txtHolder.getMaxDateField());
-        rightUpperPanel.add(btnHolder.getSaveFileButton());
+        rightUpperPanel.add(this.txtHolder.getMaxDateField());
+        rightUpperPanel.add(this.btnHolder.getSaveFileButton());
         JPanel rightPanel = new JPanel(new BorderLayout());
         rightPanel.add(rightUpperPanel, BorderLayout.NORTH);
-        rightPanel.add(txtHolder.getOrganizedScrollPane(), BorderLayout.CENTER);
+        rightPanel.add(this.txtHolder.getOrganizedScrollPane(), BorderLayout.CENTER);
         
         JPanel patternAndClearPanel = new JPanel(new FlowLayout());
-        patternAndClearPanel.add(btnHolder.getClearUnOrderedTextButton());
+        patternAndClearPanel.add(this.btnHolder.getClearUnOrderedTextButton());
         JLabel dateLabel = new JLabel(DATE_PATTERN);
         patternAndClearPanel.add(dateLabel);
-        txtHolder.getRegexPatternTextField().setText(DEFAULT_REGEX);
-        txtHolder.getRegexPatternTextField().setBackground(Color.decode("0xffffff"));
-        patternAndClearPanel.add(txtHolder.getRegexPatternTextField());
-        patternAndClearPanel.add(btnHolder.getMergeButton());
+        this.txtHolder.getRegexPatternTextField().setText(DEFAULT_REGEX);
+        this.txtHolder.getRegexPatternTextField().setBackground(Color.decode("0xffffff"));
+        patternAndClearPanel.add(this.txtHolder.getRegexPatternTextField());
+        patternAndClearPanel.add(this.btnHolder.getMergeButton());
         JPanel leftPanel = new JPanel(new BorderLayout());
         leftPanel.add(patternAndClearPanel, BorderLayout.NORTH);
-        leftPanel.add(txtHolder.getUnOrganizedScrollPane(), BorderLayout.CENTER);
+        leftPanel.add(this.txtHolder.getUnOrganizedScrollPane(), BorderLayout.CENTER);
 
         bottomSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, rightPanel);
-        bottomSplitPane.setDividerLocation(configGetter.getWindowWidth()/2);
+        bottomSplitPane.setDividerLocation(this.configGetter.getWindowWidth()/2);
 
         return bottomSplitPane;
     }
@@ -80,10 +81,9 @@ public class MainWindowHolder {
         topMostPanel.setLayout(new BorderLayout());
 
         JPanel dateSection = new JPanel(new FlowLayout());
-        System.out.println("" + btnHolder.getSearchButton()==null);
-        dateSection.add(btnHolder.getSearchButton());
-        dateSection.add(txtHolder.getFileNameInputTextField());
-        dateSection.add(btnHolder.getAddFileButton());
+        dateSection.add(this.btnHolder.getSearchButton());
+        dateSection.add(this.txtHolder.getFileNameInputTextField());
+        dateSection.add(this.btnHolder.getAddFileButton());
         dateSection.setBackground(Color.WHITE);
 
         topMostPanel.add(dateSection, BorderLayout.CENTER);
@@ -92,7 +92,7 @@ public class MainWindowHolder {
     }
 
 	public ConfigurationGetter getConfigGetter() {
-		return configGetter;
+		return this.configGetter;
 	}
 
 	public void setConfigGetter(ConfigurationGetter configGetter) {
@@ -100,7 +100,7 @@ public class MainWindowHolder {
 	}
 
 	public JCheckBox getIsDescendingCheckBox() {
-		return isDescendingCheckBox;
+		return this.isDescendingCheckBox;
 	}
 
 	public void setIsDescendingCheckBox(JCheckBox isDescendingCheckBox) {
@@ -108,7 +108,7 @@ public class MainWindowHolder {
 	}
 
 	public Component getGlassPane() {
-		return glassPane;
+		return this.glassPane;
 	}
 
 	public void setGlassPane(Component glassPane) {
@@ -116,7 +116,7 @@ public class MainWindowHolder {
 	}
 
 	public JSplitPane getBottomPanel() {
-		return bottomPanel;
+		return this.bottomPanel;
 	}
 
 	public void setBottomPanel(JSplitPane bottomPanel) {
@@ -124,7 +124,7 @@ public class MainWindowHolder {
 	}
 
 	public JPanel getTopPanel() {
-		return topPanel;
+		return this.topPanel;
 	}
 
 	public void setTopPanel(JPanel topPanel) {
@@ -132,7 +132,7 @@ public class MainWindowHolder {
 	}
 
 	public LogMergerWindow getLogMergerWindow() {
-		return logMergerWindow;
+		return this.logMergerWindow;
 	}
 
 	public void setLogMergerWindow(LogMergerWindow logMergerWindow) {
@@ -140,7 +140,7 @@ public class MainWindowHolder {
 	}
 
 	public ButtonHolder getBtnHolder() {
-		return btnHolder;
+		return this.btnHolder;
 	}
 
 	public TextHolder getTxtHolder() {

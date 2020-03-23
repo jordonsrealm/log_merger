@@ -30,14 +30,14 @@ public class LogMergerWindow extends JFrame implements ComponentListener {
     	logger.debug("User directory: {}" , System.getProperty("user.dir"));
     	
         setLayout(new BorderLayout());
-        setTitle(configGetter.getApplicationName());
+        setTitle(this.configGetter.getApplicationName());
     	setExecutor(executor);
         addComponentListener(this);
         
-        windowHolder = new MainWindowHolder(this);
+        this.windowHolder = new MainWindowHolder(this);
         
-        add( windowHolder.getTopPanel(), BorderLayout.NORTH);
-        add( windowHolder.getBottomPanel(), BorderLayout.CENTER);
+        add( this.windowHolder.getTopPanel(), BorderLayout.NORTH);
+        add( this.windowHolder.getBottomPanel(), BorderLayout.CENTER);
         
         setImageIconForApplication();
         setFrameDimensionsAndBehaviors();
@@ -47,19 +47,19 @@ public class LogMergerWindow extends JFrame implements ComponentListener {
     	
 		try {
 			ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-			InputStream  inputStreamFromPng = classloader.getResourceAsStream(configGetter.getAppIconName());
+			InputStream  inputStreamFromPng = classloader.getResourceAsStream(this.configGetter.getAppIconName());
 	        
 			ImageIcon icon = new ImageIcon(ImageIO.read(inputStreamFromPng));
 			
 			setIconImage(icon.getImage());
 		} catch (IOException e) {
-			logger.error("Unable to set the image icon for application. Resource: {}", configGetter.getAppIconName(), e);
+			logger.error("Unable to set the image icon for application. Resource: {}", this.configGetter.getAppIconName(), e);
 		}
     }
 
     private void setFrameDimensionsAndBehaviors(){
-        this.setMinimumSize(new Dimension(configGetter.getWindowWidth()/2,configGetter.getWindowHeight()/2));
-        this.setSize(new Dimension(configGetter.getWindowWidth(),configGetter.getWindowHeight()));
+        this.setMinimumSize(new Dimension(this.configGetter.getWindowWidth()/2,this.configGetter.getWindowHeight()/2));
+        this.setSize(new Dimension(this.configGetter.getWindowWidth(),this.configGetter.getWindowHeight()));
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setLocationRelativeTo(null);
         this.setResizable(true);
@@ -67,7 +67,7 @@ public class LogMergerWindow extends JFrame implements ComponentListener {
     }
 
 	public ExecutorService getExecutor() {
-		return executor;
+		return this.executor;
 	}
 
 	public void setExecutor(ExecutorService executor) {
@@ -75,7 +75,7 @@ public class LogMergerWindow extends JFrame implements ComponentListener {
 	}
 
 	public ConfigurationGetter getConfigGetter() {
-		return configGetter;
+		return this.configGetter;
 	}
 
 	@Override
@@ -99,7 +99,7 @@ public class LogMergerWindow extends JFrame implements ComponentListener {
 	}
 
 	public MainWindowHolder getWindowHolder() {
-		return windowHolder;
+		return this.windowHolder;
 	}
 	
 }

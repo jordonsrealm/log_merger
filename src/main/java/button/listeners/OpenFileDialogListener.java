@@ -26,7 +26,7 @@ public class OpenFileDialogListener implements ActionListener {
 		if (returnValue == JFileChooser.APPROVE_OPTION) {
 			File selectedFile = jfc.getSelectedFile();
 
-			fileNameInputTextField.setText(selectedFile.getAbsolutePath());
+			this.fileNameInputTextField.setText(selectedFile.getAbsolutePath());
 		}
 	}
 }
