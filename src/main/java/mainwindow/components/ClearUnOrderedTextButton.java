@@ -34,7 +34,7 @@ public class ClearUnOrderedTextButton extends AbstractMainWindowContainerButton 
 		
 		processingThread.startProcessing();
 		
-		mainWindowContainer.getTxtHolder().getUnOrganizedText().setText("");
+		mainWindowContainer.getTxtHolder().getUnOrderedText().setText("");
 		
 		processingThread.stopProcessing();
 	}

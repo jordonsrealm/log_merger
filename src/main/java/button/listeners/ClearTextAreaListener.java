@@ -22,7 +22,7 @@ public class ClearTextAreaListener extends DrawingComponentListener {
 		
 		processingThread.startProcessing();
 		
-		windowHolder.getTxtHolder().getUnOrganizedText().setText("");
+		windowHolder.getTxtHolder().getUnOrderedText().setText("");
 		
 		processingThread.stopProcessing();
 	}

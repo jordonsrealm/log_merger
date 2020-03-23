@@ -55,7 +55,7 @@ public class GlassPaneSwingWorker extends SwingWorker<String, Void> {
 		String result = "";
 
 		try{
-			result =  this.mainWindowHolder.getTxtHolder().getUnOrganizedText().getText();
+			result =  this.mainWindowHolder.getTxtHolder().getUnOrderedText().getText();
 			result += IOUtils.toString(new FileInputStream(file), StandardCharsets.UTF_8);
 			result = result.strip();
 		} catch(IOException exx){
@@ -73,13 +73,13 @@ public class GlassPaneSwingWorker extends SwingWorker<String, Void> {
 	@Override
 	protected void done() {
 		AddFileButton selectFileBtn = this.mainWindowHolder.getBtnHolder().getAddFileButton();
-		JTextArea unOrganizedText = this.mainWindowHolder.getTxtHolder().getUnOrganizedText();
+		JTextArea unOrganizedText = this.mainWindowHolder.getTxtHolder().getUnOrderedText();
 		JTextField regexPatternTextField = this.mainWindowHolder.getTxtHolder().getRegexPatternTextField();
-		JScrollPane unOrganizedScrollPane = this.mainWindowHolder.getTxtHolder().getUnOrganizedScrollPane();
+		JScrollPane unOrganizedScrollPane = this.mainWindowHolder.getTxtHolder().getUnOrderedScrollPane();
 
 		try {
-			this.mainWindowHolder.getTxtHolder().getUnOrganizedText().setText(get());
-			this.mainWindowHolder.getTxtHolder().getUnOrganizedText().setCaretPosition(0);
+			this.mainWindowHolder.getTxtHolder().getUnOrderedText().setText(get());
+			this.mainWindowHolder.getTxtHolder().getUnOrderedText().setCaretPosition(0);
 			
 			removeHighlights(unOrganizedText);
 			highlight(unOrganizedText, regexPatternTextField.getText());

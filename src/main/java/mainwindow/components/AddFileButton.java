@@ -54,9 +54,9 @@ public class AddFileButton extends AbstractMainWindowContainerButton {
 		
 		if(!windowHolder.getTxtHolder().getFileNameInputTextField().getText().isEmpty()) {
 			SearchButton selectFileBtn = windowHolder.getBtnHolder().getSearchButton();
-			JTextArea unOrganizedText = windowHolder.getTxtHolder().getUnOrganizedText();
+			JTextArea unOrganizedText = windowHolder.getTxtHolder().getUnOrderedText();
 			JTextField fileNameInputTextField = windowHolder.getTxtHolder().getFileNameInputTextField();
-			JScrollPane unOrganizedScrollPane = windowHolder.getTxtHolder().getUnOrganizedScrollPane();
+			JScrollPane unOrganizedScrollPane = windowHolder.getTxtHolder().getUnOrderedScrollPane();
 
 			SwingWorker<String, Void> worker = new SwingWorker<String, Void>() {
 				ProcessLogo glassPaneDrawingThread = new ProcessLogo(windowHolder, CenteredPointType.UN_ORDERED_TEXT_AREA);

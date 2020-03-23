@@ -56,7 +56,7 @@ public class MainWindowHolder {
         rightUpperPanel.add(this.btnHolder.getSaveFileButton());
         JPanel rightPanel = new JPanel(new BorderLayout());
         rightPanel.add(rightUpperPanel, BorderLayout.NORTH);
-        rightPanel.add(this.txtHolder.getOrganizedScrollPane(), BorderLayout.CENTER);
+        rightPanel.add(this.txtHolder.getOrderedScrollPane(), BorderLayout.CENTER);
         
         JPanel patternAndClearPanel = new JPanel(new FlowLayout());
         patternAndClearPanel.add(this.btnHolder.getClearUnOrderedTextButton());
@@ -68,7 +68,7 @@ public class MainWindowHolder {
         patternAndClearPanel.add(this.btnHolder.getMergeButton());
         JPanel leftPanel = new JPanel(new BorderLayout());
         leftPanel.add(patternAndClearPanel, BorderLayout.NORTH);
-        leftPanel.add(this.txtHolder.getUnOrganizedScrollPane(), BorderLayout.CENTER);
+        leftPanel.add(this.txtHolder.getUnOrderedScrollPane(), BorderLayout.CENTER);
 
         bottomSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, rightPanel);
         bottomSplitPane.setDividerLocation(this.configGetter.getWindowWidth()/2);

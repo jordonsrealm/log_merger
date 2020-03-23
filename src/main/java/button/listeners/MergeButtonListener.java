@@ -30,7 +30,7 @@ public class MergeButtonListener extends DrawingComponentListener {
     	
     	btnPressed.setEnabled(false);
     	
-    	windowHolder.getTxtHolder().getOrganizedText().setText("");
+    	windowHolder.getTxtHolder().getOrderedText().setText("");
     	
     	ProcessLogo processingThread = new ProcessLogo( windowHolder, CenteredPointType.ORDERED_TEXT_AREA);
     	

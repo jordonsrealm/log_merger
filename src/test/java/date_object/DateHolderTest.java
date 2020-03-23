@@ -8,7 +8,7 @@ import java.util.GregorianCalendar;
 
 import org.junit.Test;
 
-import date.object.DateHolder;
+import date.holder.DateHolder;
 
 
 public class DateHolderTest {

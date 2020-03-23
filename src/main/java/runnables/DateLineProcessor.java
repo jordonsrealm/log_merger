@@ -3,7 +3,7 @@ package runnables;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-import date.line.DateLineOrganizer;
+import date.line.organizer.DateLineOrganizer;
 import mainwindow.holder.MainWindowHolder;
 
 
@@ -19,7 +19,7 @@ public class DateLineProcessor implements Runnable {
 	
 	@Override
 	public void run() {
-		JTextArea organizedTextArea = mainWindowContainer.getTxtHolder().getOrganizedText();
+		JTextArea organizedTextArea = mainWindowContainer.getTxtHolder().getOrderedText();
 		
 		DateLineOrganizer dateOrganizer = new DateLineOrganizer(mainWindowContainer).orderDateLines().handleDateBoundariesReturnList();
         
