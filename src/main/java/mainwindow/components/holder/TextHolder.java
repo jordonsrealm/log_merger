@@ -8,6 +8,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import mainwindow.components.LineNumber;
+import mainwindow.components.PreviewScrollPane;
 
 
 public class TextHolder {
@@ -23,18 +24,23 @@ public class TextHolder {
     private JTextArea unOrderedText = new JTextArea(BLANK_STR,TEXT_AREA_ROWS_CNT,TEXT_AREA_COLUMNS_CNT);
     private JTextArea orderedText = new JTextArea(BLANK_STR,TEXT_AREA_ROWS_CNT,TEXT_AREA_COLUMNS_CNT);
     private JTextField regexPatternTextField = new JTextField(REGEX_PATTERN_COLUMN_CNT);
-    private JScrollPane unOrderedScrollPane;
+    private PreviewScrollPane unOrderedScrollPane;
     private JScrollPane orderedScrollPane	= new JScrollPane(this.orderedText);
     private JTextField minDateField = new JTextField(TEXT_FIELD_COLUMNS_CNT);
     private JTextField maxDateField = new JTextField(TEXT_FIELD_COLUMNS_CNT);
     
     
     public TextHolder() {
-    	JPanel panel = new JPanel(new BorderLayout());
-		panel.add(new LineNumber(), BorderLayout.WEST);
-		panel.add(this.unOrderedText, BorderLayout.CENTER);
+    	JPanel leftPanel = new JPanel(new BorderLayout());
+		leftPanel.add(new LineNumber(), BorderLayout.WEST);
+		leftPanel.add(this.unOrderedText, BorderLayout.CENTER);
 		
-    	unOrderedScrollPane = new JScrollPane(panel);
+    	unOrderedScrollPane = new PreviewScrollPane(leftPanel);
+    	
+    	JPanel rightPanel = new JPanel(new BorderLayout());
+    	rightPanel.add(new LineNumber(), BorderLayout.WEST);
+    	rightPanel.add(this.orderedText, BorderLayout.CENTER);
+    	orderedScrollPane = new PreviewScrollPane(rightPanel);
 	}
     
 	public JTextField getFileNameInputTextField() {
