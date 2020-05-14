@@ -1,14 +1,10 @@
 package mainwindow.components;
 
 import java.awt.Component;
-import java.awt.Graphics;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
-import java.awt.image.BufferedImage;
-
-import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
@@ -17,13 +13,11 @@ import javax.swing.SwingUtilities;
 public class PreviewScrollPane extends JScrollPane implements MouseWheelListener, AdjustmentListener {
 
 	private static final long serialVersionUID = 1L;
-	private JPanel panel;
 	private static int newValue = 0;
 	
 	
 	public PreviewScrollPane(Component component) {
 		super(component);
-		this.panel = (JPanel) component;
 		addMouseWheelListener(this);
 		getVerticalScrollBar().addAdjustmentListener(this);
 	}
@@ -52,8 +46,6 @@ public class PreviewScrollPane extends JScrollPane implements MouseWheelListener
 			
 			bar.setValue(PreviewScrollPane.newValue);
 		});
-		
-		//System.out.println("\nnewValue: " + newValue +"\nmaxValue: " + maxValue + "\ncurrentValue: " + currentValue + "\nunitsToScroll: " + unitsToScroll + "\nscrollAmout: " + scrollAmount + "\nwheelRotation: " + wheelRotation);
 	}
 
 	@Override

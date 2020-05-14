@@ -29,15 +29,13 @@ public class LineNumber extends JComponent implements MouseMotionListener, Mouse
 		addMouseListener(this);
 		addMouseMotionListener(this);
 		setPreferredSize(setDimension);
-
 	}
-	
 	
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponents(g);
 		
-		strHeight = getGraphics().getFontMetrics().getHeight();
+		int strHeight = getGraphics().getFontMetrics().getHeight();
 		
 		fm = g.getFontMetrics();
 		
