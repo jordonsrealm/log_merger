@@ -16,9 +16,7 @@ public class LogMerger {
 	static ExecutorService logMergerExecutor;
 	static LogMergerWindow logMergerWindow;
 	
-	
 	private LogMerger() {}
-	
 	
 	public static void main(String[] args) {
 

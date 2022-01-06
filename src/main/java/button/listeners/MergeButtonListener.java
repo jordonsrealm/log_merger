@@ -2,6 +2,9 @@ package button.listeners;
 
 import javax.swing.*;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 //import org.slf4j.Logger;
 //import org.slf4j.LoggerFactory;
 
@@ -16,7 +19,7 @@ import java.util.concurrent.ExecutorService;
 
 public class MergeButtonListener extends DrawingComponentListener {
 	
-	//private static final Logger logger = LoggerFactory.getLogger(MergeButtonListener.class);
+	private static final Logger logger = LoggerFactory.getLogger(MergeButtonListener.class);
 
     public MergeButtonListener(MainWindowHolder mainWindowContainer, ExecutorService executorService){
     	super(mainWindowContainer, executorService);
@@ -24,6 +27,7 @@ public class MergeButtonListener extends DrawingComponentListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+    	logger.debug("Pressed");
     	btnPressed = (JButton) e.getSource();
     	
     	DateLineProcessor processor = new DateLineProcessor(windowHolder);

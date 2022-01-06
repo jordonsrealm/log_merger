@@ -21,9 +21,9 @@ public class LogMergerWindow extends JFrame implements ComponentListener {
 	private static final long serialVersionUID = 1L;
 	private static final Logger logger         = LoggerFactory.getLogger(LogMergerWindow.class);
 	
-    private ConfigurationGetter configGetter   = new ConfigurationGetter();
-    private MainWindowHolder windowHolder;
-    private ExecutorService executor;
+    private transient ConfigurationGetter configGetter = new ConfigurationGetter();
+    private transient MainWindowHolder windowHolder;
+    private transient ExecutorService executor;
     
 
     public LogMergerWindow(ExecutorService executor) {
@@ -60,7 +60,7 @@ public class LogMergerWindow extends JFrame implements ComponentListener {
     private void setFrameDimensionsAndBehaviors(){
         this.setMinimumSize(new Dimension(this.configGetter.getWindowWidth()/2,this.configGetter.getWindowHeight()/2));
         this.setSize(new Dimension(this.configGetter.getWindowWidth(),this.configGetter.getWindowHeight()));
-        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         this.setLocationRelativeTo(null);
         this.setResizable(true);
         this.setVisible(true);

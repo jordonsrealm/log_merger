@@ -78,7 +78,8 @@ public class LineNumber extends JComponent implements MouseMotionListener, Mouse
 		
 		SwingUtilities.invokeLater(()->{
 			movedPoint = e.getPoint();
-			repaint(0, (e.getPoint().y/strHeight)*strHeight, getWidth(), strHeight+1);
+			float quotient = strHeight==0?0:e.getPoint().y/strHeight;
+			repaint(0, (int)(quotient)*strHeight, getWidth(), strHeight+1);
 		});
 	}
 
@@ -102,7 +103,8 @@ public class LineNumber extends JComponent implements MouseMotionListener, Mouse
 		
 		SwingUtilities.invokeLater(()->{
 			movedPoint = e.getPoint();
-			repaint(0, (e.getPoint().y/strHeight)*strHeight - (strHeight), getWidth(), (strHeight+10)*2);
+			float quotient = strHeight==0?0:e.getPoint().y/strHeight;
+			repaint(0, (int)(quotient)*strHeight - (strHeight), getWidth(), (strHeight+10)*2);
 		});
 	}
 

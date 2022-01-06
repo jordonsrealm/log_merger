@@ -16,11 +16,6 @@ public class DatedLine {
     	this.embeddedDate 			= embeddedDate;
     }
 
-    public DatedLine(Date theDate, String ogStr){
-        this.originalStringWithDate = ogStr;
-        this.embeddedDate = theDate;
-    }
-
     public String getOriginalStringWithDate() {
         return originalStringWithDate;
     }

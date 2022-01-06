@@ -19,9 +19,11 @@ public class ConfigurationGetter {
 	private String appIconName;
 	private String highlightHexColor;
 	
-	private final String CONFIG_PROPERTIES_FILENAME = "config.properties";
+	private static final String CONFIG_PROPERTIES_FILENAME = "config.properties";
 	
 	class Constants{
+		private Constants() {}
+		
 		static final String APPLICATION_NAME = "application_name";
 		static final String WINDOW_WIDTH = "window_width";
 		static final String WINDOW_HEIGHT = "window_height";
