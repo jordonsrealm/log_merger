@@ -18,7 +18,7 @@
             <fileNamePattern>log_file.%d{yyyy-MM-dd}.log</fileNamePattern>
 
             <!-- keep 1 days' worth of history -->
-            <maxHistory>5</maxHistory>
+            <maxHistory>30</maxHistory>
         </rollingPolicy>
 
         <encoder>

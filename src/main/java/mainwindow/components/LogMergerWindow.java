@@ -19,18 +19,15 @@ import java.awt.*;
 public class LogMergerWindow extends JFrame implements ComponentListener {
 
 	private static final long serialVersionUID = 1L;
-	private static final Logger logger         = LoggerFactory.getLogger(LogMergerWindow.class);
-	
-    private transient ConfigurationGetter configGetter = new ConfigurationGetter();
+	private static final Logger logger = LoggerFactory.getLogger(LogMergerWindow.class);
+	;
     private transient MainWindowHolder windowHolder;
     private transient ExecutorService executor;
     
 
     public LogMergerWindow(ExecutorService executor) {
-    	logger.debug("User directory: {}" , System.getProperty("user.dir"));
-    	
-        setLayout(new BorderLayout());
-        setTitle(this.configGetter.getApplicationName());
+    	setLayout(new BorderLayout());
+        setTitle(ConfigurationGetter.instance().getApplicationName());
     	setExecutor(executor);
         addComponentListener(this);
         
@@ -46,20 +43,17 @@ public class LogMergerWindow extends JFrame implements ComponentListener {
     private void setImageIconForApplication() {
     	
 		try {
-			ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-			InputStream  inputStreamFromPng = classloader.getResourceAsStream(this.configGetter.getAppIconName());
-	        
+			InputStream  inputStreamFromPng = getClass().getClassLoader().getResourceAsStream(ConfigurationGetter.instance().getAppIconName());
 			ImageIcon icon = new ImageIcon(ImageIO.read(inputStreamFromPng));
-			
 			setIconImage(icon.getImage());
 		} catch (IOException e) {
-			logger.error("Unable to set the image icon for application. Resource: {}", this.configGetter.getAppIconName(), e);
+			logger.error("Unable to set the image icon for application. Resource: {}", ConfigurationGetter.instance().getAppIconName(), e);
 		}
     }
 
     private void setFrameDimensionsAndBehaviors(){
-        this.setMinimumSize(new Dimension(this.configGetter.getWindowWidth()/2,this.configGetter.getWindowHeight()/2));
-        this.setSize(new Dimension(this.configGetter.getWindowWidth(),this.configGetter.getWindowHeight()));
+        this.setMinimumSize(new Dimension(ConfigurationGetter.instance().getWindowWidth()/2,ConfigurationGetter.instance().getWindowHeight()/2));
+        this.setSize(new Dimension(ConfigurationGetter.instance().getWindowWidth(),ConfigurationGetter.instance().getWindowHeight()));
         this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         this.setLocationRelativeTo(null);
         this.setResizable(true);
@@ -72,10 +66,6 @@ public class LogMergerWindow extends JFrame implements ComponentListener {
 
 	public void setExecutor(ExecutorService executor) {
 		this.executor = executor;
-	}
-
-	public ConfigurationGetter getConfigGetter() {
-		return this.configGetter;
 	}
 
 	@Override

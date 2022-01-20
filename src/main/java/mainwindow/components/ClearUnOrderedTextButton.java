@@ -16,6 +16,7 @@ public class ClearUnOrderedTextButton extends AbstractMainWindowContainerButton 
     private static final String BTN_TITLE = "X";
 	private static final Dimension setDim = new Dimension(25,25);
     private static final String CLEAR_TOOLTIP = "Clear Text Area";
+    private MainWindowHolder mainWindowHolder;
 	
 
 	public ClearUnOrderedTextButton(LogMergerWindow mainWindow) {
@@ -24,17 +25,17 @@ public class ClearUnOrderedTextButton extends AbstractMainWindowContainerButton 
 		this.setMinimumSize(setDim);
 		this.setMaximumSize(setDim);
 	    setToolTipText(CLEAR_TOOLTIP);
+	    mainWindowHolder = mainWindow.getWindowHolder();
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		
-		MainWindowHolder mainWindowContainer = getLogMergerWindow().getWindowHolder();
-		ProcessLogo processingThread = new ProcessLogo( mainWindowContainer, CenteredPointType.UN_ORDERED_TEXT_AREA);
+		ProcessLogo processingThread = new ProcessLogo( mainWindowHolder, 
+														CenteredPointType.UN_ORDERED_TEXT_AREA);
 		
 		processingThread.startProcessing();
 		
-		mainWindowContainer.getTxtHolder().getUnOrderedText().setText("");
+		mainWindowHolder.setUnorderedText("");
 		
 		processingThread.stopProcessing();
 	}

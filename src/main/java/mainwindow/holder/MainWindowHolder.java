@@ -15,15 +15,13 @@ import java.awt.FlowLayout;
 
 
 public class MainWindowHolder {
-
-    private ConfigurationGetter configGetter = new ConfigurationGetter();
     
     private static final String DEFAULT_REGEX = "yyyy-MM-dd HH:mm:ss.SSS";
     private static final String DATE_PATTERN = "DATE PATTERN";
     private static final String MIN_DATE_STR = "Min Date";
     private static final String MAX_DATE_STR = "Max Date";
 
-    private JCheckBox isDescendingCheckBox = new DescendingCheckBox(this);
+    private JCheckBox descendingCheckBox = new DescendingCheckBox(this);
     private TextHolder txtHolder = new TextHolder();
     private ButtonHolder btnHolder;
     private Component glassPane;
@@ -47,8 +45,8 @@ public class MainWindowHolder {
         JSplitPane bottomSplitPane;
         
         JPanel rightUpperPanel = new JPanel(new FlowLayout());
-        this.isDescendingCheckBox = new DescendingCheckBox(this);
-        rightUpperPanel.add(this.isDescendingCheckBox);
+        setDescendingCheckBox(new DescendingCheckBox(this));
+        rightUpperPanel.add(this.descendingCheckBox);
         rightUpperPanel.add(new JLabel(MIN_DATE_STR));
         rightUpperPanel.add(this.txtHolder.getMinDateField());
         rightUpperPanel.add(new JLabel(MAX_DATE_STR));
@@ -71,7 +69,7 @@ public class MainWindowHolder {
         leftPanel.add(this.txtHolder.getUnOrderedScrollPane(), BorderLayout.CENTER);
 
         bottomSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, rightPanel);
-        bottomSplitPane.setDividerLocation(this.configGetter.getWindowWidth()/2);
+        bottomSplitPane.setDividerLocation(ConfigurationGetter.instance().getWindowWidth()/2);
 
         return bottomSplitPane;
     }
@@ -91,20 +89,12 @@ public class MainWindowHolder {
         return topMostPanel;
     }
 
-	public ConfigurationGetter getConfigGetter() {
-		return this.configGetter;
+	public JCheckBox getDescendingCheckBox() {
+		return this.descendingCheckBox;
 	}
 
-	public void setConfigGetter(ConfigurationGetter configGetter) {
-		this.configGetter = configGetter;
-	}
-
-	public JCheckBox getIsDescendingCheckBox() {
-		return this.isDescendingCheckBox;
-	}
-
-	public void setIsDescendingCheckBox(JCheckBox isDescendingCheckBox) {
-		this.isDescendingCheckBox = isDescendingCheckBox;
+	public void setDescendingCheckBox(JCheckBox isDescendingCheckBox) {
+		this.descendingCheckBox = isDescendingCheckBox;
 	}
 
 	public Component getGlassPane() {
@@ -146,5 +136,36 @@ public class MainWindowHolder {
 	public TextHolder getTxtHolder() {
 		return txtHolder;
 	}
-
+	
+	public void setUnorderedText(String text) {
+		getTxtHolder().getUnOrderedText().setText(text);
+	}
+	
+	public String getUnorderedText() {
+		return getTxtHolder().getUnOrderedText().getText();
+	}
+	
+	public void setOrderedText(String newText) {
+		getTxtHolder().getOrderedText().setText(newText);
+	}
+	
+	public String getOrderedText() {
+		return getTxtHolder().getOrderedText().getText();
+	}
+	
+	public void setFileNameInputTextField(String newText) {
+		getTxtHolder().getFileNameInputTextField().setText(newText);
+	}
+	
+	public String getFileNameInputTextField() {
+		return getTxtHolder().getFileNameInputTextField().getText();
+	}
+	
+	public void setUnOrderedHorizontalScrollBar(int newVal) {
+		getTxtHolder().getUnOrderedScrollPane().getHorizontalScrollBar().setValue(newVal);
+	}
+	
+	public void setSearchBtnEnabled(boolean enabled) {
+		getBtnHolder().getSearchButton().setEnabled(enabled);
+	}
 }

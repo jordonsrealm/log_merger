@@ -32,7 +32,7 @@ public class DateLineOrganizer {
     	
     	organizeUsingFormat(dateFormat);
     	
-    	DateHolder.setDescendingOrder(windowHolder.getIsDescendingCheckBox().isSelected());
+    	DateHolder.setDescendingOrder(windowHolder.getDescendingCheckBox().isSelected());
     	
     	Collections.sort(this.contentsAsDateLines);
     	

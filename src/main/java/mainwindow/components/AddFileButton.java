@@ -11,9 +11,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
 import javax.swing.SwingWorker;
 import javax.swing.text.Document;
 import javax.swing.text.Highlighter;
@@ -24,6 +22,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import centerpoint.object.CenteredPointType;
+import configuration.ConfigurationGetter;
 import highlighter.UnOrganizedHighlighter;
 import mainwindow.holder.MainWindowHolder;
 import threads.ProcessLogo;
@@ -34,7 +33,7 @@ public class AddFileButton extends AbstractMainWindowContainerButton {
 	private static final long serialVersionUID = 1L;
 	private static final Dimension setDim = new Dimension( 25, 25);
 	private static final Logger logger = LoggerFactory.getLogger(AddFileButton.class);
-	private static UnOrganizedHighlighter myHighlightPainter;
+	private static UnOrganizedHighlighter myHighlightPainter = new UnOrganizedHighlighter(Color.decode(ConfigurationGetter.instance().getHighlightHexColor()));
 	private static final String ADD_FILE_TOOL_TIP = "Add File";
 	
 	
@@ -43,29 +42,23 @@ public class AddFileButton extends AbstractMainWindowContainerButton {
 		this.setPreferredSize(setDim);
 		this.setMinimumSize(setDim);
 		this.setMaximumSize(setDim);
-		logMergerWindow.getConfigGetter();
-		myHighlightPainter = new UnOrganizedHighlighter(Color.decode(logMergerWindow.getConfigGetter().getHighlightHexColor()));
 		setToolTipText(ADD_FILE_TOOL_TIP);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		MainWindowHolder windowHolder = getLogMergerWindow().getWindowHolder();
+		MainWindowHolder windowHolder = getWindowHolder();
 		
-		if(!windowHolder.getTxtHolder().getFileNameInputTextField().getText().isEmpty()) {
-			SearchButton selectFileBtn = windowHolder.getBtnHolder().getSearchButton();
+		if(!windowHolder.getFileNameInputTextField().isEmpty()) {
 			JTextArea unOrganizedText = windowHolder.getTxtHolder().getUnOrderedText();
-			JTextField fileNameInputTextField = windowHolder.getTxtHolder().getFileNameInputTextField();
-			JScrollPane unOrganizedScrollPane = windowHolder.getTxtHolder().getUnOrderedScrollPane();
 
 			SwingWorker<String, Void> worker = new SwingWorker<String, Void>() {
 				ProcessLogo glassPaneDrawingThread = new ProcessLogo(windowHolder, CenteredPointType.UN_ORDERED_TEXT_AREA);
 
-
 				public String doInBackground() throws IOException {
-					selectFileBtn.setEnabled(false);
+					windowHolder.setSearchBtnEnabled(false);
 
-					File file = new File(fileNameInputTextField.getText());
+					File file = new File(windowHolder.getFileNameInputTextField());
 
 					glassPaneDrawingThread.startProcessing();
 
@@ -91,14 +84,14 @@ public class AddFileButton extends AbstractMainWindowContainerButton {
 						removeHighlights(unOrganizedText);
 						highlight(unOrganizedText, windowHolder.getTxtHolder().getRegexPatternTextField().getText());
 
-						unOrganizedScrollPane.getHorizontalScrollBar().setValue(0);
+						windowHolder.setUnOrderedHorizontalScrollBar(0);
 
 						glassPaneDrawingThread.stopProcessing();
 
-						selectFileBtn.setEnabled(true);
+						windowHolder.setSearchBtnEnabled(true);
 						unOrganizedText.setEnabled(true);
 					} catch (Exception ex) {
-						ex.printStackTrace();
+						logger.error("Exception was caught after calling done on swing worker: {}", ex.getCause().getMessage());
 					}
 				}
 			};

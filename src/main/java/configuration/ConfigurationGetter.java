@@ -18,6 +18,7 @@ public class ConfigurationGetter {
 	private Integer windowHeight;
 	private String appIconName;
 	private String highlightHexColor;
+	private static ConfigurationGetter configurationGetter;
 	
 	private static final String CONFIG_PROPERTIES_FILENAME = "config.properties";
 	
@@ -31,7 +32,7 @@ public class ConfigurationGetter {
 		static final String HIGHLIGHT_HEX_COLOR = "highlight_hex_color";
 	}
 	
-	public ConfigurationGetter() {
+	private ConfigurationGetter() {
 		
 		try {
 			getPropValues();
@@ -40,7 +41,15 @@ public class ConfigurationGetter {
 		}
 	}
 	
-	private ConfigurationGetter getPropValues() throws IOException {
+	public static ConfigurationGetter instance() {
+		if(configurationGetter == null) {
+			configurationGetter = new ConfigurationGetter();
+		}
+		
+		return configurationGetter;
+	}
+	
+	private void getPropValues() throws IOException {
 		 
 		InputStream inputStream = null;
 		
@@ -71,8 +80,6 @@ public class ConfigurationGetter {
 		} finally {
 			inputStream.close();
 		}
-		
-		return this;
 	}
 
 	public String getApplicationName() {
