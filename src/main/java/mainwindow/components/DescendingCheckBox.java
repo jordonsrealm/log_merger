@@ -21,7 +21,7 @@ public class DescendingCheckBox extends AbstractListeningCheckBox {
 	@Override
 	public void itemStateChanged(ItemEvent e) {
     	ProcessLogo processingThread = new ProcessLogo( windowHolder, CenteredPointType.ORDERED_TEXT_AREA);
-		windowHolder.getTxtHolder().getOrderedText().setText("");
+		windowHolder.setOrderedText("");
 		processingThread.startProcessing();
 		DateLineProcessor dateLinesRunnable = new DateLineProcessor(windowHolder);
 		dateLinesRunnable.run();

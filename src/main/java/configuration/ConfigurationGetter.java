@@ -14,9 +14,9 @@ public class ConfigurationGetter {
 
 	private static final Logger logger = LoggerFactory.getLogger(ConfigurationGetter.class);
 	private String applicationName;
-	private Integer windowWidth;
-	private Integer windowHeight;
 	private String appIconName;
+	private Integer configWindowW;
+	private Integer configWindowH;
 	private String highlightHexColor;
 	private static ConfigurationGetter configurationGetter;
 	
@@ -68,18 +68,34 @@ public class ConfigurationGetter {
  
 			// get the property value and print it out
 			applicationName = prop.getProperty(Constants.APPLICATION_NAME);
-			windowWidth = Integer.parseInt(prop.getProperty(Constants.WINDOW_WIDTH));
-			windowHeight = Integer.parseInt(prop.getProperty(Constants.WINDOW_HEIGHT));
+			configWindowW = Integer.parseInt(prop.getProperty(Constants.WINDOW_WIDTH));
+			configWindowH = Integer.parseInt(prop.getProperty(Constants.WINDOW_HEIGHT));
 			appIconName = prop.getProperty(Constants.APP_ICON_NAME);
 			highlightHexColor = prop.getProperty(Constants.HIGHLIGHT_HEX_COLOR);
  
-			String result = "Property List = " + applicationName + ", " + windowWidth + ", " + windowHeight + ", " + appIconName + "," + highlightHexColor;
+			String result = "Property List = " + applicationName + ", " + configWindowW + ", " + configWindowH + ", " + appIconName + "," + highlightHexColor;
 			System.out.println(result + "\nProgram Ran on " + time);
 		} catch (Exception e) {
 			System.out.println("Exception: " + e);
 		} finally {
 			inputStream.close();
 		}
+	}
+	
+	public Integer getConfigWindowW() {
+		return configWindowW;
+	}
+
+	public void setConfigWindowW(Integer configWindowW) {
+		this.configWindowW = configWindowW;
+	}
+
+	public Integer getConfigWindowH() {
+		return configWindowH;
+	}
+
+	public void setConfigWindowH(Integer configWindowH) {
+		this.configWindowH = configWindowH;
 	}
 
 	public String getApplicationName() {
@@ -89,23 +105,7 @@ public class ConfigurationGetter {
 	public void setApplicationName(String applicationName) {
 		this.applicationName = applicationName;
 	}
-
-	public Integer getWindowWidth() {
-		return windowWidth;
-	}
-
-	public void setWindowWidth(Integer windowWidth) {
-		this.windowWidth = windowWidth;
-	}
-
-	public Integer getWindowHeight() {
-		return windowHeight;
-	}
-
-	public void setWindowHeight(Integer windowHeight) {
-		this.windowHeight = windowHeight;
-	}
-
+	
 	public String getAppIconName() {
 		return appIconName;
 	}
@@ -121,5 +121,4 @@ public class ConfigurationGetter {
 	public void setHighlightHexColor(String highlightHexColor) {
 		this.highlightHexColor = highlightHexColor;
 	}
-	
 }

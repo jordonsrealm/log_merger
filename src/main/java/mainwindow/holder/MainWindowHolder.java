@@ -2,99 +2,31 @@ package mainwindow.holder;
 
 import javax.swing.*;
 
-import configuration.ConfigurationGetter;
-import mainwindow.components.DescendingCheckBox;
 import mainwindow.components.LogMergerWindow;
 import mainwindow.components.holder.ButtonHolder;
+import mainwindow.components.holder.CheckBoxHolder;
 import mainwindow.components.holder.TextHolder;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Component;
-import java.awt.FlowLayout;
 
 
 public class MainWindowHolder {
     
-    private static final String DEFAULT_REGEX = "yyyy-MM-dd HH:mm:ss.SSS";
-    private static final String DATE_PATTERN = "DATE PATTERN";
-    private static final String MIN_DATE_STR = "Min Date";
-    private static final String MAX_DATE_STR = "Max Date";
-
-    private JCheckBox descendingCheckBox = new DescendingCheckBox(this);
     private TextHolder txtHolder = new TextHolder();
     private ButtonHolder btnHolder;
+    private CheckBoxHolder checkBoxHolder;
+    
     private Component glassPane;
-    private JSplitPane bottomPanel;
     private JPanel topPanel;
+    private JSplitPane bottomPanel;
     private LogMergerWindow logMergerWindow;
     
     
     public MainWindowHolder(LogMergerWindow logMergerWindow) {
-    	
-        this.glassPane 		 = logMergerWindow.getGlassPane();
     	this.logMergerWindow = logMergerWindow;
-    	
-    	this.btnHolder 		 = new ButtonHolder(logMergerWindow);
-
-        this.topPanel        = createTopPanel();
-        this.bottomPanel 	 = createBottomPanel();
-	}
-    
-    public JSplitPane createBottomPanel(){
-        JSplitPane bottomSplitPane;
-        
-        JPanel rightUpperPanel = new JPanel(new FlowLayout());
-        setDescendingCheckBox(new DescendingCheckBox(this));
-        rightUpperPanel.add(this.descendingCheckBox);
-        rightUpperPanel.add(new JLabel(MIN_DATE_STR));
-        rightUpperPanel.add(this.txtHolder.getMinDateField());
-        rightUpperPanel.add(new JLabel(MAX_DATE_STR));
-        rightUpperPanel.add(this.txtHolder.getMaxDateField());
-        rightUpperPanel.add(this.btnHolder.getSaveFileButton());
-        JPanel rightPanel = new JPanel(new BorderLayout());
-        rightPanel.add(rightUpperPanel, BorderLayout.NORTH);
-        rightPanel.add(this.txtHolder.getOrderedScrollPane(), BorderLayout.CENTER);
-        
-        JPanel patternAndClearPanel = new JPanel(new FlowLayout());
-        patternAndClearPanel.add(this.btnHolder.getClearUnOrderedTextButton());
-        JLabel dateLabel = new JLabel(DATE_PATTERN);
-        patternAndClearPanel.add(dateLabel);
-        this.txtHolder.getRegexPatternTextField().setText(DEFAULT_REGEX);
-        this.txtHolder.getRegexPatternTextField().setBackground(Color.decode("0xffffff"));
-        patternAndClearPanel.add(this.txtHolder.getRegexPatternTextField());
-        patternAndClearPanel.add(this.btnHolder.getMergeButton());
-        JPanel leftPanel = new JPanel(new BorderLayout());
-        leftPanel.add(patternAndClearPanel, BorderLayout.NORTH);
-        leftPanel.add(this.txtHolder.getUnOrderedScrollPane(), BorderLayout.CENTER);
-
-        bottomSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, rightPanel);
-        bottomSplitPane.setDividerLocation(ConfigurationGetter.instance().getWindowWidth()/2);
-
-        return bottomSplitPane;
-    }
-    
-    public JPanel createTopPanel() {
-        JPanel topMostPanel = new JPanel();
-        topMostPanel.setLayout(new BorderLayout());
-
-        JPanel dateSection = new JPanel(new FlowLayout());
-        dateSection.add(this.btnHolder.getSearchButton());
-        dateSection.add(this.txtHolder.getFileNameInputTextField());
-        dateSection.add(this.btnHolder.getAddFileButton());
-        dateSection.setBackground(Color.WHITE);
-
-        topMostPanel.add(dateSection, BorderLayout.CENTER);
-        
-        return topMostPanel;
-    }
-
-	public JCheckBox getDescendingCheckBox() {
-		return this.descendingCheckBox;
-	}
-
-	public void setDescendingCheckBox(JCheckBox isDescendingCheckBox) {
-		this.descendingCheckBox = isDescendingCheckBox;
+        this.glassPane = logMergerWindow.getGlassPane();
+    	this.btnHolder = new ButtonHolder(logMergerWindow);
+    	this.checkBoxHolder = new CheckBoxHolder(logMergerWindow);
 	}
 
 	public Component getGlassPane() {
@@ -137,6 +69,10 @@ public class MainWindowHolder {
 		return txtHolder;
 	}
 	
+	public CheckBoxHolder getCheckBoxHolder() {
+		return checkBoxHolder;
+	}
+
 	public void setUnorderedText(String text) {
 		getTxtHolder().getUnOrderedText().setText(text);
 	}

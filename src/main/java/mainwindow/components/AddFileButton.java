@@ -35,6 +35,7 @@ public class AddFileButton extends AbstractMainWindowContainerButton {
 	private static final Logger logger = LoggerFactory.getLogger(AddFileButton.class);
 	private static UnOrganizedHighlighter myHighlightPainter = new UnOrganizedHighlighter(Color.decode(ConfigurationGetter.instance().getHighlightHexColor()));
 	private static final String ADD_FILE_TOOL_TIP = "Add File";
+	private static final String DBL_DIG_STR = "\\d\\d";
 	
 	
 	public AddFileButton(LogMergerWindow logMergerWindow) {
@@ -104,12 +105,12 @@ public class AddFileButton extends AbstractMainWindowContainerButton {
 	public static void highlight(JTextComponent textComp, String pattern) throws Exception {
 		removeHighlights(textComp);
 		
-		String regex = pattern.replace("dd", "\\d\\d")
-		  .replace("yyyy", "\\d\\d\\d\\d")
-		  .replace("MM", "\\d\\d")
-		  .replace("HH", "\\d\\d")
-		  .replace("mm", "\\d\\d")
-		  .replace("ss", "\\d\\d")
+		String regex = pattern.replace("dd", DBL_DIG_STR)
+		  .replace("yyyy", DBL_DIG_STR + DBL_DIG_STR)
+		  .replace("MM", DBL_DIG_STR)
+		  .replace("HH", DBL_DIG_STR)
+		  .replace("mm", DBL_DIG_STR)
+		  .replace("ss", DBL_DIG_STR)
 		  .replace("SSS", "\\d\\d\\d")
 		  .replace(":", "\\:")
 		  .replace(".","\\.");
