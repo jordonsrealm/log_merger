@@ -79,14 +79,14 @@ public class DateLineOrganizer {
     }
     
     public DateLineOrganizer handleDateBoundariesReturnList() {
-    	String date1 = windowHolder.getTxtHolder().getMinDateField().getText();
-    	String date2 = windowHolder.getTxtHolder().getMaxDateField().getText();
+    	String minDateStr = windowHolder.getMinDateText();
+    	String maxDateStr = windowHolder.getMaxDateText();
     	
-    	if(!(date1.isEmpty() && date2.isEmpty())) {
-    		logger.info("Working on boundary dates - date1: {}, date2: {}", date1, date2);
+    	if(!(minDateStr.isEmpty() && maxDateStr.isEmpty())) {
+    		logger.info("Working on boundary dates - date1: {}, date2: {}", minDateStr, maxDateStr);
     		
-        	Date minimumDate = DateHolder.getDateFromStringSupplied(date1, "");
-            Date maximumDate = DateHolder.getDateFromStringSupplied(date2, "");
+        	Date minimumDate = DateHolder.getDateFromStringSupplied(minDateStr, "");
+            Date maximumDate = DateHolder.getDateFromStringSupplied(maxDateStr, "");
 
             DateHolder holder;
             

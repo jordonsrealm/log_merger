@@ -18,6 +18,7 @@ public class DateHolder implements Comparable<DateHolder>{
     private static final String DEFAULT_FORMAT = "yyyy-MM-dd HH:mm:ss.SSS";
     private DatedLine dateResult;
     private static Boolean orderDescending;
+    private static final String REPLACE_SEQ = "\\d\\d";
     
 
     public DateHolder(String strToConvert, String format){
@@ -57,12 +58,12 @@ public class DateHolder implements Comparable<DateHolder>{
 	}
 
 	public static DatedLine getDatedLineUsingPattern(String strToConvert, String format){
-    	String replacedString = format.replace("dd", "\\d\\d")
-    								  .replace("yyyy", "\\d\\d\\d\\d")
-    								  .replace("MM", "\\d\\d")
-    								  .replace("HH", "\\d\\d")
-    								  .replace("mm", "\\d\\d")
-    								  .replace("ss", "\\d\\d")
+    	String replacedString = format.replace("dd", REPLACE_SEQ)
+    								  .replace("yyyy", REPLACE_SEQ + REPLACE_SEQ)
+    								  .replace("MM", REPLACE_SEQ)
+    								  .replace("HH", REPLACE_SEQ)
+    								  .replace("mm", REPLACE_SEQ)
+    								  .replace("ss", REPLACE_SEQ)
     								  .replace("SSS", "\\d\\d\\d")
     								  .replace(":", "\\:")
     								  .replace(".","\\.");

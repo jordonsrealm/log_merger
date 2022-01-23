@@ -14,7 +14,7 @@ public class ConfigurationGetter {
 
 	private static final Logger logger = LoggerFactory.getLogger(ConfigurationGetter.class);
 	private String applicationName;
-	private String appIconName;
+	private String appIconFileName;
 	private Integer configWindowW;
 	private Integer configWindowH;
 	private String highlightHexColor;
@@ -28,7 +28,7 @@ public class ConfigurationGetter {
 		static final String APPLICATION_NAME = "application_name";
 		static final String WINDOW_WIDTH = "window_width";
 		static final String WINDOW_HEIGHT = "window_height";
-		static final String APP_ICON_NAME = "app_icon_name";
+		static final String APP_ICON_FILE_NAME = "app_icon_file_name";
 		static final String HIGHLIGHT_HEX_COLOR = "highlight_hex_color";
 	}
 	
@@ -70,15 +70,17 @@ public class ConfigurationGetter {
 			applicationName = prop.getProperty(Constants.APPLICATION_NAME);
 			configWindowW = Integer.parseInt(prop.getProperty(Constants.WINDOW_WIDTH));
 			configWindowH = Integer.parseInt(prop.getProperty(Constants.WINDOW_HEIGHT));
-			appIconName = prop.getProperty(Constants.APP_ICON_NAME);
+			appIconFileName = prop.getProperty(Constants.APP_ICON_FILE_NAME);
 			highlightHexColor = prop.getProperty(Constants.HIGHLIGHT_HEX_COLOR);
  
-			String result = "Property List = " + applicationName + ", " + configWindowW + ", " + configWindowH + ", " + appIconName + "," + highlightHexColor;
+			String result = "Property List = " + applicationName + ", " + configWindowW + ", " + configWindowH + ", " + appIconFileName + "," + highlightHexColor;
 			System.out.println(result + "\nProgram Ran on " + time);
 		} catch (Exception e) {
 			System.out.println("Exception: " + e);
 		} finally {
-			inputStream.close();
+			if(inputStream != null) {
+				inputStream.close();
+			}
 		}
 	}
 	
@@ -106,12 +108,12 @@ public class ConfigurationGetter {
 		this.applicationName = applicationName;
 	}
 	
-	public String getAppIconName() {
-		return appIconName;
+	public String getAppIconFileName() {
+		return appIconFileName;
 	}
 
-	public void setAppIconName(String appIconName) {
-		this.appIconName = appIconName;
+	public void setAppIconFileName(String appIconFileName) {
+		this.appIconFileName = appIconFileName;
 	}
 
 	public String getHighlightHexColor() {

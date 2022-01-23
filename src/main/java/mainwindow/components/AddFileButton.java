@@ -50,7 +50,7 @@ public class AddFileButton extends AbstractMainWindowContainerButton {
 	public void actionPerformed(ActionEvent e) {
 		MainWindowHolder windowHolder = getWindowHolder();
 		
-		if(!windowHolder.getFileNameInputTextField().isEmpty()) {
+		if(!windowHolder.getFileNameInputText().isEmpty()) {
 			JTextArea unOrganizedText = windowHolder.getTxtHolder().getUnOrderedText();
 
 			SwingWorker<String, Void> worker = new SwingWorker<String, Void>() {
@@ -59,7 +59,7 @@ public class AddFileButton extends AbstractMainWindowContainerButton {
 				public String doInBackground() throws IOException {
 					windowHolder.setSearchBtnEnabled(false);
 
-					File file = new File(windowHolder.getFileNameInputTextField());
+					File file = new File(windowHolder.getFileNameInputText());
 
 					glassPaneDrawingThread.startProcessing();
 

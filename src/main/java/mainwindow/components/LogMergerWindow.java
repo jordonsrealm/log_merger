@@ -25,12 +25,10 @@ public class LogMergerWindow extends JFrame implements ComponentListener {
 	private static final Logger logger = LoggerFactory.getLogger(LogMergerWindow.class);
     private transient MainWindowHolder windowHolder;
     private transient ExecutorService executor;
-    
-    private static final String DEFAULT_REGEX_HINT = "yyyy-MM-dd HH:mm:ss.SSS";
+
     private static final String DATE_PATTERN = "DATE PATTERN";
     private static final String MIN_DATE_STR = "Min Date";
     private static final String MAX_DATE_STR = "Max Date";
-    private static final String WHITE_BACKGROUND = "0xffffff";
     
 
     public LogMergerWindow(ExecutorService executor) {
@@ -41,8 +39,8 @@ public class LogMergerWindow extends JFrame implements ComponentListener {
         
         setWindowHolder(new MainWindowHolder(this));
         
-        getWindowHolder().setTopPanel(createTopPanel());
-        getWindowHolder().setBottomPanel(createBottomSplitPane());
+        getWindowHolder().setTopPanel(searchFileArea());
+        getWindowHolder().setBottomPanel(textAreas());
         
         add(getWindowHolder().getTopPanel(), BorderLayout.NORTH);
         add(getWindowHolder().getBottomPanel(), BorderLayout.CENTER);
@@ -53,16 +51,15 @@ public class LogMergerWindow extends JFrame implements ComponentListener {
     
     private void setImageIconForApplication() {
 		try {
-			InputStream  inputStreamFromPng = getClass().getClassLoader().getResourceAsStream(ConfigurationGetter.instance().getAppIconName());
+			InputStream  inputStreamFromPng = getClass().getClassLoader().getResourceAsStream(ConfigurationGetter.instance().getAppIconFileName());
 			ImageIcon icon = new ImageIcon(ImageIO.read(inputStreamFromPng));
 			setIconImage(icon.getImage());
 		} catch (IOException e) {
-			logger.error("Unable to set the image icon for application. Resource: {}", ConfigurationGetter.instance().getAppIconName(), e);
+			logger.error("Unable to set the image icon for application. Resource: {}", ConfigurationGetter.instance().getAppIconFileName(), e);
 		}
     }
 
     private void setFrameDimensionsAndBehaviors(){
-        this.setMinimumSize(new Dimension(ConfigurationGetter.instance().getConfigWindowW(),ConfigurationGetter.instance().getConfigWindowH()));
         this.setSize(new Dimension(ConfigurationGetter.instance().getConfigWindowW(),ConfigurationGetter.instance().getConfigWindowH()));
         this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         this.setLocationRelativeTo(null);
@@ -70,27 +67,27 @@ public class LogMergerWindow extends JFrame implements ComponentListener {
         this.setVisible(true);
     }
     
-    private JPanel createTopPanel() {
+    private JPanel searchFileArea() {
     	MainWindowHolder wHolder = getWindowHolder();
     	ButtonHolder btnH = wHolder.getBtnHolder();
     	TextHolder txtH = wHolder.getTxtHolder();
     	
-        JPanel dateSection = new JPanel(new FlowLayout());
-        dateSection.add(btnH.getSearchButton());
-        dateSection.add(txtH.getFileNameInputTextField());
-        dateSection.add(btnH.getAddFileButton());
+        JPanel searchFileSection = new JPanel(new FlowLayout());
+        searchFileSection.add(btnH.getSearchButton());
+        searchFileSection.add(txtH.getFileNameInputTextField());
+        searchFileSection.add(btnH.getAddFileButton());
         
-        JPanel topMostPanel = new JPanel(new BorderLayout());
-        topMostPanel.add(dateSection, BorderLayout.CENTER);
+        JPanel parentContainer = new JPanel(new BorderLayout());
+        parentContainer.add(searchFileSection, BorderLayout.CENTER);
         
-        return topMostPanel;
+        return parentContainer;
     }
     
-    private JSplitPane createBottomSplitPane(){
+    private JSplitPane textAreas(){
     	MainWindowHolder wHolder = getWindowHolder();
+    	CheckBoxHolder chxH = wHolder.getCheckBoxHolder();
     	ButtonHolder btnH = wHolder.getBtnHolder();
     	TextHolder txtH = wHolder.getTxtHolder();
-    	CheckBoxHolder chxH = wHolder.getCheckBoxHolder();
     	
         JPanel rightUpperPanel = new JPanel(new FlowLayout());
         rightUpperPanel.add(chxH.getDescendingCheckBox());
@@ -100,28 +97,25 @@ public class LogMergerWindow extends JFrame implements ComponentListener {
         rightUpperPanel.add(txtH.getMaxDateField());
         rightUpperPanel.add(btnH.getSaveFileButton());
         
-        JPanel rightPanel = new JPanel(new BorderLayout());
-        rightPanel.add(rightUpperPanel, BorderLayout.NORTH);
-        rightPanel.add(txtH.getOrderedScrollPane(), BorderLayout.CENTER);
+        JPanel rightParentPanel = new JPanel(new BorderLayout());
+        rightParentPanel.add(rightUpperPanel, BorderLayout.NORTH);
+        rightParentPanel.add(txtH.getOrderedScrollPane(), BorderLayout.CENTER);
         
-        JPanel patternAndClearPanel = new JPanel(new FlowLayout());
-        patternAndClearPanel.add(btnH.getClearUnOrderedTextButton());
-        JLabel dateLabel = new JLabel(DATE_PATTERN);
-        patternAndClearPanel.add(dateLabel);
-        txtH.getRegexPatternTextField().setText(DEFAULT_REGEX_HINT);
-        txtH.getRegexPatternTextField().setBackground(Color.decode(WHITE_BACKGROUND));
-        patternAndClearPanel.add(txtH.getRegexPatternTextField());
-        patternAndClearPanel.add(btnH.getMergeButton());
+        JPanel regexPatternSection = new JPanel(new FlowLayout());
+        regexPatternSection.add(btnH.getClearUnOrderedTextButton());
+        regexPatternSection.add(new JLabel(DATE_PATTERN));
+        regexPatternSection.add(txtH.getRegexPatternTextField());
+        regexPatternSection.add(btnH.getMergeButton());
         
-        JPanel leftPanel = new JPanel(new BorderLayout());
-        leftPanel.add(patternAndClearPanel, BorderLayout.NORTH);
-        leftPanel.add(txtH.getUnOrderedScrollPane(), BorderLayout.CENTER);
+        JPanel leftParentPanel = new JPanel(new BorderLayout());
+        leftParentPanel.add(regexPatternSection, BorderLayout.NORTH);
+        leftParentPanel.add(txtH.getUnOrderedScrollPane(), BorderLayout.CENTER);
 
-        JSplitPane bottomSplitPane;
-        bottomSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, rightPanel);
-        bottomSplitPane.setDividerLocation(ConfigurationGetter.instance().getConfigWindowW()/2);
+        JSplitPane parentContainer;
+        parentContainer = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftParentPanel, rightParentPanel);
+        parentContainer.setDividerLocation(ConfigurationGetter.instance().getConfigWindowW()/2);
 
-        return bottomSplitPane;
+        return parentContainer;
     }
 
 	public ExecutorService getExecutor() {
@@ -134,7 +128,7 @@ public class LogMergerWindow extends JFrame implements ComponentListener {
 
 	@Override
 	public void componentResized(ComponentEvent e) {
-		this.windowHolder.getBottomPanel().setDividerLocation(getWidth()/2);
+		getWindowHolder().getBottomPanel().setDividerLocation(getWidth()/2);
 	}
 
 	public MainWindowHolder getWindowHolder() {

@@ -1,6 +1,7 @@
 package mainwindow.components.holder;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -19,6 +20,8 @@ public class TextHolder {
     private static final int REGEX_PATTERN_COLUMN_CNT  = 30;
     private static final int FILENAME_FIELD_COLUMN_CNT = 60;
     private static final String BLANK_STR    		   = "";
+    private static final String WHITE_BACKGROUND = "0xffffff";
+    private static final String DEFAULT_REGEX_HINT = "yyyy-MM-dd HH:mm:ss.SSS";
     
     private JTextField fileNameInputTextField = new JTextField(FILENAME_FIELD_COLUMN_CNT);
     private JTextArea unOrderedText = new JTextArea(BLANK_STR,TEXT_AREA_ROWS_CNT,TEXT_AREA_COLUMNS_CNT);
@@ -35,12 +38,16 @@ public class TextHolder {
 		leftPanel.add(new LineNumberPanel(), BorderLayout.WEST);
 		leftPanel.add(this.unOrderedText, BorderLayout.CENTER);
 		
-    	unOrderedScrollPane = new PreviewScrollPane(leftPanel);
+		setUnOrderedScrollPane(new PreviewScrollPane(leftPanel));
     	
     	JPanel rightPanel = new JPanel(new BorderLayout());
     	rightPanel.add(new LineNumberPanel(), BorderLayout.WEST);
     	rightPanel.add(this.orderedText, BorderLayout.CENTER);
-    	orderedScrollPane = new PreviewScrollPane(rightPanel);
+    	
+    	setOrderedScrollPane(new PreviewScrollPane(rightPanel));
+    	
+        getRegexPatternTextField().setText(DEFAULT_REGEX_HINT);
+        getRegexPatternTextField().setBackground(Color.decode(WHITE_BACKGROUND));
 	}
     
 	public JTextField getFileNameInputTextField() {
@@ -60,6 +67,12 @@ public class TextHolder {
 	}
 	public JScrollPane getOrderedScrollPane() {
 		return this.orderedScrollPane;
+	}
+	public void setUnOrderedScrollPane(PreviewScrollPane unOrderedScrollPane) {
+		this.unOrderedScrollPane = unOrderedScrollPane;
+	}
+	public void setOrderedScrollPane(JScrollPane orderedScrollPane) {
+		this.orderedScrollPane = orderedScrollPane;
 	}
 	public JTextField getMinDateField() {
 		return this.minDateField;

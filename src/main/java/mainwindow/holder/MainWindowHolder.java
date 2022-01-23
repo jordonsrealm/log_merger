@@ -89,11 +89,11 @@ public class MainWindowHolder {
 		return getTxtHolder().getOrderedText().getText();
 	}
 	
-	public void setFileNameInputTextField(String newText) {
+	public void setFileNameInputText(String newText) {
 		getTxtHolder().getFileNameInputTextField().setText(newText);
 	}
 	
-	public String getFileNameInputTextField() {
+	public String getFileNameInputText() {
 		return getTxtHolder().getFileNameInputTextField().getText();
 	}
 	
@@ -103,5 +103,13 @@ public class MainWindowHolder {
 	
 	public void setSearchBtnEnabled(boolean enabled) {
 		getBtnHolder().getSearchButton().setEnabled(enabled);
+	}
+	
+	public String getMinDateText() {
+		return getTxtHolder().getMinDateField().getText();
+	}
+	
+	public String getMaxDateText() {
+		return getTxtHolder().getMaxDateField().getText();
 	}
 }
