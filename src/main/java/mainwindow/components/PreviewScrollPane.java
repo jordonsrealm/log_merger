@@ -24,8 +24,6 @@ public class PreviewScrollPane extends JScrollPane implements MouseWheelListener
 	
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent e) {
-		System.out.println("Mouse wheel moved");
-		
 		SwingUtilities.invokeLater(()->{
 			
 			JScrollBar bar = getVerticalScrollBar();
