@@ -60,7 +60,7 @@
                     <descriptors>
                         <descriptor>/src/assembly/assembly.xml</descriptor>
                     </descriptors>
-                    <finalName>FileMerger</finalName>
+                    <finalName>LogMerger</finalName>
                     <appendAssemblyId>false</appendAssemblyId>
                 </configuration>
                 <executions>
