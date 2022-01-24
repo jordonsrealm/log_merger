@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 import org.junit.Test;
 
@@ -37,7 +38,7 @@ public class DateOrganizerTest {
 		Date minDate = new GregorianCalendar( year, month, dayStart).getTime();
 		Date maxDate = new GregorianCalendar( year, month, dayEnd).getTime();
 		
-		ArrayList<DateHolder> boundedDates = DateLineOrganizer.returnListWithBoundedDates(unboundedList, minDate, maxDate);
+		List<DateHolder> boundedDates = DateLineOrganizer.returnListWithBoundedDates(unboundedList, minDate, maxDate);
 		assertEquals( 3, boundedDates.size());
 	}
 	
@@ -64,7 +65,7 @@ public class DateOrganizerTest {
 		Date minDate = new GregorianCalendar( year, month, dayStart).getTime();
 		Date maxDate = new GregorianCalendar( year, month, dayEnd).getTime();
 		
-		ArrayList<DateHolder> boundedDates = DateLineOrganizer.returnListWithBoundedDates(unboundedList, minDate, maxDate);
+		List<DateHolder> boundedDates = DateLineOrganizer.returnListWithBoundedDates(unboundedList, minDate, maxDate);
 		assertEquals( 1, boundedDates.size());
 	}
 }

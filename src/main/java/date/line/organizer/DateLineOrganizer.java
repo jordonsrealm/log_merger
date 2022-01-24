@@ -6,6 +6,7 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,14 +28,11 @@ public class DateLineOrganizer {
 	}
 
     public DateLineOrganizer orderDateLines() {
-    	
-    	boolean descendingOrder = windowHolder.getIsDescendingCheckBox().isSelected();
-    	
     	String dateFormat = windowHolder.getTxtHolder().getRegexPatternTextField().getText();
     	
     	organizeUsingFormat(dateFormat);
     	
-    	DateHolder.setDescendingOrder(descendingOrder);
+    	DateHolder.setDescendingOrder(windowHolder.getCheckBoxHolder().getDescendingCheckBox().isSelected());
     	
     	Collections.sort(this.contentsAsDateLines);
     	
@@ -51,7 +49,7 @@ public class DateLineOrganizer {
         
         try {
             while((lineRead = bufferedReader.readLine()) != null){
-                DatedLine dateLineFromReadLine = DateHolder.getDatedLineUsingPattern(lineRead,format);
+                DatedLine dateLineFromReadLine = DateHolder.getDatedLineUsingPattern( lineRead, format);
 
                 if(dateLineFromReadLine.isValidDate()){
                     dateHolderList.add(new DateHolder(lineRead, format));
@@ -68,7 +66,7 @@ public class DateLineOrganizer {
         this.contentsAsDateLines = dateHolderList;
     }
     
-    public static ArrayList<DateHolder> returnListWithBoundedDates(ArrayList<DateHolder> unboundedList, Date minimumDate, Date maximumDate) {
+    public static List<DateHolder> returnListWithBoundedDates(List<DateHolder> unboundedList, Date minimumDate, Date maximumDate) {
         for(int ind = unboundedList.size()-1; ind > -1; ind--){
             DateHolder holder = unboundedList.get(ind);
 
@@ -81,14 +79,14 @@ public class DateLineOrganizer {
     }
     
     public DateLineOrganizer handleDateBoundariesReturnList() {
-    	String date1 = windowHolder.getTxtHolder().getMinDateField().getText();
-    	String date2 = windowHolder.getTxtHolder().getMaxDateField().getText();
+    	String minDateStr = windowHolder.getMinDateText();
+    	String maxDateStr = windowHolder.getMaxDateText();
     	
-    	if(!(date1.isEmpty() && date2.isEmpty())) {
-    		logger.info("Working on boundary dates - date1: {}, date2: {}", date1, date2);
+    	if(!(minDateStr.isEmpty() && maxDateStr.isEmpty())) {
+    		logger.info("Working on boundary dates - date1: {}, date2: {}", minDateStr, maxDateStr);
     		
-        	Date minimumDate = DateHolder.getDateFromStringSupplied(date1, "");
-            Date maximumDate = DateHolder.getDateFromStringSupplied(date2, "");
+        	Date minimumDate = DateHolder.getDateFromStringSupplied(minDateStr, "");
+            Date maximumDate = DateHolder.getDateFromStringSupplied(maxDateStr, "");
 
             DateHolder holder;
             

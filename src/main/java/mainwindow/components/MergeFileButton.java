@@ -11,7 +11,7 @@ import threads.ProcessLogo;
 public class MergeFileButton extends AbstractMainWindowContainerButton {
 
 	private static final long serialVersionUID = 1L;
-    private static final String BTN_TITLE = "Merge Files";
+    private static final String BTN_TITLE = "Sort";
 	
 	
 	public MergeFileButton(LogMergerWindow mainWindow) {

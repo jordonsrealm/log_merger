@@ -18,7 +18,7 @@ public class SaveFileButton extends AbstractMainWindowContainerButton {
 
 	private static final long serialVersionUID = 1L;
 	private static final Logger logger = LoggerFactory.getLogger(SaveFileButton.class);
-    private static final String BTN_TITLE = "Save...";
+    private static final String BTN_TITLE = "Save";
 	
 
 	public SaveFileButton(LogMergerWindow mainWindow) {
@@ -35,10 +35,10 @@ public class SaveFileButton extends AbstractMainWindowContainerButton {
 
         if (userSelection == JFileChooser.APPROVE_OPTION) {
             File fileToSave = jfc.getSelectedFile();
-            logger.debug("Saving file as: " + fileToSave.getAbsolutePath());
+            logger.debug("Saving file as: {}", fileToSave.getAbsolutePath());
 
             try(FileOutputStream outputStream = new FileOutputStream(fileToSave)){
-                byte[] bytes = getLogMergerWindow().getWindowHolder().getTxtHolder().getOrderedText().getText().getBytes();
+                byte[] bytes = getLogMergerWindow().getWindowHolder().getOrderedText().getBytes();
                 outputStream.write(bytes);
             } catch(FileNotFoundException ex){
                 logger.error("Unable to find the file to save to...", ex);

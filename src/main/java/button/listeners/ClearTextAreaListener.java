@@ -18,12 +18,10 @@ public class ClearTextAreaListener extends DrawingComponentListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
+		windowHolder.setUnorderedText("");
+		
 		ProcessLogo processingThread = new ProcessLogo( windowHolder, CenteredPointType.UN_ORDERED_TEXT_AREA);
-		
 		processingThread.startProcessing();
-		
-		windowHolder.getTxtHolder().getUnOrderedText().setText("");
-		
 		processingThread.stopProcessing();
 	}
 }

@@ -15,9 +15,10 @@ import transfer.object.DatedLine;
 public class DateHolder implements Comparable<DateHolder>{
 
 	private static final Logger logger = LoggerFactory.getLogger(DateHolder.class);
-    public static String DEFAULT_FORMAT = "yyyy-MM-dd HH:mm:ss.SSS";
+    private static final String DEFAULT_FORMAT = "yyyy-MM-dd HH:mm:ss.SSS";
     private DatedLine dateResult;
     private static Boolean orderDescending;
+    private static final String REPLACE_SEQ = "\\d\\d";
     
 
     public DateHolder(String strToConvert, String format){
@@ -30,21 +31,39 @@ public class DateHolder implements Comparable<DateHolder>{
     }
 
     @Override
-    public int compareTo(DateHolder o) {
-        if(this.getDateResult() == null || o.getDateResult() == null){
+    public int compareTo(DateHolder dateHolder) {
+        if(this.getDateResult() == null || dateHolder.getDateResult() == null){
             return 0;
         }else{
-            return this.dateResult.getEmbeddedDate().compareTo(o.getDateResult().getEmbeddedDate()) * (orderDescending?-1:1);
+            return this.dateResult.getEmbeddedDate().compareTo(dateHolder.getDateResult().getEmbeddedDate()) * (orderDescending?-1:1);
         }
     }
+    
+    @Override
+    public boolean equals(Object obj) {
+    	if (obj == null) {
+    	    return false;
+    	}
+    	
+    	if (this.getClass() != obj.getClass())
+    	    return false;
+    	
+    	DateHolder dateHolder = (DateHolder) obj;
+		return this.getDate().equals(dateHolder.getDate()) && this.getOrginalLine().equals(dateHolder.getOrginalLine());
+    }
+    
+    @Override
+	public int hashCode() {
+		return super.hashCode();
+	}
 
-    public static DatedLine getDatedLineUsingPattern(String strToConvert, String format){
-    	String replacedString = format.replace("dd", "\\d\\d")
-    								  .replace("yyyy", "\\d\\d\\d\\d")
-    								  .replace("MM", "\\d\\d")
-    								  .replace("HH", "\\d\\d")
-    								  .replace("mm", "\\d\\d")
-    								  .replace("ss", "\\d\\d")
+	public static DatedLine getDatedLineUsingPattern(String strToConvert, String format){
+    	String replacedString = format.replace("dd", REPLACE_SEQ)
+    								  .replace("yyyy", REPLACE_SEQ + REPLACE_SEQ)
+    								  .replace("MM", REPLACE_SEQ)
+    								  .replace("HH", REPLACE_SEQ)
+    								  .replace("mm", REPLACE_SEQ)
+    								  .replace("ss", REPLACE_SEQ)
     								  .replace("SSS", "\\d\\d\\d")
     								  .replace(":", "\\:")
     								  .replace(".","\\.");
@@ -63,7 +82,7 @@ public class DateHolder implements Comparable<DateHolder>{
             	logger.error("Unable to parse date from string");
             }
     		
-    		datedLine = new DatedLine( dateFromString, strToConvert);
+    		datedLine = new DatedLine( strToConvert, dateFromString);
     	}
     		
         return datedLine;

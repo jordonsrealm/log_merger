@@ -10,7 +10,7 @@ import mainwindow.holder.MainWindowHolder;
 public abstract class AbstractListeningCheckBox extends JCheckBox implements ItemListener{
 
 	private static final long serialVersionUID = 1L;
-	protected MainWindowHolder windowHolder;
+	protected transient MainWindowHolder windowHolder;
 	
 	
 	public AbstractListeningCheckBox(MainWindowHolder windowHolder) {

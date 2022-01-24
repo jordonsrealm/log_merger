@@ -19,6 +19,7 @@ public class SaveFileListener implements ActionListener {
 
 	private static final Logger logger = LoggerFactory.getLogger(SaveFileListener.class);
 	private JTextArea organizedText;
+	private static final String DIALOG_TITLE = "Specify a file to save";
 	
 	
 	public SaveFileListener(JTextArea organizedText) {
@@ -29,24 +30,22 @@ public class SaveFileListener implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 
         JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
-        jfc.setDialogTitle("Specify a file to save");
+        jfc.setDialogTitle(DIALOG_TITLE);
 
         int userSelection = jfc.showSaveDialog(null);
 
         if (userSelection == JFileChooser.APPROVE_OPTION) {
             File fileToSave = jfc.getSelectedFile();
-            logger.debug("Saving file as: " + fileToSave.getAbsolutePath());
+            logger.debug("Saving file as: {}", fileToSave.getAbsolutePath());
 
             try(FileOutputStream outputStream = new FileOutputStream(fileToSave)){
-                byte[] bytes = this.organizedText.getText().getBytes();
-                outputStream.write(bytes);
+                outputStream.write(this.organizedText.getText().getBytes());
+                logger.debug("Saved to file: {}", fileToSave.getName());
             } catch(FileNotFoundException ex){
                 logger.error("Unable to find the file to save to...", ex);
             } catch (IOException ioEx){
                 logger.error("Uable to create file to save to...", ioEx);
             }
-
-            logger.info("Saved to file: {}", fileToSave.getName());
         }
     
 	}

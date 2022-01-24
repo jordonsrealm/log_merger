@@ -9,7 +9,7 @@ public class ConfigurationGetterTest {
 
 	@Test
 	public void testGettingConfigPropertiesSuccess() {
-		ConfigurationGetter getter = new ConfigurationGetter();
+		ConfigurationGetter getter = ConfigurationGetter.instance();
 		assertEquals("FILE MERGER", getter.getApplicationName());
 	}
 }

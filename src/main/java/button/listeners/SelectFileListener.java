@@ -21,7 +21,7 @@ public class SelectFileListener extends DrawingComponentListener{
 
 	public void actionPerformed(ActionEvent e) {
 		
-		if(!this.windowHolder.getTxtHolder().getFileNameInputTextField().getText().isEmpty()) {
+		if(!this.windowHolder.getFileNameInputText().isEmpty()) {
 			worker.execute();
 		}
 	}
