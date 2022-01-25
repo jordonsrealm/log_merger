@@ -17,7 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
-public class LineNumberPanel extends JComponent implements MouseMotionListener, MouseListener {
+public class LineNumberComponent extends JComponent implements MouseMotionListener, MouseListener {
 	
 	private static final Logger logger = LoggerFactory.getLogger(LineNumberPanel.class);
 	private static final long serialVersionUID = 1L;
@@ -34,7 +34,7 @@ public class LineNumberPanel extends JComponent implements MouseMotionListener, 
 	private int lineNumber;
 	
 	
-	public LineNumberPanel() {
+	public LineNumberComponent() {
 		addMouseListener(this);
 		addMouseMotionListener(this);
 		setPreferredSize(setDimension);

@@ -8,7 +8,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import mainwindow.components.LineNumberPanel;
+import mainwindow.components.LineNumberComponent;
 import mainwindow.components.PreviewScrollPane;
 
 
@@ -35,13 +35,13 @@ public class TextHolder {
     
     public TextHolder() {
     	JPanel leftPanel = new JPanel(new BorderLayout());
-		leftPanel.add(new LineNumberPanel(), BorderLayout.WEST);
+		leftPanel.add(new LineNumberComponent(), BorderLayout.WEST);
 		leftPanel.add(this.unOrderedText, BorderLayout.CENTER);
 		
 		setUnOrderedScrollPane(new PreviewScrollPane(leftPanel));
     	
     	JPanel rightPanel = new JPanel(new BorderLayout());
-    	rightPanel.add(new LineNumberPanel(), BorderLayout.WEST);
+    	rightPanel.add(new LineNumberComponent(), BorderLayout.WEST);
     	rightPanel.add(this.orderedText, BorderLayout.CENTER);
     	
     	setOrderedScrollPane(new PreviewScrollPane(rightPanel));
