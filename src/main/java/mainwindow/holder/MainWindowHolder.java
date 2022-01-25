@@ -72,6 +72,10 @@ public class MainWindowHolder {
 	public CheckBoxHolder getCheckBoxHolder() {
 		return checkBoxHolder;
 	}
+	
+	public String getRegexPatternText() {
+		return getTxtHolder().getRegexPatternTextField().getText();
+	}
 
 	public void setUnorderedText(String text) {
 		getTxtHolder().getUnOrderedText().setText(text);

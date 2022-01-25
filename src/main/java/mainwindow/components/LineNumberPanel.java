@@ -13,9 +13,13 @@ import java.awt.event.MouseMotionListener;
 import javax.swing.JComponent;
 import javax.swing.SwingUtilities;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 public class LineNumberPanel extends JComponent implements MouseMotionListener, MouseListener {
 	
+	private static final Logger logger = LoggerFactory.getLogger(LineNumberPanel.class);
 	private static final long serialVersionUID = 1L;
 	private final Dimension setDimension = new Dimension(34,10);
 	private Point movedPoint;
@@ -27,6 +31,7 @@ public class LineNumberPanel extends JComponent implements MouseMotionListener, 
 	private static final String COLOR_BORDER = "0x494949";
 	private static final String LINE_NUM_BORDER = "0x707070";
 	private static final int ARC_BORDER = 6;
+	private int lineNumber;
 	
 	
 	public LineNumberPanel() {
@@ -39,28 +44,17 @@ public class LineNumberPanel extends JComponent implements MouseMotionListener, 
 	public void paintComponent(Graphics g) {
 		super.paintComponents(g);
 		
-		drawBorder(g);
-		handleToolTip(g);
-		drawLineBorder(g);
-	}
-	
-	private void drawLineBorder(Graphics g) {
-		if(movedPoint != null) {
-			g.setColor(Color.decode(LINE_NUM_BORDER));
-			g.drawRoundRect(0, (int)((double)movedPoint.y/strHeight)*strHeight, getWidth()-1, strHeight, ARC_BORDER, ARC_BORDER);
-		}
-	}
-	
-	private void handleToolTip(Graphics g) {
-		String toolTipText = "";
-		strHeight = getGraphics().getFontMetrics().getHeight();
-		if(drawToolTip && movedPoint!=null) {
-			toolTipText += movedPoint.y/strHeight + 1;
-		}
-		
-		setToolTipText(toolTipText);
 		FontMetrics fm = g.getFontMetrics();
-		for(int t=0;t <= getHeight()/strHeight;t++) {
+		strHeight = fm.getHeight();
+
+		drawLineNumbers(g, fm);
+		drawBorder(g);
+		drawLineBorder(g);
+		handleToolTip(g);
+	}
+	
+	private void drawLineNumbers(Graphics g, FontMetrics fm) {
+		for(int t = 0; t <= getHeight()/strHeight; t++) {
 			String intStr = String.valueOf(t);
 			g.drawString( intStr, (getWidth() - fm.stringWidth(intStr))/2, (int)(strHeight*(t - heightDecrease) + heightBuffer));
 		}
@@ -72,29 +66,46 @@ public class LineNumberPanel extends JComponent implements MouseMotionListener, 
 		g.drawRect(0, 0, getWidth()-1, getHeight());
 		g.setColor(prevColor);
 	}
-
+	
+	private void drawLineBorder(Graphics g) {
+		if(movedPoint != null) {
+			g.setColor(Color.decode(LINE_NUM_BORDER));
+			g.drawRoundRect(0, (int)((float)movedPoint.y/strHeight)*strHeight, getWidth()-1, strHeight, ARC_BORDER, ARC_BORDER);
+		}
+	}
+	
+	private void handleToolTip(Graphics g) {
+		String toolTipText = "";
+		if(drawToolTip && movedPoint!=null) {
+			toolTipText += movedPoint.y/strHeight + 1;
+		}
+		
+		setToolTipText(toolTipText);
+	}
+	
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		System.out.println("Done mouseClicked");
+		logger.info("Done mouseClicked");
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		System.out.println("Done mousePressed");
+		logger.info("Done mousePressed");
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		System.out.println("Done mouseReleased");
+		logger.info("Done mouseReleased");
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
 		drawToolTip = Boolean.TRUE;
 		movedPoint = e.getPoint();
-		float quotient = strHeight==0?0:(float)(e.getPoint().y/strHeight);
+		float quotient = strHeight==0 ? 0 : (float)e.getPoint().y/strHeight;
+		lineNumber = (int)quotient*strHeight;
 		
-		redrawRectangle(new Rectangle(0, (int)(quotient)*strHeight, getWidth(), strHeight+1));
+		redrawRectangle(new Rectangle(0, lineNumber, getWidth(), strHeight+1));
 	}
 
 	@Override
@@ -107,7 +118,7 @@ public class LineNumberPanel extends JComponent implements MouseMotionListener, 
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		System.out.println("Done MouseEvent");
+		logger.info("Done MouseEvent");
 	}
 
 	@Override
@@ -115,16 +126,17 @@ public class LineNumberPanel extends JComponent implements MouseMotionListener, 
 		movedPoint = e.getPoint();
 		
 		float quotient = strHeight==0 ? 0 :((float)e.getPoint().y/strHeight);
+		lineNumber = (int)quotient*strHeight;
 		
-		Rectangle pointRectangle = new Rectangle(0, (int)quotient*strHeight, getWidth(), strHeight);
+		Rectangle mousepointRectangle = new Rectangle(0, lineNumber, getWidth(), strHeight);
 		
 		if(movedRectangle == null) {
-			movedRectangle = pointRectangle;
+			movedRectangle = mousepointRectangle;
 		}
-		
-		if(!movedRectangle.intersects(pointRectangle)) {
-			movedRectangle = pointRectangle;
-			redrawRectangle(new Rectangle(0, (int)quotient*strHeight - strHeight, getWidth(), 4*strHeight));
+		System.out.println("Linenumber: " + ((int)quotient + 1));
+		if(!movedRectangle.intersects(mousepointRectangle)) {
+			movedRectangle = mousepointRectangle;
+			redrawRectangle(new Rectangle(0, lineNumber - strHeight, getWidth(), 4*strHeight));
 		}
 	}
 

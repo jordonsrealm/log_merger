@@ -3,17 +3,24 @@ package transfer.object;
 import java.util.Date;
 
 
-public class DatedLine {
+public class DatedLine implements Comparable<DatedLine> {
 
     private String originalStringWithDate;
     private Date embeddedDate;
+    private static boolean orderDescending;
 
 
-    public DatedLine(){}
+    public DatedLine(){
+    	this(null,null);
+    }
     
     public DatedLine(String originalString, Date embeddedDate) {
     	this.originalStringWithDate = originalString;
     	this.embeddedDate 			= embeddedDate;
+    }
+    
+    public static void setOrderDescending(boolean descending) {
+    	orderDescending = descending;
     }
 
     public String getOriginalStringWithDate() {
@@ -36,8 +43,54 @@ public class DatedLine {
         this.embeddedDate = embeddedDate;
     }
     
-    public void setAppendToOriginalString(String stringToAppend) {
+    public void appendToOriginalString(String stringToAppend) {
     	this.originalStringWithDate += stringToAppend;
     }
+    
+    public boolean isDateWithinBounds(Date minimumDate, Date maximumDate) {
+    	boolean withinBounds = true;
+    	
+    	if(minimumDate!=null && maximumDate!=null) {
+    		withinBounds = (getEmbeddedDate().after(minimumDate)) && (getEmbeddedDate().before(maximumDate)) || getEmbeddedDate().equals(minimumDate)|| getEmbeddedDate().equals(maximumDate);
+    	} else {
+        	if(minimumDate != null) {
+        		withinBounds = getEmbeddedDate().after(minimumDate) || getEmbeddedDate().equals(minimumDate);
+        	} else {
+        		if(maximumDate != null) {
+        			withinBounds = getEmbeddedDate().before(maximumDate) || getEmbeddedDate().equals(maximumDate);
+        		}
+        	}
+    	}
+    	
+    	return withinBounds;
+    }
+
+    @Override
+    public int compareTo(DatedLine datedLine) {
+        if(this.getEmbeddedDate() == null || datedLine.getEmbeddedDate() == null){
+            return 0;
+        }else{
+            return this.getEmbeddedDate().compareTo(datedLine.getEmbeddedDate()) * (orderDescending?-1:1);
+        }
+    }
+    
+    @Override
+    public boolean equals(Object obj) {
+    	if (obj == null) {
+    	    return false;
+    	}
+    	
+    	if (this.getClass() != obj.getClass())
+    	    return false;
+    	
+    	DatedLine datedLine = (DatedLine) obj;
+		return this.getEmbeddedDate().equals(datedLine.getEmbeddedDate()) && 
+			   this.getOriginalStringWithDate().equals(datedLine.getOriginalStringWithDate());
+    }
+    
+    @Override
+	public int hashCode() {
+		return super.hashCode();
+	}
 
 }

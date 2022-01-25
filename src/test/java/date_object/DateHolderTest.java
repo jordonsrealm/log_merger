@@ -1,14 +1,16 @@
 package date_object;
 
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
 import org.junit.Test;
 
-import date.holder.DateHolder;
+import transfer.object.DatedLine;
 
 
 public class DateHolderTest {
@@ -25,8 +27,19 @@ public class DateHolderTest {
 		Date minDate = new GregorianCalendar( year, month, dayStart).getTime();
 		Date maxDate = new GregorianCalendar( year, month, dayEnd).getTime();
 		
-		DateHolder holder = new DateHolder( strDate1, "yyyy-MM-dd");
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        Date embeddedDate = null;
+        Exception caughtException = null;
+        
+        try {
+        	embeddedDate = formatter.parse(strDate1);
+        } catch (ParseException e) {
+        	caughtException = e;
+        }
+        
+		DatedLine holder = new DatedLine( strDate1, embeddedDate);
 		assertTrue(holder.isDateWithinBounds(minDate, maxDate));
+		assertNull(caughtException);
 	}
 	
 	@Test
@@ -41,7 +54,18 @@ public class DateHolderTest {
 		Date minDate = new GregorianCalendar( year, month, dayStart).getTime();
 		Date maxDate = new GregorianCalendar( year, month, dayEnd).getTime();
 		
-		DateHolder holder = new DateHolder( strDate1, "yyyy-MM-dd");
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        Date embeddedDate = null;
+        Exception caughtException = null;
+        
+        try {
+        	embeddedDate = formatter.parse(strDate1);
+        } catch (ParseException e) {
+        	caughtException = e;
+        }
+		
+		DatedLine holder = new DatedLine( strDate1, embeddedDate);
 		assertFalse(holder.isDateWithinBounds( minDate, maxDate));
+		assertNull(caughtException);
 	}
 }
