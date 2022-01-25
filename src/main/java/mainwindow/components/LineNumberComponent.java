@@ -19,7 +19,7 @@ import org.slf4j.LoggerFactory;
 
 public class LineNumberComponent extends JComponent implements MouseMotionListener, MouseListener {
 	
-	private static final Logger logger = LoggerFactory.getLogger(LineNumberPanel.class);
+	private static final Logger logger = LoggerFactory.getLogger(LineNumberComponent.class);
 	private static final long serialVersionUID = 1L;
 	private final Dimension setDimension = new Dimension(34,10);
 	private Point movedPoint;
