@@ -21,16 +21,18 @@ public class LineNumberComponent extends JComponent implements MouseMotionListen
 	
 	private static final Logger logger = LoggerFactory.getLogger(LineNumberComponent.class);
 	private static final long serialVersionUID = 1L;
+	
+	private static final String COLOR_BORDER = "0x494949";
+	private static final String LINE_NUM_BORDER = "0x707070";
+	private static final int ARC_BORDER = 6;
+	private static final double HEIGHT_DECREASE = .25d;
+	private static final int BUFFER_HEIGHT = 2;
+	
 	private final Dimension setDimension = new Dimension(34,10);
 	private Point movedPoint;
 	private int strHeight;
 	private boolean drawToolTip;
-	private double heightDecrease = .25d;
-	private int heightBuffer = 2;
 	private Rectangle movedRectangle;
-	private static final String COLOR_BORDER = "0x494949";
-	private static final String LINE_NUM_BORDER = "0x707070";
-	private static final int ARC_BORDER = 6;
 	private int lineNumber;
 	
 	
@@ -56,7 +58,7 @@ public class LineNumberComponent extends JComponent implements MouseMotionListen
 	private void drawLineNumbers(Graphics g, FontMetrics fm) {
 		for(int t = 0; t <= getHeight()/strHeight; t++) {
 			String intStr = String.valueOf(t);
-			g.drawString( intStr, (getWidth() - fm.stringWidth(intStr))/2, (int)(strHeight*(t - heightDecrease) + heightBuffer));
+			g.drawString( intStr, (getWidth() - fm.stringWidth(intStr))/2, (int)(strHeight*(t - HEIGHT_DECREASE) + BUFFER_HEIGHT));
 		}
 	}
 	

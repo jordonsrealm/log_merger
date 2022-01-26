@@ -11,15 +11,16 @@ public class DateLineProcessor implements Runnable {
 
 	private MainWindowHolder mainWindowContainer;
 	private JScrollPane organizedScrollPane;
+	private JTextArea orderedTextArea;
 	
 	
 	public DateLineProcessor(MainWindowHolder mainWindowContainer) {
 		this.mainWindowContainer = mainWindowContainer;
+		this.orderedTextArea = mainWindowContainer.getTxtHolder().getOrderedTextArea();
 	}
 	
 	@Override
 	public void run() {
-		JTextArea orderedTextArea = mainWindowContainer.getTxtHolder().getOrderedTextArea();
 		String textToOrder = mainWindowContainer.getUnorderedText();
 		String formatString = mainWindowContainer.getRegexPatternText();
 		String minDateString = mainWindowContainer.getMinDateText();
