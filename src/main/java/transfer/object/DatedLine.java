@@ -51,7 +51,8 @@ public class DatedLine implements Comparable<DatedLine> {
     	boolean withinBounds = true;
     	
     	if(minimumDate!=null && maximumDate!=null) {
-    		withinBounds = (getEmbeddedDate().after(minimumDate)) && (getEmbeddedDate().before(maximumDate)) || getEmbeddedDate().equals(minimumDate)|| getEmbeddedDate().equals(maximumDate);
+    		withinBounds = (getEmbeddedDate().after(minimumDate) || getEmbeddedDate().equals(minimumDate)) && 
+    						(getEmbeddedDate().before(maximumDate) || getEmbeddedDate().equals(maximumDate));
     	} else {
         	if(minimumDate != null) {
         		withinBounds = getEmbeddedDate().after(minimumDate) || getEmbeddedDate().equals(minimumDate);
@@ -67,10 +68,10 @@ public class DatedLine implements Comparable<DatedLine> {
 
     @Override
     public int compareTo(DatedLine datedLine) {
-        if(this.getEmbeddedDate() == null || datedLine.getEmbeddedDate() == null){
+        if(getEmbeddedDate() == null || datedLine.getEmbeddedDate() == null){
             return 0;
         }else{
-            return this.getEmbeddedDate().compareTo(datedLine.getEmbeddedDate()) * (orderDescending?-1:1);
+            return getEmbeddedDate().compareTo(datedLine.getEmbeddedDate()) * (orderDescending?-1:1);
         }
     }
     
@@ -84,8 +85,8 @@ public class DatedLine implements Comparable<DatedLine> {
     	    return false;
     	
     	DatedLine datedLine = (DatedLine) obj;
-		return this.getEmbeddedDate().equals(datedLine.getEmbeddedDate()) && 
-			   this.getOriginalStringWithDate().equals(datedLine.getOriginalStringWithDate());
+		return getEmbeddedDate().equals(datedLine.getEmbeddedDate()) && 
+			   getOriginalStringWithDate().equals(datedLine.getOriginalStringWithDate());
     }
     
     @Override

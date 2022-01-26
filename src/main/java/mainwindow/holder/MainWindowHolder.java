@@ -73,6 +73,10 @@ public class MainWindowHolder {
 		return checkBoxHolder;
 	}
 	
+	public boolean isDescending() {
+		return checkBoxHolder.getDescendingCheckBox().isSelected();
+	}
+	
 	public String getRegexPatternText() {
 		return getTxtHolder().getRegexPatternTextField().getText();
 	}
@@ -86,11 +90,11 @@ public class MainWindowHolder {
 	}
 	
 	public void setOrderedText(String newText) {
-		getTxtHolder().getOrderedText().setText(newText);
+		getTxtHolder().getOrderedTextArea().setText(newText);
 	}
 	
 	public String getOrderedText() {
-		return getTxtHolder().getOrderedText().getText();
+		return getTxtHolder().getOrderedTextArea().getText();
 	}
 	
 	public void setFileNameInputText(String newText) {

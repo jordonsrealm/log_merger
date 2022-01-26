@@ -56,7 +56,7 @@ public class TextHolder {
 	public JTextArea getUnOrderedText() {
 		return this.unOrderedText;
 	}
-	public JTextArea getOrderedText() {
+	public JTextArea getOrderedTextArea() {
 		return this.orderedText;
 	}
 	public JTextField getRegexPatternTextField() {

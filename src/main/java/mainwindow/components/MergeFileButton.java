@@ -26,7 +26,7 @@ public class MergeFileButton extends AbstractMainWindowContainerButton {
     	
     	setEnabled(false);
     	
-    	mainWindowContainer.getTxtHolder().getOrderedText().setText("");
+    	mainWindowContainer.getTxtHolder().getOrderedTextArea().setText("");
     	
     	ProcessLogo processingThread = new ProcessLogo( mainWindowContainer, CenteredPointType.ORDERED_TEXT_AREA);
     	

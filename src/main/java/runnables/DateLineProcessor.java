@@ -19,12 +19,16 @@ public class DateLineProcessor implements Runnable {
 	
 	@Override
 	public void run() {
-		JTextArea organizedTextArea = mainWindowContainer.getTxtHolder().getOrderedText();
+		JTextArea orderedTextArea = mainWindowContainer.getTxtHolder().getOrderedTextArea();
+		String textToOrder = mainWindowContainer.getUnorderedText();
+		String formatString = mainWindowContainer.getRegexPatternText();
+		String minDateString = mainWindowContainer.getMinDateText();
+		String maxDateString = mainWindowContainer.getMaxDateText();
 		
-		DateLineOrganizer dateOrganizer = new DateLineOrganizer(mainWindowContainer).orderDateLines().handleDateBoundariesReturnList();
-        
-        organizedTextArea.setText(dateOrganizer.toString());
-        organizedTextArea.setCaretPosition(0);
+		String completeTextString = new DateLineOrganizer(textToOrder, formatString, mainWindowContainer.isDescending()).orderDateLines(minDateString, maxDateString);
+		
+		orderedTextArea.setText(completeTextString);
+		orderedTextArea.setCaretPosition(completeTextString.length());
         
         if(organizedScrollPane != null && organizedScrollPane.getHorizontalScrollBar()!=null) {
         	organizedScrollPane.getHorizontalScrollBar().setValue(0);

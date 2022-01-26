@@ -15,50 +15,63 @@ import java.util.regex.Pattern;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import mainwindow.holder.MainWindowHolder;
 import transfer.object.DatedLine;
 
 
 public class DateLineOrganizer {
 	
 	private static final Logger logger = LoggerFactory.getLogger(DateLineOrganizer.class);
-	private List<DatedLine> contentsAsDateLines = new ArrayList<>();
-	private MainWindowHolder windowHolder;
+	private String notSortedString;
+	private String currentDateFormat;
     private static final String DEFAULT_FORMAT = "yyyy-MM-dd HH:mm:ss.SSS";
     private static final String REPLACE_SEQ = "\\d\\d";
     private boolean descendingOrder = false;
 	
 	
-	public DateLineOrganizer(MainWindowHolder mainWindowContainer) {
-		this.windowHolder = mainWindowContainer;
-		this.descendingOrder = windowHolder.getCheckBoxHolder().getDescendingCheckBox().isSelected();
+	public DateLineOrganizer(String strToOrder, String currentDateFormat, boolean descending) {
+		setNotSortedString(strToOrder);
+		setCurrentDateFormat(currentDateFormat);
+		setDescendingOrder(descending);
 	}
 
-    public DateLineOrganizer orderDateLines() {
-    	String dateFormat = windowHolder.getRegexPatternText();
+    public String orderDateLines(String minDateString, String maxDateString) {
     	
-    	sortLinesUsingFormat(dateFormat);
+    	List<DatedLine> sortedDatedLines = getDatedLinesUsingFormat(getCurrentDateFormat());
     	
-    	Collections.sort(this.contentsAsDateLines);
+    	Collections.sort(sortedDatedLines);
     	
-    	return this;
+    	List<DatedLine> boundedDatedLines = getBoundedDatedLines(sortedDatedLines, minDateString, maxDateString);
+    	
+    	return returnCompleteText(boundedDatedLines);
     }
     
-    private void sortLinesUsingFormat(String format){
-    	logger.info("Ordering Date Lines");
+    protected String returnCompleteText(List<DatedLine> datedLines) {
     	
-    	BufferedReader bufferedReader = new BufferedReader(new StringReader(windowHolder.getUnorderedText()));
+    	StringBuilder builder = new StringBuilder();
+    	String appendingStr = "";
+    	
+        for(DatedLine holder: datedLines){
+            appendingStr = holder.getOriginalStringWithDate() + "\n";
+            builder.append(appendingStr);
+        }
         
-        String lineRead;
+        return builder.toString();
+    }
+    
+    protected List<DatedLine> getDatedLinesUsingFormat(String format){
+    	logger.info("Ordering dated lines {} order", (isDescendingOrder() ? "in descending" : "in ascending"));
+    	
+        DatedLine.setOrderDescending(isDescendingOrder());
+        
+    	BufferedReader bufferedReader = new BufferedReader(new StringReader(getNotSortedString()));
         ArrayList<DatedLine> datedLineList = new ArrayList<>();
-        
         Date validDate = null;
-        DatedLine.setOrderDescending(descendingOrder);
+        String lineRead;
         
         try {
             while((lineRead = bufferedReader.readLine()) != null){
             	
-            	validDate = validDate( lineRead, format);
+            	validDate = isValidDate( lineRead, format);
             	
                 if(validDate != null){
                     datedLineList.add(new DatedLine(lineRead, validDate));
@@ -69,13 +82,13 @@ public class DateLineOrganizer {
                 }
             }
         } catch (IOException ex) {
-            logger.error("Unable to read lines of text");
+            logger.error("Unable to read lines of text: {}", ex.getStackTrace());
         }
         
-        contentsAsDateLines = datedLineList;
+        return datedLineList;
     }
 	
-	public Date validDate(String strToConvert, String format){
+	protected Date isValidDate(String strToConvert, String format){
     	String formattedString = format.replace("dd", REPLACE_SEQ)
     								  .replace("yyyy", REPLACE_SEQ + REPLACE_SEQ)
     								  .replace("MM", REPLACE_SEQ)
@@ -87,7 +100,6 @@ public class DateLineOrganizer {
     								  .replace(".","\\.");
     	
     	Matcher matcher = Pattern.compile(formattedString).matcher(strToConvert);
-    	
     	Date dateFromString = null;
     	
     	if(matcher.find()) {
@@ -95,51 +107,35 @@ public class DateLineOrganizer {
             
             try {
                 dateFromString = formatter.parse(strToConvert);
-            } catch (ParseException e) {
-            	logger.error("Unable to parse date from string");
+            } catch (ParseException ex) {
+            	logger.error("Unable to parse date from string: {}", ex.getStackTrace());
             }
-    		
     	}
     		
         return dateFromString;
     }
     
-    public static List<DatedLine> returnListWithBoundedDates(List<DatedLine> unboundedList, Date minimumDate, Date maximumDate) {
-        for(int ind = unboundedList.size()-1; ind > -1; ind--){
-        	DatedLine holder = unboundedList.get(ind);
-
-            if(!holder.isDateWithinBounds(minimumDate, maximumDate)){
-            	unboundedList.remove(ind);
-            }
-        }
-        
-        return unboundedList;
-    }
-    
-    public DateLineOrganizer handleDateBoundariesReturnList() {
-    	String minDateStr = windowHolder.getMinDateText();
-    	String maxDateStr = windowHolder.getMaxDateText();
+    protected List<DatedLine> getBoundedDatedLines(List<DatedLine> dateLines, String minDateString, String maxDateString) {
     	
-    	if(!(minDateStr.isEmpty() && maxDateStr.isEmpty())) {
-    		logger.info("Working on boundary dates - date1: {}, date2: {}", minDateStr, maxDateStr);
+    	if(!(minDateString.isEmpty() && maxDateString.isEmpty())) {
+    		logger.info("Working on boundary dates - date1: {}, date2: {}", minDateString, maxDateString);
     		
-    		String regexPattern = windowHolder.getRegexPatternText();
-        	Date minimumDate = getDateFromStringSupplied(minDateStr, regexPattern);
-            Date maximumDate = getDateFromStringSupplied(maxDateStr, regexPattern);
+        	Date minimumDate = getDateFromStringSupplied(minDateString, currentDateFormat);
+            Date maximumDate = getDateFromStringSupplied(maxDateString, currentDateFormat);
 
             DatedLine holder;
             
-            for(int index = this.contentsAsDateLines.size() - 1; index > -1; index--){
+            for(int index = dateLines.size() - 1; index > -1; index--){
 
-            	holder = this.contentsAsDateLines.get(index);
+            	holder = dateLines.get(index);
             	
                 if(!holder.isDateWithinBounds(minimumDate, maximumDate)){
-                	this.contentsAsDateLines.remove(index);
+                	dateLines.remove(index);
                 }
             }
     	}
     	
-    	return this;
+    	return dateLines;
     }
     
     protected Date getDateFromStringSupplied(String dateAsString, String format) {
@@ -160,26 +156,28 @@ public class DateLineOrganizer {
         
         return dateFromString;
     }
+
+    protected void setNotSortedString(String entireNotSortedString) {
+		this.notSortedString = entireNotSortedString;
+	}
     
-	@Override
-	public String toString() {
-		
-    	StringBuilder builder = new StringBuilder();
-    	String appendingStr = "";
-    	
-        for(DatedLine holder: contentsAsDateLines){
-            appendingStr = holder.getOriginalStringWithDate() + "\n";
-            builder.append(appendingStr);
-        }
-        
-        return builder.toString();
+    protected String getNotSortedString() {
+		return this.notSortedString;
 	}
 
-	public List<DatedLine> getContentsAsDateLines() {
-		return contentsAsDateLines;
+    protected String getCurrentDateFormat() {
+		return this.currentDateFormat;
 	}
 
-	public void setContentsAsDateLines(List<DatedLine> contentsAsDateLines) {
-		this.contentsAsDateLines = contentsAsDateLines;
+    protected void setCurrentDateFormat(String currentDateFormat) {
+		this.currentDateFormat = currentDateFormat;
+	}
+
+    protected boolean isDescendingOrder() {
+		return this.descendingOrder;
+	}
+
+    protected void setDescendingOrder(boolean descendingOrder) {
+		this.descendingOrder = descendingOrder;
 	}
 }

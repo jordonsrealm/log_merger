@@ -31,7 +31,7 @@ import threads.ProcessLogo;
 public class AddFileButton extends AbstractMainWindowContainerButton {
 	
 	private static final long serialVersionUID = 1L;
-	private static final Dimension setDim = new Dimension( 25, 25);
+	private static final Dimension setDim = new Dimension( 100, 25);
 	private static final Logger logger = LoggerFactory.getLogger(AddFileButton.class);
 	private static UnOrganizedHighlighter myHighlightPainter = new UnOrganizedHighlighter(Color.decode(ConfigurationGetter.instance().getHighlightHexColor()));
 	private static final String ADD_FILE_TOOL_TIP = "Add File";
@@ -39,7 +39,7 @@ public class AddFileButton extends AbstractMainWindowContainerButton {
 	
 	
 	public AddFileButton(LogMergerWindow logMergerWindow) {
-		super(logMergerWindow);
+		super(logMergerWindow, ADD_FILE_TOOL_TIP);
 		this.setPreferredSize(setDim);
 		this.setMinimumSize(setDim);
 		this.setMaximumSize(setDim);
@@ -144,24 +144,5 @@ public class AddFileButton extends AbstractMainWindowContainerButton {
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		
-		int width = getWidth();
-		int height = getHeight();
-		
-		//Set Background
-		g.setColor(Color.WHITE);
-		g.fillRect(0, 0, width, height);
-		
-		g.setColor(Color.BLACK);
-		
-		// Vertical Line
-		g.drawLine(width/2-1, 5, width/2-1, height - 6);
-		g.drawLine(width/2, 5, width/2, height - 6);
-		g.drawLine(width/2+1, 5, width/2+1, height - 6);
-		
-		// Horizontal Line
-		g.drawLine(5, height/2-1, width - 6, height/2-1);
-		g.drawLine(5, height/2, width - 6, height/2);
-		g.drawLine(5, height/2+1, width - 6, height/2+1);
 	}
 }
