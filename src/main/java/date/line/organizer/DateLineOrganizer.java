@@ -108,7 +108,7 @@ public class DateLineOrganizer {
     
     protected Date getDateFromFormat(String dateAsString) {
     	
-    	if(dateAsString == null || dateAsString.isBlank()) {
+    	if(dateAsString.isBlank()) {
     		return null;
     	}
     	
