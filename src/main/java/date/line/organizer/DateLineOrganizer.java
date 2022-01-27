@@ -48,11 +48,10 @@ public class DateLineOrganizer {
     	
         DatedLine.setOrderDescending(isDescendingOrder());
         
-    	BufferedReader bufferedReader = new BufferedReader(new StringReader(getNotSortedString()));
         ArrayList<DatedLine> datedLineList = new ArrayList<>();
         String lineRead;
         
-        try {
+        try (BufferedReader bufferedReader = new BufferedReader(new StringReader(getNotSortedString()))) {
             while((lineRead = bufferedReader.readLine()) != null){
             	DatedLine datedLine = new DatedLine(lineRead, isValidDate(lineRead, format));
             			
