@@ -38,7 +38,7 @@ public class DateHolderTest {
         }
         
 		DatedLine holder = new DatedLine( strDate1, embeddedDate);
-		assertTrue(holder.isDateWithinBounds(minDate, maxDate));
+		assertTrue(holder.isWithinBounds(minDate, maxDate));
 		assertNull(caughtException);
 	}
 	
@@ -65,7 +65,7 @@ public class DateHolderTest {
         }
 		
 		DatedLine holder = new DatedLine( strDate1, embeddedDate);
-		assertFalse(holder.isDateWithinBounds( minDate, maxDate));
+		assertFalse(holder.isWithinBounds( minDate, maxDate));
 		assertNull(caughtException);
 	}
 }

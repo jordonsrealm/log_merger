@@ -47,7 +47,7 @@ public class DatedLine implements Comparable<DatedLine> {
     	this.originalStringWithDate += stringToAppend;
     }
     
-    public boolean isDateWithinBounds(Date minimumDate, Date maximumDate) {
+    public boolean isWithinBounds(Date minimumDate, Date maximumDate) {
     	boolean withinBounds = true;
     	
     	if(minimumDate!=null && maximumDate!=null) {
@@ -77,12 +77,11 @@ public class DatedLine implements Comparable<DatedLine> {
     
     @Override
     public boolean equals(Object obj) {
-    	if (obj == null) {
-    	    return false;
-    	}
     	
-    	if (this.getClass() != obj.getClass())
-    	    return false;
+    	if (obj == null) return false;
+    	if (obj == this) return true;
+    	
+    	if (!(obj instanceof DatedLine)) return false;
     	
     	DatedLine datedLine = (DatedLine) obj;
 		return getEmbeddedDate().equals(datedLine.getEmbeddedDate()) && 
@@ -93,5 +92,4 @@ public class DatedLine implements Comparable<DatedLine> {
 	public int hashCode() {
 		return super.hashCode();
 	}
-
 }

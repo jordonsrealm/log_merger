@@ -37,15 +37,39 @@ public class DateLineOrganizer {
     public String orderDateLines(String minDateString, String maxDateString) {
     	
     	List<DatedLine> sortedDatedLines = getDatedLinesUsingFormat(getCurrentDateFormat());
+        
+    	sortedDatedLines.removeIf(datedLine -> !datedLine.isWithinBounds(getDateFromFormat(minDateString), getDateFromFormat(maxDateString)));
     	
-    	Collections.sort(sortedDatedLines);
-    	
-    	List<DatedLine> boundedDatedLines = getBoundedDatedLines(sortedDatedLines, minDateString, maxDateString);
-    	
-    	return returnCompleteText(boundedDatedLines);
+    	return returnCompleteTextFromDatedLines(sortedDatedLines);
     }
     
-    protected String returnCompleteText(List<DatedLine> datedLines) {
+    protected List<DatedLine> getDatedLinesUsingFormat(String format) {
+    	logger.info("Ordering dated lines {} order", (isDescendingOrder() ? "in descending" : "in ascending"));
+    	
+        DatedLine.setOrderDescending(isDescendingOrder());
+        
+    	BufferedReader bufferedReader = new BufferedReader(new StringReader(getNotSortedString()));
+        ArrayList<DatedLine> datedLineList = new ArrayList<>();
+        String lineRead;
+        
+        try {
+            while((lineRead = bufferedReader.readLine()) != null){
+            	DatedLine datedLine = new DatedLine(lineRead, isValidDate(lineRead, format));
+            			
+                if(datedLine.isValidDate()){
+                    datedLineList.add(datedLine);
+                }
+            }
+        } catch (IOException ex) {
+            logger.error("Unable to read lines of text: {}", ex.getStackTrace());
+        }
+        
+        return datedLineList;
+    }
+    
+    protected String returnCompleteTextFromDatedLines(List<DatedLine> datedLines) {
+
+    	Collections.sort(datedLines);
     	
     	StringBuilder builder = new StringBuilder();
     	String appendingStr = "";
@@ -57,38 +81,8 @@ public class DateLineOrganizer {
         
         return builder.toString();
     }
-    
-    protected List<DatedLine> getDatedLinesUsingFormat(String format){
-    	logger.info("Ordering dated lines {} order", (isDescendingOrder() ? "in descending" : "in ascending"));
-    	
-        DatedLine.setOrderDescending(isDescendingOrder());
-        
-    	BufferedReader bufferedReader = new BufferedReader(new StringReader(getNotSortedString()));
-        ArrayList<DatedLine> datedLineList = new ArrayList<>();
-        Date validDate = null;
-        String lineRead;
-        
-        try {
-            while((lineRead = bufferedReader.readLine()) != null){
-            	
-            	validDate = isValidDate( lineRead, format);
-            	
-                if(validDate != null){
-                    datedLineList.add(new DatedLine(lineRead, validDate));
-                } else{
-                	if(!datedLineList.isEmpty()) {
-                		datedLineList.get(datedLineList.size() - 1).appendToOriginalString(lineRead);
-                	}
-                }
-            }
-        } catch (IOException ex) {
-            logger.error("Unable to read lines of text: {}", ex.getStackTrace());
-        }
-        
-        return datedLineList;
-    }
 	
-	protected Date isValidDate(String strToConvert, String format){
+	protected Date isValidDate(String strToConvert, String format) {
     	String formattedString = format.replace("dd", REPLACE_SEQ)
     								  .replace("yyyy", REPLACE_SEQ + REPLACE_SEQ)
     								  .replace("MM", REPLACE_SEQ)
@@ -103,10 +97,8 @@ public class DateLineOrganizer {
     	Date dateFromString = null;
     	
     	if(matcher.find()) {
-            SimpleDateFormat formatter = new SimpleDateFormat(format);
-            
             try {
-                dateFromString = formatter.parse(strToConvert);
+                dateFromString = new SimpleDateFormat(format).parse(strToConvert);
             } catch (ParseException ex) {
             	logger.error("Unable to parse date from string: {}", ex.getStackTrace());
             }
@@ -115,43 +107,20 @@ public class DateLineOrganizer {
         return dateFromString;
     }
     
-    protected List<DatedLine> getBoundedDatedLines(List<DatedLine> dateLines, String minDateString, String maxDateString) {
-    	
-    	if(!(minDateString.isEmpty() && maxDateString.isEmpty())) {
-    		logger.info("Working on boundary dates - date1: {}, date2: {}", minDateString, maxDateString);
-    		
-        	Date minimumDate = getDateFromStringSupplied(minDateString, currentDateFormat);
-            Date maximumDate = getDateFromStringSupplied(maxDateString, currentDateFormat);
-
-            DatedLine holder;
-            
-            for(int index = dateLines.size() - 1; index > -1; index--){
-
-            	holder = dateLines.get(index);
-            	
-                if(!holder.isDateWithinBounds(minimumDate, maximumDate)){
-                	dateLines.remove(index);
-                }
-            }
-    	}
-    	
-    	return dateLines;
-    }
-    
-    protected Date getDateFromStringSupplied(String dateAsString, String format) {
+    protected Date getDateFromFormat(String dateAsString) {
     	
     	if(dateAsString == null || dateAsString.isBlank()) {
     		return null;
     	}
     	
-        SimpleDateFormat formatter = format.isEmpty() ? new SimpleDateFormat(DEFAULT_FORMAT) : new SimpleDateFormat(format);
+        SimpleDateFormat formatter = currentDateFormat.isEmpty() ? new SimpleDateFormat(DEFAULT_FORMAT) : new SimpleDateFormat(currentDateFormat);
         
         Date dateFromString = null;
         try {
             dateFromString = formatter.parse(dateAsString);
-            logger.debug("dateFromString: {}, format: {}", dateFromString, format);
+            logger.debug("dateFromString: {}, format: {}", dateFromString, currentDateFormat);
         } catch (ParseException e) {
-        	logger.error("Unable to parse date from string: {}, format: {}", dateAsString, format);
+        	logger.error("Unable to parse date from string: {}, format: {}", dateAsString, currentDateFormat);
         }
         
         return dateFromString;

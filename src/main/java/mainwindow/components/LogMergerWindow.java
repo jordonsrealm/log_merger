@@ -51,7 +51,7 @@ public class LogMergerWindow extends JFrame implements ComponentListener {
     
     private void setImageIconForApplication() {
 		try {
-			InputStream  inputStreamFromPng = getClass().getClassLoader().getResourceAsStream(ConfigurationGetter.instance().getAppIconFileName());
+			InputStream inputStreamFromPng = getClass().getClassLoader().getResourceAsStream(ConfigurationGetter.instance().getAppIconFileName());
 			ImageIcon icon = new ImageIcon(ImageIO.read(inputStreamFromPng));
 			setIconImage(icon.getImage());
 		} catch (IOException e) {
