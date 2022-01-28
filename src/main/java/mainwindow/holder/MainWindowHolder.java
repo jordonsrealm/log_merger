@@ -12,7 +12,7 @@ import java.awt.Component;
 
 public class MainWindowHolder {
     
-    private TextHolder txtHolder = new TextHolder();
+    private TextHolder txtHolder;
     private ButtonHolder btnHolder;
     private CheckBoxHolder checkBoxHolder;
     
@@ -27,6 +27,7 @@ public class MainWindowHolder {
         this.glassPane = logMergerWindow.getGlassPane();
     	this.btnHolder = new ButtonHolder(logMergerWindow);
     	this.checkBoxHolder = new CheckBoxHolder(logMergerWindow);
+    	this.txtHolder = new TextHolder(logMergerWindow);
 	}
 
 	public Component getGlassPane() {
