@@ -9,6 +9,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import mainwindow.components.LineNumberComponent;
+import mainwindow.components.LogMergerWindow;
 import mainwindow.components.PreviewScrollPane;
 
 
@@ -31,17 +32,19 @@ public class TextHolder {
     private JScrollPane orderedScrollPane	= new JScrollPane(this.orderedText);
     private JTextField minDateField = new JTextField(TEXT_FIELD_COLUMNS_CNT);
     private JTextField maxDateField = new JTextField(TEXT_FIELD_COLUMNS_CNT);
+    private LogMergerWindow logMergerWindow;
     
     
-    public TextHolder() {
+    public TextHolder(LogMergerWindow logMergerWindow) {
+    	this.setLogMergerWindow(logMergerWindow);
     	JPanel leftPanel = new JPanel(new BorderLayout());
-		leftPanel.add(new LineNumberComponent(), BorderLayout.WEST);
+		leftPanel.add(new LineNumberComponent(this), BorderLayout.WEST);
 		leftPanel.add(this.unOrderedText, BorderLayout.CENTER);
 		
 		setUnOrderedScrollPane(new PreviewScrollPane(leftPanel));
     	
     	JPanel rightPanel = new JPanel(new BorderLayout());
-    	rightPanel.add(new LineNumberComponent(), BorderLayout.WEST);
+    	rightPanel.add(new LineNumberComponent(this), BorderLayout.WEST);
     	rightPanel.add(this.orderedText, BorderLayout.CENTER);
     	
     	setOrderedScrollPane(new PreviewScrollPane(rightPanel));
@@ -79,5 +82,13 @@ public class TextHolder {
 	}
 	public JTextField getMaxDateField() {
 		return this.maxDateField;
+	}
+
+	public LogMergerWindow getLogMergerWindow() {
+		return logMergerWindow;
+	}
+
+	public void setLogMergerWindow(LogMergerWindow logMergerWindow) {
+		this.logMergerWindow = logMergerWindow;
 	}
 }

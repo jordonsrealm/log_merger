@@ -6,15 +6,21 @@ import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
 import javax.swing.JComponent;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
 import javax.swing.SwingUtilities;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import mainwindow.components.holder.TextHolder;
 
 
 public class LineNumberComponent extends JComponent implements MouseMotionListener, MouseListener {
@@ -28,18 +34,26 @@ public class LineNumberComponent extends JComponent implements MouseMotionListen
 	private static final double HEIGHT_DECREASE = .25d;
 	private static final int BUFFER_HEIGHT = 2;
 	private final Dimension setDimension = new Dimension(34,10);
-	
+    private final JPopupMenu popupmenu = new JPopupMenu("Date Boundary");   
+    private final JMenuItem minDate = new JMenuItem("Use as Min Date");  
+    private final JMenuItem maxDate = new JMenuItem("Use as Max Date");
+    
 	private Point movedPoint;
 	private int strHeight;
 	private boolean drawToolTip;
 	private Rectangle movedRectangle;
 	private int lineNumber;
+	private TextHolder textHolder;
 	
 	
-	public LineNumberComponent() {
+	public LineNumberComponent(TextHolder holder) {
+		setTextHolder(holder);
 		addMouseListener(this);
 		addMouseMotionListener(this);
 		setPreferredSize(setDimension);
+		 
+        popupmenu.add(minDate);
+        popupmenu.add(maxDate);
 	}
 	
 	@Override
@@ -53,6 +67,20 @@ public class LineNumberComponent extends JComponent implements MouseMotionListen
 		drawBorder(g);
 		drawLineBorder(g);
 		handleToolTip(g);
+		
+		minDate.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				getTextHolder().getMinDateField().setText("Got here bitch");
+			}
+		});
+		
+		maxDate.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				getTextHolder().getMaxDateField().setText("Got here too bitch");
+			}
+		});
 	}
 	
 	private void drawLineNumbers(Graphics g, FontMetrics fm) {
@@ -98,6 +126,10 @@ public class LineNumberComponent extends JComponent implements MouseMotionListen
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		logger.info("MouseReleased");
+		
+		if(e.isPopupTrigger()) {
+	        popupmenu.show(e.getComponent(), e.getX(), e.getY());
+		}
 	}
 
 	@Override
@@ -151,5 +183,13 @@ public class LineNumberComponent extends JComponent implements MouseMotionListen
 				}
 			}
 		);
+	}
+
+	public TextHolder getTextHolder() {
+		return textHolder;
+	}
+
+	public void setTextHolder(TextHolder holder) {
+		this.textHolder = holder;
 	}
 }

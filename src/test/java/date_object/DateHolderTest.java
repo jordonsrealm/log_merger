@@ -1,10 +1,9 @@
 package date_object;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+
 import java.util.Date;
 import java.util.GregorianCalendar;
 
@@ -17,7 +16,9 @@ public class DateHolderTest {
 
 	@Test
 	public void testDateRangeInBounds() {
-		String strDate1 = "2020-01-10";
+		String strDate = "2020-01-10	Random Text Here...";
+		String strDateOnly = strDate.substring(0, 10);
+		String dateFormatString = "yyyy-MM-dd";
 		
 		int year     = 2020;
 		int month    = 0;
@@ -26,25 +27,17 @@ public class DateHolderTest {
 		
 		Date minDate = new GregorianCalendar( year, month, dayStart).getTime();
 		Date maxDate = new GregorianCalendar( year, month, dayEnd).getTime();
-		
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        Date embeddedDate = null;
-        Exception caughtException = null;
         
-        try {
-        	embeddedDate = formatter.parse(strDate1);
-        } catch (ParseException e) {
-        	caughtException = e;
-        }
-        
-		DatedLine holder = new DatedLine( strDate1, embeddedDate);
-		assertTrue(holder.isDateWithinBounds(minDate, maxDate));
-		assertNull(caughtException);
+		DatedLine holder = new DatedLine( strDate, dateFormatString);
+		assertEquals( strDateOnly, holder.getDateAsString());
+		assertTrue(holder.isWithinBounds(minDate, maxDate));
 	}
 	
 	@Test
 	public void testDateRangeNotInBounds() {
-		String strDate1 = "2020-01-18";
+		String strDate = "2020-01-18	Random Text Here...";
+		String strDateOnly = strDate.substring(0, 10);
+		String dateFormatString = "yyyy-MM-dd";
 		
 		int year     = 2020;
 		int month    = 0;
@@ -54,18 +47,8 @@ public class DateHolderTest {
 		Date minDate = new GregorianCalendar( year, month, dayStart).getTime();
 		Date maxDate = new GregorianCalendar( year, month, dayEnd).getTime();
 		
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        Date embeddedDate = null;
-        Exception caughtException = null;
-        
-        try {
-        	embeddedDate = formatter.parse(strDate1);
-        } catch (ParseException e) {
-        	caughtException = e;
-        }
-		
-		DatedLine holder = new DatedLine( strDate1, embeddedDate);
-		assertFalse(holder.isDateWithinBounds( minDate, maxDate));
-		assertNull(caughtException);
+		DatedLine holder = new DatedLine( strDate, dateFormatString);
+		assertEquals( strDateOnly, holder.getDateAsString());
+		assertFalse(holder.isWithinBounds( minDate, maxDate));
 	}
 }

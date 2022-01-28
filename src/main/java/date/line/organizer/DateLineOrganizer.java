@@ -9,9 +9,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,7 +21,6 @@ public class DateLineOrganizer {
 	private String notSortedString;
 	private String currentDateFormat;
     private static final String DEFAULT_FORMAT = "yyyy-MM-dd HH:mm:ss.SSS";
-    private static final String REPLACE_SEQ = "\\d\\d";
     private boolean descendingOrder = false;
 	
 	
@@ -37,48 +33,24 @@ public class DateLineOrganizer {
     public String orderDateLines(String minDateString, String maxDateString) {
     	
     	List<DatedLine> sortedDatedLines = getDatedLinesUsingFormat(getCurrentDateFormat());
+        
+    	sortedDatedLines.removeIf(datedLine -> !datedLine.isWithinBounds(getDateFromFormat(minDateString), getDateFromFormat(maxDateString)));
     	
-    	Collections.sort(sortedDatedLines);
-    	
-    	List<DatedLine> boundedDatedLines = getBoundedDatedLines(sortedDatedLines, minDateString, maxDateString);
-    	
-    	return returnCompleteText(boundedDatedLines);
+    	return returnCompleteTextFromDatedLines(sortedDatedLines);
     }
     
-    protected String returnCompleteText(List<DatedLine> datedLines) {
-    	
-    	StringBuilder builder = new StringBuilder();
-    	String appendingStr = "";
-    	
-        for(DatedLine holder: datedLines){
-            appendingStr = holder.getOriginalStringWithDate() + "\n";
-            builder.append(appendingStr);
-        }
+    protected List<DatedLine> getDatedLinesUsingFormat(String format) {
+    	DatedLine.setOrderDescending(isDescendingOrder());
         
-        return builder.toString();
-    }
-    
-    protected List<DatedLine> getDatedLinesUsingFormat(String format){
-    	logger.info("Ordering dated lines {} order", (isDescendingOrder() ? "in descending" : "in ascending"));
-    	
-        DatedLine.setOrderDescending(isDescendingOrder());
-        
-    	BufferedReader bufferedReader = new BufferedReader(new StringReader(getNotSortedString()));
         ArrayList<DatedLine> datedLineList = new ArrayList<>();
-        Date validDate = null;
         String lineRead;
         
-        try {
+        try (BufferedReader bufferedReader = new BufferedReader(new StringReader(getNotSortedString()))) {
             while((lineRead = bufferedReader.readLine()) != null){
-            	
-            	validDate = isValidDate( lineRead, format);
-            	
-                if(validDate != null){
-                    datedLineList.add(new DatedLine(lineRead, validDate));
-                } else{
-                	if(!datedLineList.isEmpty()) {
-                		datedLineList.get(datedLineList.size() - 1).appendToOriginalString(lineRead);
-                	}
+            	DatedLine datedLine = new DatedLine(lineRead, format);
+            			
+                if(datedLine.isValidDate()){
+                    datedLineList.add(datedLine);
                 }
             }
         } catch (IOException ex) {
@@ -87,71 +59,31 @@ public class DateLineOrganizer {
         
         return datedLineList;
     }
-	
-	protected Date isValidDate(String strToConvert, String format){
-    	String formattedString = format.replace("dd", REPLACE_SEQ)
-    								  .replace("yyyy", REPLACE_SEQ + REPLACE_SEQ)
-    								  .replace("MM", REPLACE_SEQ)
-    								  .replace("HH", REPLACE_SEQ)
-    								  .replace("mm", REPLACE_SEQ)
-    								  .replace("ss", REPLACE_SEQ)
-    								  .replace("SSS", "\\d\\d\\d")
-    								  .replace(":", "\\:")
-    								  .replace(".","\\.");
+    
+    protected String returnCompleteTextFromDatedLines(List<DatedLine> datedLines) {
+    	Collections.sort(datedLines);
+    	StringBuilder builder = new StringBuilder();
     	
-    	Matcher matcher = Pattern.compile(formattedString).matcher(strToConvert);
-    	Date dateFromString = null;
-    	
-    	if(matcher.find()) {
-            SimpleDateFormat formatter = new SimpleDateFormat(format);
-            
-            try {
-                dateFromString = formatter.parse(strToConvert);
-            } catch (ParseException ex) {
-            	logger.error("Unable to parse date from string: {}", ex.getStackTrace());
-            }
-    	}
-    		
-        return dateFromString;
+        for(DatedLine holder: datedLines){
+            builder.append(holder.getOriginalStringWithDate() + "\n");
+        }
+        
+        return builder.toString();
     }
     
-    protected List<DatedLine> getBoundedDatedLines(List<DatedLine> dateLines, String minDateString, String maxDateString) {
-    	
-    	if(!(minDateString.isEmpty() && maxDateString.isEmpty())) {
-    		logger.info("Working on boundary dates - date1: {}, date2: {}", minDateString, maxDateString);
-    		
-        	Date minimumDate = getDateFromStringSupplied(minDateString, currentDateFormat);
-            Date maximumDate = getDateFromStringSupplied(maxDateString, currentDateFormat);
-
-            DatedLine holder;
-            
-            for(int index = dateLines.size() - 1; index > -1; index--){
-
-            	holder = dateLines.get(index);
-            	
-                if(!holder.isDateWithinBounds(minimumDate, maximumDate)){
-                	dateLines.remove(index);
-                }
-            }
-    	}
-    	
-    	return dateLines;
-    }
-    
-    protected Date getDateFromStringSupplied(String dateAsString, String format) {
+    protected Date getDateFromFormat(String dateAsString) {
     	
     	if(dateAsString == null || dateAsString.isBlank()) {
     		return null;
     	}
     	
-        SimpleDateFormat formatter = format.isEmpty() ? new SimpleDateFormat(DEFAULT_FORMAT) : new SimpleDateFormat(format);
+        SimpleDateFormat formatter = currentDateFormat.isEmpty() ? new SimpleDateFormat(DEFAULT_FORMAT) : new SimpleDateFormat(currentDateFormat);
         
         Date dateFromString = null;
         try {
             dateFromString = formatter.parse(dateAsString);
-            logger.debug("dateFromString: {}, format: {}", dateFromString, format);
         } catch (ParseException e) {
-        	logger.error("Unable to parse date from string: {}, format: {}", dateAsString, format);
+        	logger.error("Unable to parse date from string: {}, format: {}", dateAsString, currentDateFormat);
         }
         
         return dateFromString;
