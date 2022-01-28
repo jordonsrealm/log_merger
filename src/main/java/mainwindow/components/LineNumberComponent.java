@@ -27,8 +27,8 @@ public class LineNumberComponent extends JComponent implements MouseMotionListen
 	private static final int ARC_BORDER = 6;
 	private static final double HEIGHT_DECREASE = .25d;
 	private static final int BUFFER_HEIGHT = 2;
-	
 	private final Dimension setDimension = new Dimension(34,10);
+	
 	private Point movedPoint;
 	private int strHeight;
 	private boolean drawToolTip;
@@ -87,17 +87,17 @@ public class LineNumberComponent extends JComponent implements MouseMotionListen
 	
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		logger.info("Done mouseClicked");
+		logger.info("MouseClicked");
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		logger.info("Done mousePressed");
+		logger.info("MousePressed");
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		logger.info("Done mouseReleased");
+		logger.info("MouseReleased");
 	}
 
 	@Override
@@ -120,7 +120,7 @@ public class LineNumberComponent extends JComponent implements MouseMotionListen
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		logger.info("Done MouseEvent");
+		logger.info("MouseDragged");
 	}
 
 	@Override
