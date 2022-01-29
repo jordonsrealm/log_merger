@@ -69,6 +69,14 @@ public class DatedLine implements Comparable<DatedLine> {
         
         return date;
     }
+	
+	public String getDateAsString() {
+		 return getFormattedDate(this.originalStringWithDate, this.dateFormat);
+	}
+
+	public void appendToOriginalString(String stringToAppend) {
+    	this.originalStringWithDate += stringToAppend;
+    }
     
 	protected String getFormattedDate(String strToConvert, String format) {
     	String formattedString = format.replace("dd", REPLACE_SEQ)
@@ -89,14 +97,6 @@ public class DatedLine implements Comparable<DatedLine> {
     	}
     		
         return dateFromString;
-    }
-	
-	public String getDateAsString() {
-		 return getFormattedDate(this.originalStringWithDate, this.dateFormat);
-	}
-
-	public void appendToOriginalString(String stringToAppend) {
-    	this.originalStringWithDate += stringToAppend;
     }
     
     public boolean isWithinBounds(Date minimumDate, Date maximumDate) {

@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.util.List;
 
 import javax.swing.JComponent;
 import javax.swing.JMenuItem;
@@ -20,7 +21,7 @@ import javax.swing.SwingUtilities;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import mainwindow.components.holder.TextHolder;
+import transfer.object.DatedLine;
 
 
 public class LineNumberComponent extends JComponent implements MouseMotionListener, MouseListener {
@@ -42,12 +43,14 @@ public class LineNumberComponent extends JComponent implements MouseMotionListen
 	private int strHeight;
 	private boolean drawToolTip;
 	private Rectangle movedRectangle;
-	private int lineNumber;
-	private TextHolder textHolder;
+	private int pixelLineNumber;
+	private LogMergerWindow logMergerWindow;
+	private float quotient = 0;
 	
 	
-	public LineNumberComponent(TextHolder holder) {
-		setTextHolder(holder);
+	public LineNumberComponent(LogMergerWindow logMergerWindow) {
+		setLogMergerWindow(logMergerWindow);
+		
 		addMouseListener(this);
 		addMouseMotionListener(this);
 		setPreferredSize(setDimension);
@@ -71,14 +74,20 @@ public class LineNumberComponent extends JComponent implements MouseMotionListen
 		minDate.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				getTextHolder().getMinDateField().setText("Got here bitch");
+				DatedLine line = getDatedLine((int)quotient);
+				if(line != null) {
+					setMinDateText(line.getDateAsString());
+				}
 			}
 		});
 		
 		maxDate.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				getTextHolder().getMaxDateField().setText("Got here too bitch");
+				DatedLine line = getDatedLine((int)quotient);
+				if(line != null) {
+					setMaxDateText(line.getDateAsString());
+				}
 			}
 		});
 	}
@@ -105,12 +114,10 @@ public class LineNumberComponent extends JComponent implements MouseMotionListen
 	}
 	
 	private void handleToolTip(Graphics g) {
-		String toolTipText = "";
-		if(drawToolTip && movedPoint!=null) {
-			toolTipText += movedPoint.y/strHeight + 1;
+		DatedLine line = getDatedLine((int)quotient);
+		if(line!=null && line.getDateAsString()!=null) {
+			setToolTipText("Set Date Boundary: " + line.getDateAsString());
 		}
-		
-		setToolTipText(toolTipText);
 	}
 	
 	@Override
@@ -128,23 +135,24 @@ public class LineNumberComponent extends JComponent implements MouseMotionListen
 		logger.info("MouseReleased");
 		
 		if(e.isPopupTrigger()) {
+			quotient = getQuotient(e.getPoint().y, strHeight);
 	        popupmenu.show(e.getComponent(), e.getX(), e.getY());
 		}
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		drawToolTip = Boolean.TRUE;
+		setDrawToolTip(Boolean.TRUE);
 		movedPoint = e.getPoint();
-		float quotient = strHeight==0 ? 0 : (float)e.getPoint().y/strHeight;
-		lineNumber = (int)quotient*strHeight;
+		quotient = getQuotient(movedPoint.y, strHeight);
+		pixelLineNumber = (int)quotient*strHeight;
 		
-		redrawRectangle(new Rectangle(0, lineNumber, getWidth(), strHeight+1));
+		redrawRectangle(new Rectangle(0, pixelLineNumber, getWidth(), strHeight+1));
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		drawToolTip = Boolean.FALSE;
+		setDrawToolTip(Boolean.FALSE);
 		movedPoint = null;
 		
 		redrawRectangle(null);
@@ -158,20 +166,43 @@ public class LineNumberComponent extends JComponent implements MouseMotionListen
 	@Override
 	public void mouseMoved(MouseEvent e) {
 		movedPoint = e.getPoint();
+		quotient = getQuotient(movedPoint.y, strHeight);
+		pixelLineNumber = (int)quotient * strHeight;
 		
-		float quotient = strHeight==0 ? 0 :((float)e.getPoint().y/strHeight);
-		lineNumber = (int)quotient*strHeight;
-		
-		Rectangle mousepointRectangle = new Rectangle(0, lineNumber, getWidth(), strHeight);
+		Rectangle mousepointRectangle = new Rectangle(0, pixelLineNumber, getWidth(), strHeight);
 		
 		if(movedRectangle == null) {
 			movedRectangle = mousepointRectangle;
 		}
-		System.out.println("Linenumber: " + ((int)quotient + 1));
+		
 		if(!movedRectangle.intersects(mousepointRectangle)) {
 			movedRectangle = mousepointRectangle;
-			redrawRectangle(new Rectangle(0, lineNumber - strHeight, getWidth(), 4*strHeight));
+			redrawRectangle(new Rectangle(0, pixelLineNumber - strHeight, getWidth(), 4 * strHeight));
 		}
+	}
+	
+	private void setMinDateText(String text) {
+		getLogMergerWindow().getWindowHolder().getTxtHolder().getMinDateField().setText(text);
+	}
+	
+	private void setMaxDateText(String text) {
+		getLogMergerWindow().getWindowHolder().getTxtHolder().getMaxDateField().setText(text);
+	}
+	
+	protected DatedLine getDatedLine(int index) {
+		DatedLine line = null;
+		List<DatedLine> lines = getLogMergerWindow().getWindowHolder().getDatedLines();
+		if(lines==null || lines.isEmpty()) {
+			return line;
+		} else {
+			line = lines.get((int) index);
+		}
+		
+		return line;
+	}
+	
+	private float getQuotient(int dividend, int divisor) {
+		return divisor==0 ? 0 : (float)dividend/divisor;
 	}
 
 	private void redrawRectangle(Rectangle rect) {
@@ -185,11 +216,19 @@ public class LineNumberComponent extends JComponent implements MouseMotionListen
 		);
 	}
 
-	public TextHolder getTextHolder() {
-		return textHolder;
+	public LogMergerWindow getLogMergerWindow() {
+		return logMergerWindow;
 	}
 
-	public void setTextHolder(TextHolder holder) {
-		this.textHolder = holder;
+	public void setLogMergerWindow(LogMergerWindow logMergerWindow) {
+		this.logMergerWindow = logMergerWindow;
+	}
+
+	public boolean isDrawToolTip() {
+		return drawToolTip;
+	}
+
+	public void setDrawToolTip(boolean drawToolTip) {
+		this.drawToolTip = drawToolTip;
 	}
 }

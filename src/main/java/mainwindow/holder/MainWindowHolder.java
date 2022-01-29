@@ -6,8 +6,10 @@ import mainwindow.components.LogMergerWindow;
 import mainwindow.components.holder.ButtonHolder;
 import mainwindow.components.holder.CheckBoxHolder;
 import mainwindow.components.holder.TextHolder;
+import transfer.object.DatedLine;
 
 import java.awt.Component;
+import java.util.List;
 
 
 public class MainWindowHolder {
@@ -20,6 +22,8 @@ public class MainWindowHolder {
     private JPanel topPanel;
     private JSplitPane bottomPanel;
     private LogMergerWindow logMergerWindow;
+    
+    private List<DatedLine> datedLines;
     
     
     public MainWindowHolder(LogMergerWindow logMergerWindow) {
@@ -120,5 +124,13 @@ public class MainWindowHolder {
 	
 	public String getMaxDateText() {
 		return getTxtHolder().getMaxDateField().getText();
+	}
+
+	public List<DatedLine> getDatedLines() {
+		return datedLines;
+	}
+
+	public void setDatedLines(List<DatedLine> datedLines) {
+		this.datedLines = datedLines;
 	}
 }

@@ -12,6 +12,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import mainwindow.holder.MainWindowHolder;
 import transfer.object.DatedLine;
 
 
@@ -21,13 +22,13 @@ public class DateLineOrganizer {
 	private String notSortedString;
 	private String currentDateFormat;
     private static final String DEFAULT_FORMAT = "yyyy-MM-dd HH:mm:ss.SSS";
-    private boolean descendingOrder = false;
+    private MainWindowHolder mainWindowContainer;
 	
 	
-	public DateLineOrganizer(String strToOrder, String currentDateFormat, boolean descending) {
+	public DateLineOrganizer(String strToOrder, String currentDateFormat, MainWindowHolder mainWindowContainer) {
 		setNotSortedString(strToOrder);
 		setCurrentDateFormat(currentDateFormat);
-		setDescendingOrder(descending);
+		setMainWindowContainer(mainWindowContainer);
 	}
 
     public String orderDateLines(String minDateString, String maxDateString) {
@@ -36,25 +37,30 @@ public class DateLineOrganizer {
         
     	sortedDatedLines.removeIf(datedLine -> !datedLine.isWithinBounds(getDateFromFormat(minDateString), getDateFromFormat(maxDateString)));
     	
+    	getMainWindowContainer().setDatedLines(sortedDatedLines);
+    	
     	return returnCompleteTextFromDatedLines(sortedDatedLines);
     }
     
     protected List<DatedLine> getDatedLinesUsingFormat(String format) {
-    	DatedLine.setOrderDescending(isDescendingOrder());
+    	DatedLine.setOrderDescending(getMainWindowContainer().isDescending());
         
         ArrayList<DatedLine> datedLineList = new ArrayList<>();
         String lineRead;
         
         try (BufferedReader bufferedReader = new BufferedReader(new StringReader(getNotSortedString()))) {
             while((lineRead = bufferedReader.readLine()) != null){
-            	DatedLine datedLine = new DatedLine(lineRead, format);
-            			
-                if(datedLine.isValidDate()){
-                    datedLineList.add(datedLine);
-                }
+            	DatedLine dLine = new DatedLine(lineRead, format);
+            	
+            	if(dLine.isValidDate()) {
+            		datedLineList.add(new DatedLine(lineRead, format));
+            	} else {
+            		datedLineList.get(datedLineList.size()-1).appendToOriginalString("\n"+lineRead);
+            	}
+            	
             }
         } catch (IOException ex) {
-            logger.error("Unable to read lines of text: {}", ex.getStackTrace());
+            logger.error("Unable to read lines of text: ", ex);
         }
         
         return datedLineList;
@@ -62,6 +68,7 @@ public class DateLineOrganizer {
     
     protected String returnCompleteTextFromDatedLines(List<DatedLine> datedLines) {
     	Collections.sort(datedLines);
+    	
     	StringBuilder builder = new StringBuilder();
     	
         for(DatedLine holder: datedLines){
@@ -105,11 +112,11 @@ public class DateLineOrganizer {
 		this.currentDateFormat = currentDateFormat;
 	}
 
-    protected boolean isDescendingOrder() {
-		return this.descendingOrder;
+	public MainWindowHolder getMainWindowContainer() {
+		return mainWindowContainer;
 	}
 
-    protected void setDescendingOrder(boolean descendingOrder) {
-		this.descendingOrder = descendingOrder;
+	public void setMainWindowContainer(MainWindowHolder mainWindowContainer) {
+		this.mainWindowContainer = mainWindowContainer;
 	}
 }

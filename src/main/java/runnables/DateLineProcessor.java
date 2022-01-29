@@ -21,15 +21,18 @@ public class DateLineProcessor implements Runnable {
 	
 	@Override
 	public void run() {
+		System.out.println("Descending: " + mainWindowContainer.isDescending());
+		
 		String textToOrder = mainWindowContainer.getUnorderedText();
 		String formatString = mainWindowContainer.getRegexPatternText();
 		String minDateString = mainWindowContainer.getMinDateText();
 		String maxDateString = mainWindowContainer.getMaxDateText();
 		
-		String completeTextString = new DateLineOrganizer(textToOrder, formatString, mainWindowContainer.isDescending()).orderDateLines(minDateString, maxDateString);
+		String completeTextString = new DateLineOrganizer(textToOrder, formatString, mainWindowContainer)
+										.orderDateLines(minDateString, maxDateString);
 		
 		orderedTextArea.setText(completeTextString);
-		orderedTextArea.setCaretPosition(completeTextString.length());
+		orderedTextArea.setCaretPosition(0);
         
         if(organizedScrollPane != null && organizedScrollPane.getHorizontalScrollBar()!=null) {
         	organizedScrollPane.getHorizontalScrollBar().setValue(0);

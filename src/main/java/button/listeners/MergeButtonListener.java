@@ -22,12 +22,12 @@ public class MergeButtonListener extends DrawingComponentListener {
     	btnPressed = (JButton) e.getSource();
     	btnPressed.setEnabled(false);
     	
-    	windowHolder.setOrderedText("");
+    	getWindowHolder().setOrderedText("");
     	
-    	ProcessLogo processingThread = new ProcessLogo(windowHolder, CenteredPointType.ORDERED_TEXT_AREA);
-    	processingThread.startProcessing();
-    	new DateLineProcessor(windowHolder).run();
-    	processingThread.stopProcessing();
+    	ProcessLogo processingLogoThread = new ProcessLogo(getWindowHolder(), CenteredPointType.ORDERED_TEXT_AREA);
+    	processingLogoThread.startProcessing();
+    	new DateLineProcessor(getWindowHolder()).run();
+    	processingLogoThread.stopProcessing();
         
         btnPressed.setEnabled(true);
     }
