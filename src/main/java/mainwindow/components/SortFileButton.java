@@ -1,14 +1,15 @@
 package mainwindow.components;
 
 import java.awt.event.ActionEvent;
+
+import javax.swing.SwingUtilities;
+
 import centerpoint.object.CenteredPointType;
-import mainwindow.holder.MainWindowHolder;
 import runnables.DateLineProcessor;
-import threads.LoadingIcon;
 
 
 public class SortFileButton extends AbstractMainWindowContainerButton {
-
+	
 	private static final long serialVersionUID = 1L;
     private static final String BTN_TITLE = "Sort";
 	
@@ -19,15 +20,11 @@ public class SortFileButton extends AbstractMainWindowContainerButton {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		setEnabled(false);
-		MainWindowHolder holder = getLogMergerWindow().getWindowHolder();
-		holder.setOrderedText("");
+		SwingUtilities.invokeLater(()->
+			getLogMergerWindow().getWindowHolder().setOrderedText("")
+		);
 
-    	LoadingIcon loadingIconThread = new LoadingIcon( holder, CenteredPointType.ORDERED_TEXT_AREA);
-    	loadingIconThread.startLoading();
-    	new DateLineProcessor(getLogMergerWindow()).run();
-    	loadingIconThread.stopLoading();
-    	
-        setEnabled(true);
+		Thread thread = new Thread(new DateLineProcessor(getLogMergerWindow(), this, CenteredPointType.ORDERED_TEXT_AREA));
+		thread.start();
 	}
 }

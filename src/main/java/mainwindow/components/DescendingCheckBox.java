@@ -2,10 +2,10 @@ package mainwindow.components;
 
 import java.awt.event.ItemEvent;
 
+import javax.swing.SwingUtilities;
+
 import centerpoint.object.CenteredPointType;
-import mainwindow.holder.MainWindowHolder;
 import runnables.DateLineProcessor;
-import threads.LoadingIcon;
 
 
 public class DescendingCheckBox extends AbstractListeningCheckBox {
@@ -20,15 +20,11 @@ public class DescendingCheckBox extends AbstractListeningCheckBox {
 	
 	@Override
 	public void itemStateChanged(ItemEvent e) {
-		setEnabled(false);
-		MainWindowHolder holder = getLogMergerWindow().getWindowHolder();
-		holder.setOrderedText("");
-		
-    	LoadingIcon processingThread = new LoadingIcon( holder, CenteredPointType.ORDERED_TEXT_AREA);
-		processingThread.startLoading();
-		new DateLineProcessor(getLogMergerWindow()).run();
-		processingThread.stopLoading();
-		
-		setEnabled(true);
+		SwingUtilities.invokeLater(()->
+			getLogMergerWindow().getWindowHolder().setOrderedText("")
+		);
+	
+		Thread thread = new Thread(new DateLineProcessor(getLogMergerWindow(), this, CenteredPointType.ORDERED_TEXT_AREA));
+		thread.start();
 	}
 }
