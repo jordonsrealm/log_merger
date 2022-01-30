@@ -7,7 +7,6 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -71,23 +70,17 @@ public class LineNumberComponent extends JComponent implements MouseMotionListen
 		drawLineBorder(g);
 		handleToolTip(g);
 		
-		minDate.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				DatedLine line = getDatedLine((int)quotient);
-				if(line != null) {
-					setMinDateText(line.getDateAsString());
-				}
+		minDate.addActionListener((ActionEvent e)->{
+			DatedLine line = getDatedLine((int)quotient);
+			if(line != null) {
+				setMinDateText(line.getDateAsString());
 			}
 		});
 		
-		maxDate.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				DatedLine line = getDatedLine((int)quotient);
-				if(line != null) {
-					setMaxDateText(line.getDateAsString());
-				}
+		maxDate.addActionListener((ActionEvent e)->{
+			DatedLine line = getDatedLine((int)quotient);
+			if(line != null) {
+				setMaxDateText(line.getDateAsString());
 			}
 		});
 	}
@@ -195,7 +188,9 @@ public class LineNumberComponent extends JComponent implements MouseMotionListen
 		if(lines==null || lines.isEmpty()) {
 			return line;
 		} else {
-			line = lines.get((int) index);
+			if(index < lines.size()) {
+				line = lines.get(index);
+			}
 		}
 		
 		return line;

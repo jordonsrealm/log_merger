@@ -15,7 +15,7 @@ public class CheckBoxHolder {
 
 	public DescendingCheckBox getDescendingCheckBox() {
 		if(descendingCheckBox == null) {
-			descendingCheckBox = new DescendingCheckBox(logMergerWindow.getWindowHolder());
+			descendingCheckBox = new DescendingCheckBox(logMergerWindow);
 		}
 		return descendingCheckBox;
 	}

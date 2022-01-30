@@ -5,7 +5,7 @@ import java.awt.event.ItemEvent;
 import centerpoint.object.CenteredPointType;
 import mainwindow.holder.MainWindowHolder;
 import runnables.DateLineProcessor;
-import threads.ProcessLogo;
+import threads.LoadingIcon;
 
 
 public class DescendingCheckBox extends AbstractListeningCheckBox {
@@ -14,17 +14,21 @@ public class DescendingCheckBox extends AbstractListeningCheckBox {
     private static final String DESCENDING = "Descending";
 	
 
-	public DescendingCheckBox(MainWindowHolder windowHolder) {
-		super(windowHolder, DESCENDING);
+	public DescendingCheckBox(LogMergerWindow logMergerWindow) {
+		super(logMergerWindow, DESCENDING);
 	}
 	
 	@Override
 	public void itemStateChanged(ItemEvent e) {
-    	ProcessLogo processingThread = new ProcessLogo( windowHolder, CenteredPointType.ORDERED_TEXT_AREA);
-		windowHolder.setOrderedText("");
-		processingThread.startProcessing();
-		DateLineProcessor dateLinesRunnable = new DateLineProcessor(windowHolder);
-		dateLinesRunnable.run();
-		processingThread.stopProcessing();
+		setEnabled(false);
+		MainWindowHolder holder = getLogMergerWindow().getWindowHolder();
+		holder.setOrderedText("");
+		
+    	LoadingIcon processingThread = new LoadingIcon( holder, CenteredPointType.ORDERED_TEXT_AREA);
+		processingThread.startLoading();
+		new DateLineProcessor(getLogMergerWindow()).run();
+		processingThread.stopLoading();
+		
+		setEnabled(true);
 	}
 }

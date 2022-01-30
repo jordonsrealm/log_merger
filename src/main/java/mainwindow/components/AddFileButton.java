@@ -25,7 +25,7 @@ import centerpoint.object.CenteredPointType;
 import configuration.ConfigurationGetter;
 import highlighter.UnOrganizedHighlighter;
 import mainwindow.holder.MainWindowHolder;
-import threads.ProcessLogo;
+import threads.LoadingIcon;
 
 
 public class AddFileButton extends AbstractMainWindowContainerButton {
@@ -54,14 +54,14 @@ public class AddFileButton extends AbstractMainWindowContainerButton {
 			JTextArea unOrganizedText = windowHolder.getTxtHolder().getUnOrderedText();
 
 			SwingWorker<String, Void> worker = new SwingWorker<String, Void>() {
-				ProcessLogo glassPaneDrawingThread = new ProcessLogo(windowHolder, CenteredPointType.UN_ORDERED_TEXT_AREA);
+				LoadingIcon glassPaneDrawingThread = new LoadingIcon(windowHolder, CenteredPointType.UN_ORDERED_TEXT_AREA);
 
 				public String doInBackground() throws IOException {
 					windowHolder.setSearchBtnEnabled(false);
 
 					File file = new File(windowHolder.getFileNameInputText());
 
-					glassPaneDrawingThread.startProcessing();
+					glassPaneDrawingThread.startLoading();
 
 					String result = "";
 
@@ -87,7 +87,7 @@ public class AddFileButton extends AbstractMainWindowContainerButton {
 
 						windowHolder.setUnOrderedHorizontalScrollBar(0);
 
-						glassPaneDrawingThread.stopProcessing();
+						glassPaneDrawingThread.stopLoading();
 
 						windowHolder.setSearchBtnEnabled(true);
 						unOrganizedText.setEnabled(true);

@@ -7,6 +7,8 @@
     <groupId>com.jordon.tijerina</groupId>
     <artifactId>merger</artifactId>
     <version>1.0</version>
+    <name>LogMerger</name>
+    <description>Sorts And Merges Log Files</description>
     <packaging>jar</packaging>
     
     <build>

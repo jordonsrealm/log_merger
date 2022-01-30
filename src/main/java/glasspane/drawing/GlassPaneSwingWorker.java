@@ -25,21 +25,21 @@ import centerpoint.object.CenteredPointType;
 import highlighter.UnOrganizedHighlighter;
 import mainwindow.components.AddFileButton;
 import mainwindow.holder.MainWindowHolder;
-import threads.ProcessLogo;
+import threads.LoadingIcon;
 
 
 public class GlassPaneSwingWorker extends SwingWorker<String, Void> {
 
 	private static final Logger logger= LoggerFactory.getLogger(GlassPaneSwingWorker.class);
 	private MainWindowHolder mainWindowHolder;
-	private ProcessLogo glassPaneDrawingThread;
+	private LoadingIcon glassPaneDrawingThread;
 	static UnOrganizedHighlighter myHighlightPainter;
 	private static final String REGEX_NUMERICAL_PATTER = "\\d\\d";
 	
 	
 	public GlassPaneSwingWorker(MainWindowHolder windowHolder, String highlightHexColor) {
 		this.mainWindowHolder = windowHolder;
-		this.glassPaneDrawingThread = new ProcessLogo(this.mainWindowHolder, CenteredPointType.UN_ORDERED_TEXT_AREA);
+		this.glassPaneDrawingThread = new LoadingIcon(this.mainWindowHolder, CenteredPointType.UN_ORDERED_TEXT_AREA);
 		myHighlightPainter = new UnOrganizedHighlighter(Color.decode(highlightHexColor));
 	}
 	
@@ -50,7 +50,7 @@ public class GlassPaneSwingWorker extends SwingWorker<String, Void> {
 		
 		File file = new File(this.mainWindowHolder.getTxtHolder().getFileNameInputTextField().getText());
 
-		glassPaneDrawingThread.startProcessing();
+		glassPaneDrawingThread.startLoading();
 
 		String result = "";
 
@@ -86,7 +86,7 @@ public class GlassPaneSwingWorker extends SwingWorker<String, Void> {
 
 			unOrganizedScrollPane.getHorizontalScrollBar().setValue(0);
 
-			glassPaneDrawingThread.stopProcessing();
+			glassPaneDrawingThread.stopLoading();
 
 			selectFileBtn.setEnabled(true);
 			unOrganizedText.setEnabled(true);

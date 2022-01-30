@@ -3,7 +3,7 @@ package mainwindow.components.holder;
 import mainwindow.components.AddFileButton;
 import mainwindow.components.ClearUnOrderedTextButton;
 import mainwindow.components.LogMergerWindow;
-import mainwindow.components.MergeFileButton;
+import mainwindow.components.SortFileButton;
 import mainwindow.components.SaveFileButton;
 import mainwindow.components.SearchButton;
 
@@ -13,7 +13,7 @@ public class ButtonHolder {
     private ClearUnOrderedTextButton clearUnOrderedTextButton;
     private SaveFileButton saveFileButton;
     private AddFileButton addFileButton;
-    private MergeFileButton mergeButton;
+    private SortFileButton mergeButton;
     private SearchButton searchButton;
     
     
@@ -21,7 +21,7 @@ public class ButtonHolder {
     	clearUnOrderedTextButton = new ClearUnOrderedTextButton(logMergerWindow);
 		saveFileButton = new SaveFileButton(logMergerWindow);
 		addFileButton = new AddFileButton(logMergerWindow);
-		mergeButton = new MergeFileButton(logMergerWindow);
+		mergeButton = new SortFileButton(logMergerWindow);
 		searchButton = new SearchButton(logMergerWindow);
 	}
     
@@ -43,10 +43,10 @@ public class ButtonHolder {
 	public void setAddFileButton(AddFileButton addFileButton) {
 		this.addFileButton = addFileButton;
 	}
-	public MergeFileButton getMergeButton() {
+	public SortFileButton getMergeButton() {
 		return mergeButton;
 	}
-	public void setMergeButton(MergeFileButton mergeButton) {
+	public void setMergeButton(SortFileButton mergeButton) {
 		this.mergeButton = mergeButton;
 	}
 	public SearchButton getSearchButton() {

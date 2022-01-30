@@ -83,11 +83,9 @@ public class TextHolder {
 	public JTextField getMaxDateField() {
 		return this.maxDateField;
 	}
-
 	public LogMergerWindow getLogMergerWindow() {
 		return logMergerWindow;
 	}
-
 	public void setLogMergerWindow(LogMergerWindow logMergerWindow) {
 		this.logMergerWindow = logMergerWindow;
 	}
