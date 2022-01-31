@@ -54,7 +54,7 @@ public class AddFileButton extends AbstractMainWindowContainerButton {
 			JTextArea unOrganizedText = windowHolder.getTxtHolder().getUnOrderedText();
 
 			SwingWorker<String, Void> worker = new SwingWorker<String, Void>() {
-				LoadingIcon glassPaneDrawingThread = new LoadingIcon(windowHolder, CenteredPointType.UN_ORDERED_TEXT_AREA);
+				LoadingIcon glassPaneDrawingThread = new LoadingIcon(getLogMergerWindow(), CenteredPointType.UN_ORDERED_TEXT_AREA);
 
 				public String doInBackground() throws IOException {
 					windowHolder.setSearchBtnEnabled(false);

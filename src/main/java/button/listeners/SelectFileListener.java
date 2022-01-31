@@ -5,7 +5,7 @@ import java.util.concurrent.ExecutorService;
 
 import glasspane.drawing.GlassPaneSwingWorker;
 import highlighter.UnOrganizedHighlighter;
-import mainwindow.holder.MainWindowHolder;
+import mainwindow.components.LogMergerWindow;
 
 
 public class SelectFileListener extends DrawingComponentListener{
@@ -14,14 +14,14 @@ public class SelectFileListener extends DrawingComponentListener{
 	private GlassPaneSwingWorker worker;
 
 
-	public SelectFileListener( MainWindowHolder mainWindowContainer, ExecutorService executorService, String highlightHexColor) {
-		super(mainWindowContainer, executorService);
-		worker = new GlassPaneSwingWorker(this.windowHolder, highlightHexColor);
+	public SelectFileListener( LogMergerWindow logMergerWindow, ExecutorService executorService, String highlightHexColor) {
+		super(logMergerWindow, executorService);
+		worker = new GlassPaneSwingWorker(logMergerWindow, highlightHexColor);
 	}
 
 	public void actionPerformed(ActionEvent e) {
 		
-		if(!this.windowHolder.getFileNameInputText().isEmpty()) {
+		if(!getLogMergerWindow().getWindowHolder().getFileNameInputText().isEmpty()) {
 			worker.execute();
 		}
 	}

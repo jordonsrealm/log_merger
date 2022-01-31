@@ -5,27 +5,18 @@ import java.util.concurrent.ExecutorService;
 
 import javax.swing.JButton;
 
-import mainwindow.holder.MainWindowHolder;
+import mainwindow.components.LogMergerWindow;
 
 
 public abstract class DrawingComponentListener implements ActionListener {
 
-	protected MainWindowHolder windowHolder;
+	protected LogMergerWindow logMergerWindow;
 	protected ExecutorService executorService;
 	protected JButton btnPressed;
 	
-	
-	protected DrawingComponentListener(MainWindowHolder windowHolder, ExecutorService executorService) {
-		this.windowHolder = windowHolder;
+	protected DrawingComponentListener(LogMergerWindow logMergerWindow, ExecutorService executorService) {
+		this.logMergerWindow = logMergerWindow;
 		this.executorService = executorService;
-	}
-	
-	public MainWindowHolder getWindowHolder() {
-		return this.windowHolder;
-	}
-
-	public void setWindowHolder(MainWindowHolder windowHolder) {
-		this.windowHolder = windowHolder;
 	}
 
 	public ExecutorService getExecutorService() {
@@ -34,5 +25,13 @@ public abstract class DrawingComponentListener implements ActionListener {
 
 	public void setExecutorService(ExecutorService executorService) {
 		this.executorService = executorService;
+	}
+
+	public LogMergerWindow getLogMergerWindow() {
+		return logMergerWindow;
+	}
+
+	public void setLogMergerWindow(LogMergerWindow logMergerWindow) {
+		this.logMergerWindow = logMergerWindow;
 	}
 }

@@ -19,15 +19,11 @@ import transfer.object.DatedLine;
 public class DateLineOrganizer {
 	
 	private static final Logger logger = LoggerFactory.getLogger(DateLineOrganizer.class);
-	private String notSortedString;
-	private String currentDateFormat;
     private static final String DEFAULT_FORMAT = "yyyy-MM-dd HH:mm:ss.SSS";
     private MainWindowHolder mainWindowContainer;
 	
 	
-	public DateLineOrganizer(String strToOrder, String currentDateFormat, MainWindowHolder mainWindowContainer) {
-		setNotSortedString(strToOrder);
-		setCurrentDateFormat(currentDateFormat);
+	public DateLineOrganizer(MainWindowHolder mainWindowContainer) {
 		setMainWindowContainer(mainWindowContainer);
 	}
 
@@ -39,13 +35,13 @@ public class DateLineOrganizer {
     	
     	Collections.sort(datedLines);
     	
-    	getMainWindowContainer().setDatedLines(datedLines);
+    	getMainWindowHolder().setDatedLines(datedLines);
     	
     	return returnCompleteTextFromDatedLines(datedLines);
     }
     
     protected List<DatedLine> getDatedLinesUsingFormat(String format) {
-    	DatedLine.setOrderDescending(getMainWindowContainer().isDescending());
+    	DatedLine.setOrderDescending(getMainWindowHolder().isDescending());
         
         ArrayList<DatedLine> datedLineList = new ArrayList<>();
         String lineRead;
@@ -57,9 +53,10 @@ public class DateLineOrganizer {
             	if(dLine.isValidDate()) {
             		datedLineList.add(new DatedLine(lineRead, format));
             	} else {
-            		datedLineList.get(datedLineList.size()-1).appendToOriginalString("\n"+lineRead);
+            		if(!datedLineList.isEmpty()) {
+            			datedLineList.get(datedLineList.size()-1).appendToOriginalString("\n"+lineRead);
+            		}
             	}
-            	
             }
         } catch (IOException ex) {
             logger.error("Unable to read lines of text: ", ex);
@@ -85,6 +82,7 @@ public class DateLineOrganizer {
     		return null;
     	}
     	
+    	String currentDateFormat = getMainWindowHolder().getUnorderedText();
         SimpleDateFormat formatter = currentDateFormat.isEmpty() ? new SimpleDateFormat(DEFAULT_FORMAT) : new SimpleDateFormat(currentDateFormat);
         
         Date dateFromString = null;
@@ -96,24 +94,16 @@ public class DateLineOrganizer {
         
         return dateFromString;
     }
-
-    protected void setNotSortedString(String entireNotSortedString) {
-		this.notSortedString = entireNotSortedString;
-	}
     
     protected String getNotSortedString() {
-		return this.notSortedString;
+		return getMainWindowHolder().getUnorderedText();
 	}
 
     protected String getCurrentDateFormat() {
-		return this.currentDateFormat;
+		return getMainWindowHolder().getRegexPatternText();
 	}
 
-    protected void setCurrentDateFormat(String currentDateFormat) {
-		this.currentDateFormat = currentDateFormat;
-	}
-
-	public MainWindowHolder getMainWindowContainer() {
+	public MainWindowHolder getMainWindowHolder() {
 		return mainWindowContainer;
 	}
 

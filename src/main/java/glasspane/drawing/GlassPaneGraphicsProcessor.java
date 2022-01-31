@@ -7,17 +7,19 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
 
+import mainwindow.components.LogMergerWindow;
+
 
 public class GlassPaneGraphicsProcessor {
 
     private static final String DEFAULT_PROCESSING_STRING_LABEL = "Processing";
     public static final int MAX_NUMBER_OF_PERIODS  = 40;
-    private Component glassPane;
+    private LogMergerWindow logMergerWindow;
     private int tickCounter = 0;
 	
 	
-	public GlassPaneGraphicsProcessor(Component glassPane) {
-		this.glassPane = glassPane;
+	public GlassPaneGraphicsProcessor(LogMergerWindow logMergerWindow) {
+		this.setLogMergerWindow(logMergerWindow);
 	}
 	
 	private Rectangle getProcessingLogoDimensions(String strToDraw, Point centeredPoint) {
@@ -35,16 +37,25 @@ public class GlassPaneGraphicsProcessor {
 		
 		return new Rectangle(finalX, finalY, finalWidth, finalHeight);
 	}
+	
+	protected void clearGlassPane() {
+		getGlassPaneGraphics().clearRect(0, 0, getGlassPane().getWidth(), getGlassPane().getHeight());
+	}
+	
+	protected void drawBox(String processingString, Point centerPoint) {
+    	Rectangle dimensions = getProcessingLogoDimensions(processingString, centerPoint);
+    	Graphics glassPaneGraphics = getGlassPaneGraphics();
+    	
+		glassPaneGraphics.setColor(Color.RED);
+    	glassPaneGraphics.drawRect( dimensions.x, dimensions.y, 200, 50);
+	}
     
     protected void clearProcessingLogoArea(String processingString, Point centerPoint) {
     	Rectangle dimensions = getProcessingLogoDimensions(processingString, centerPoint);
     	Graphics glassPaneGraphics = getGlassPaneGraphics();
 		
     	glassPaneGraphics.setColor(Color.WHITE);
-    	glassPaneGraphics.fillRect( dimensions.x, dimensions.y, dimensions.width, dimensions.height);
-    	
-    	glassPaneGraphics.setColor(Color.RED);
-    	glassPaneGraphics.drawRect( dimensions.x, dimensions.y, dimensions.width, dimensions.height);
+    	glassPaneGraphics.fillRect(dimensions.x, dimensions.y, dimensions.width, dimensions.height);
     }
     
     protected String buildProcessingLogo() {
@@ -74,25 +85,40 @@ public class GlassPaneGraphicsProcessor {
 	}
 	
 	public Component getGlassPane() {
-		return glassPane;
+		return getLogMergerWindow().getGlassPane();
 	}
 	
 	protected Graphics getGlassPaneGraphics() {
-        return glassPane.getGraphics();
+        return getGlassPane().getGraphics();
 	}
 	
 	protected FontMetrics getGlassPaneFontMetrics() {
-		Graphics g = glassPane.getGraphics();
-		return g.getFontMetrics();
+		Graphics g = getGlassPane().getGraphics();
+		if(g!=null) {
+			return g.getFontMetrics();
+		}
+		
+		return null;
 	}
 	
 	protected void drawGlassPaneString(String processingString, Point point) {
 		Graphics g = getGlassPaneGraphics();
-		FontMetrics fm = g.getFontMetrics();
-		int periodWidth = fm.stringWidth(".");
-    	int textHeight = fm.getHeight();
-    	int textPadding = textHeight;
-		g.setColor(Color.BLACK);
-		g.drawString( processingString, point.x + textPadding/2 - MAX_NUMBER_OF_PERIODS * periodWidth, point.y + textHeight);
+		if(g!=null) {
+			FontMetrics fm = g.getFontMetrics();
+			int periodWidth = fm.stringWidth(".");
+	    	int textHeight = fm.getHeight();
+	    	int textPadding = textHeight;
+	    	
+			g.setColor(Color.BLACK);
+			g.drawString( processingString, point.x + textPadding/2 - MAX_NUMBER_OF_PERIODS * periodWidth, point.y + textHeight);
+		}
+	}
+
+	public LogMergerWindow getLogMergerWindow() {
+		return logMergerWindow;
+	}
+
+	public void setLogMergerWindow(LogMergerWindow logMergerWindow) {
+		this.logMergerWindow = logMergerWindow;
 	}
 }

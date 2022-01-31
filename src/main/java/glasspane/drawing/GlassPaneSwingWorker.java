@@ -24,6 +24,7 @@ import org.slf4j.LoggerFactory;
 import centerpoint.object.CenteredPointType;
 import highlighter.UnOrganizedHighlighter;
 import mainwindow.components.AddFileButton;
+import mainwindow.components.LogMergerWindow;
 import mainwindow.holder.MainWindowHolder;
 import threads.LoadingIcon;
 
@@ -31,31 +32,31 @@ import threads.LoadingIcon;
 public class GlassPaneSwingWorker extends SwingWorker<String, Void> {
 
 	private static final Logger logger= LoggerFactory.getLogger(GlassPaneSwingWorker.class);
-	private MainWindowHolder mainWindowHolder;
+	private LogMergerWindow logMergerWindow;
 	private LoadingIcon glassPaneDrawingThread;
 	static UnOrganizedHighlighter myHighlightPainter;
 	private static final String REGEX_NUMERICAL_PATTER = "\\d\\d";
 	
 	
-	public GlassPaneSwingWorker(MainWindowHolder windowHolder, String highlightHexColor) {
-		this.mainWindowHolder = windowHolder;
-		this.glassPaneDrawingThread = new LoadingIcon(this.mainWindowHolder, CenteredPointType.UN_ORDERED_TEXT_AREA);
+	public GlassPaneSwingWorker(LogMergerWindow logMergerWindow, String highlightHexColor) {
+		this.logMergerWindow = logMergerWindow;
+		this.glassPaneDrawingThread = new LoadingIcon(logMergerWindow, CenteredPointType.UN_ORDERED_TEXT_AREA);
 		myHighlightPainter = new UnOrganizedHighlighter(Color.decode(highlightHexColor));
 	}
 	
 	@Override
 	protected String doInBackground() throws Exception {
 
-		this.mainWindowHolder.getBtnHolder().getAddFileButton().setEnabled(false);
+		getWindowHolder().getBtnHolder().getAddFileButton().setEnabled(false);
 		
-		File file = new File(this.mainWindowHolder.getTxtHolder().getFileNameInputTextField().getText());
+		File file = new File(getWindowHolder().getTxtHolder().getFileNameInputTextField().getText());
 
 		glassPaneDrawingThread.startLoading();
 
 		String result = "";
 
 		try{
-			result =  this.mainWindowHolder.getTxtHolder().getUnOrderedText().getText();
+			result =  getWindowHolder().getTxtHolder().getUnOrderedText().getText();
 			result += IOUtils.toString(new FileInputStream(file), StandardCharsets.UTF_8);
 			result = result.strip();
 		} catch(IOException exx){
@@ -72,14 +73,14 @@ public class GlassPaneSwingWorker extends SwingWorker<String, Void> {
 
 	@Override
 	protected void done() {
-		AddFileButton selectFileBtn = this.mainWindowHolder.getBtnHolder().getAddFileButton();
-		JTextArea unOrganizedText = this.mainWindowHolder.getTxtHolder().getUnOrderedText();
-		JTextField regexPatternTextField = this.mainWindowHolder.getTxtHolder().getRegexPatternTextField();
-		JScrollPane unOrganizedScrollPane = this.mainWindowHolder.getTxtHolder().getUnOrderedScrollPane();
+		AddFileButton selectFileBtn = getWindowHolder().getBtnHolder().getAddFileButton();
+		JTextArea unOrganizedText = getWindowHolder().getTxtHolder().getUnOrderedText();
+		JTextField regexPatternTextField = getWindowHolder().getTxtHolder().getRegexPatternTextField();
+		JScrollPane unOrganizedScrollPane = getWindowHolder().getTxtHolder().getUnOrderedScrollPane();
 
 		try {
-			this.mainWindowHolder.getTxtHolder().getUnOrderedText().setText(get());
-			this.mainWindowHolder.getTxtHolder().getUnOrderedText().setCaretPosition(0);
+			getWindowHolder().getTxtHolder().getUnOrderedText().setText(get());
+			getWindowHolder().getTxtHolder().getUnOrderedText().setCaretPosition(0);
 			
 			removeHighlights(unOrganizedText);
 			highlight(unOrganizedText, regexPatternTextField.getText());
@@ -132,5 +133,13 @@ public class GlassPaneSwingWorker extends SwingWorker<String, Void> {
 				hilite.removeHighlight(hilites[i]);
 			}
 		}
+	}
+	
+	private LogMergerWindow getLogMergerWindow() {
+		return this.logMergerWindow;
+	}
+	
+	private MainWindowHolder getWindowHolder() {
+		return getLogMergerWindow().getWindowHolder();
 	}
 }

@@ -1,6 +1,7 @@
 package date_object;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 
 import org.junit.Test;
@@ -19,11 +20,11 @@ public class DateOrganizerTest {
 		String dateFormat = "yyyy-MM-dd HH:mm:ss.SSS";
 		
 		MainWindowHolder holder = mock(MainWindowHolder.class);
+		doReturn(dateFormat).when(holder).getRegexPatternText();
+		doReturn(strToTest).when(holder).getUnorderedText();
 		
-		DateLineOrganizer boundedDates = new DateLineOrganizer(strToTest, dateFormat, holder);
+		DateLineOrganizer boundedDates = new DateLineOrganizer(holder);
 		String sortedString = boundedDates.orderDateLines("", "");
-		System.out.println(sortedString.length());
-		System.out.println(strToTest.length());
 		assertEquals( strToTest, sortedString);
 	}
 }

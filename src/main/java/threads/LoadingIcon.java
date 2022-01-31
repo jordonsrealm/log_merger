@@ -6,7 +6,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import centerpoint.factory.CenteredPointFactory;
 import centerpoint.object.CenteredPointType;
 import glasspane.drawing.GlassPaneGraphicsProcessor;
-import mainwindow.holder.MainWindowHolder;
+import mainwindow.components.LogMergerWindow;
 
 
 public class LoadingIcon extends GlassPaneGraphicsProcessor implements Runnable{
@@ -15,9 +15,9 @@ public class LoadingIcon extends GlassPaneGraphicsProcessor implements Runnable{
     private Point centerPoint;
     
     
-    public LoadingIcon(MainWindowHolder mainWindowContainer, CenteredPointType centerPointType) {
-    	super(mainWindowContainer.getGlassPane());
-    	this.centerPoint = CenteredPointFactory.getCenteredPoint( centerPointType, mainWindowContainer).getCenteredPoint();
+    public LoadingIcon(LogMergerWindow logMergerWindow, CenteredPointType centerPointType) {
+    	super(logMergerWindow);
+    	this.centerPoint = CenteredPointFactory.getCenteredPoint( centerPointType, logMergerWindow).getCenteredPoint();
     }
   
     public void startLoading() {
@@ -34,20 +34,27 @@ public class LoadingIcon extends GlassPaneGraphicsProcessor implements Runnable{
     public void run() { 
         running.set(true);
         
-        String processingString = buildProcessingLogo();
+        clearGlassPane();
         
-        clearProcessingLogoArea( processingString, centerPoint);
+        String processingString;
         
         while (running.get()) {
-        	tick();
-        	
+            
         	processingString = buildProcessingLogo();
         	
         	if(getTickCounter() == 0) {
         		clearProcessingLogoArea( processingString, centerPoint);
         	}
         	
+            drawBox(processingString, centerPoint);
         	drawGlassPaneString(processingString, centerPoint);
+        	tick();
+        	
+        	try {
+				Thread.sleep(20);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
         }
     }
 

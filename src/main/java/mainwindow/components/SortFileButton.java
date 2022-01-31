@@ -23,7 +23,7 @@ public class SortFileButton extends AbstractMainWindowContainerButton {
 		SwingUtilities.invokeLater(()->
 			getLogMergerWindow().getWindowHolder().setOrderedText("")
 		);
-
+		
 		Thread thread = new Thread(new DateLineProcessor(getLogMergerWindow(), this, CenteredPointType.ORDERED_TEXT_AREA));
 		thread.start();
 	}

@@ -29,18 +29,17 @@ public class DateLineProcessor implements Runnable {
 	public void run() {
 		MainWindowHolder mainWindowContainer = getLogMergerWindow().getWindowHolder();
 
-		String textToOrder = mainWindowContainer.getUnorderedText();
-		String formatString = mainWindowContainer.getRegexPatternText();
 		String minDateString = mainWindowContainer.getMinDateText();
 		String maxDateString = mainWindowContainer.getMaxDateText();
 		
-    	LoadingIcon loadingIcon = new LoadingIcon( mainWindowContainer, centeredPointType);
+		button.setEnabled(false);
+    	LoadingIcon loadingIcon = new LoadingIcon( getLogMergerWindow(), centeredPointType);
 		loadingIcon.startLoading();
 		
 		Thread loadingThread = new Thread(loadingIcon);
 		loadingThread.start();
 		
-		String completeTextString = new DateLineOrganizer(textToOrder, formatString, mainWindowContainer).orderDateLines(minDateString, maxDateString);
+		String completeTextString = new DateLineOrganizer(mainWindowContainer).orderDateLines(minDateString, maxDateString);
 		JTextArea orderTextArea = mainWindowContainer.getTxtHolder().getOrderedTextArea();
 		
 		SwingUtilities.invokeLater(()->{
@@ -53,6 +52,7 @@ public class DateLineProcessor implements Runnable {
 		});
         
 		loadingIcon.stopLoading();
+		button.setEnabled(true);
 	}
 
 	public AbstractButton getButton() {
