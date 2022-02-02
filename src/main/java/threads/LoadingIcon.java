@@ -1,6 +1,8 @@
 package threads;
 
+import java.awt.Component;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import centerpoint.factory.CenteredPointFactory;
@@ -17,7 +19,7 @@ public class LoadingIcon extends GlassPaneGraphicsProcessor implements Runnable{
     
     public LoadingIcon(LogMergerWindow logMergerWindow, CenteredPointType centerPointType) {
     	super(logMergerWindow);
-    	this.centerPoint = CenteredPointFactory.getCenteredPoint( centerPointType, logMergerWindow).getCenteredPoint();
+    	setCenterPoint(CenteredPointFactory.getCenteredPoint( centerPointType, logMergerWindow).getCenteredPoint());
     }
   
     public void startLoading() {
@@ -36,18 +38,24 @@ public class LoadingIcon extends GlassPaneGraphicsProcessor implements Runnable{
         
         clearGlassPane();
         
+		Component oldComp = getLogMergerWindow().getWindowHolder().getTxtHolder().getOrderedTextArea();
+		Component newComp = oldComp;
+		
+		while(newComp.getParent() != null) {
+			newComp = newComp.getParent();
+		}
+		
+		Rectangle processingWindowRectangle =  new Rectangle((newComp.getWidth() + oldComp.getWidth() - 200)/2, (newComp.getHeight() + oldComp.getHeight()/4 - 50)/2, 200, 50);
+        
         String processingString;
         
         while (running.get()) {
             
         	processingString = buildProcessingLogo();
         	
-        	if(getTickCounter() == 0) {
-        		clearProcessingLogoArea( processingString, centerPoint);
-        	}
-        	
-            drawBox(processingString, centerPoint);
-        	drawGlassPaneString(processingString, centerPoint);
+        	clearProcessingLogoArea( processingString, processingWindowRectangle);
+            drawBox(processingWindowRectangle);
+        	drawGlassPaneString(processingString, processingWindowRectangle);
         	tick();
         	
         	try {
@@ -57,5 +65,13 @@ public class LoadingIcon extends GlassPaneGraphicsProcessor implements Runnable{
 			}
         }
     }
+
+	public Point getCenterPoint() {
+		return centerPoint;
+	}
+
+	public void setCenterPoint(Point centerPoint) {
+		this.centerPoint = centerPoint;
+	}
 
 }

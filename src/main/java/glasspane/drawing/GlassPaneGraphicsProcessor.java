@@ -22,40 +22,23 @@ public class GlassPaneGraphicsProcessor {
 		this.setLogMergerWindow(logMergerWindow);
 	}
 	
-	private Rectangle getProcessingLogoDimensions(String strToDraw, Point centeredPoint) {
-		FontMetrics metrics = getGlassPaneFontMetrics();
-    	
-    	int processingStrWidth  = getGlassPaneFontMetrics().stringWidth(strToDraw);
-    	int periodWidth = metrics.stringWidth(".");
-    	int textHeight = metrics.getHeight();
-    	int textPadding = textHeight;
-    	
-    	int finalX = centeredPoint.x - MAX_NUMBER_OF_PERIODS * periodWidth;
-		int finalY = centeredPoint.y - textHeight/2;
-		int finalWidth = textPadding + processingStrWidth + MAX_NUMBER_OF_PERIODS * periodWidth;
-		int finalHeight = textHeight + textHeight;
-		
-		return new Rectangle(finalX, finalY, finalWidth, finalHeight);
-	}
-	
 	protected void clearGlassPane() {
 		getGlassPaneGraphics().clearRect(0, 0, getGlassPane().getWidth(), getGlassPane().getHeight());
 	}
 	
-	protected void drawBox(String processingString, Point centerPoint) {
-    	Rectangle dimensions = getProcessingLogoDimensions(processingString, centerPoint);
+	protected void drawBox(Rectangle window) {
+		
     	Graphics glassPaneGraphics = getGlassPaneGraphics();
     	
 		glassPaneGraphics.setColor(Color.RED);
-    	glassPaneGraphics.drawRect( dimensions.x, dimensions.y, 200, 50);
+    	glassPaneGraphics.drawRect( window.x, window.y, window.width, window.height);
 	}
     
-    protected void clearProcessingLogoArea(String processingString, Point centerPoint) {
-    	Rectangle dimensions = getProcessingLogoDimensions(processingString, centerPoint);
+    protected void clearProcessingLogoArea(String processingString, Rectangle window) {
     	Graphics glassPaneGraphics = getGlassPaneGraphics();
 		
     	glassPaneGraphics.setColor(Color.WHITE);
-    	glassPaneGraphics.fillRect(dimensions.x, dimensions.y, dimensions.width, dimensions.height);
+    	glassPaneGraphics.fillRect( window.x, window.y, window.width, window.height);
     }
     
     protected String buildProcessingLogo() {
@@ -94,23 +77,23 @@ public class GlassPaneGraphicsProcessor {
 	
 	protected FontMetrics getGlassPaneFontMetrics() {
 		Graphics g = getGlassPane().getGraphics();
-		if(g!=null) {
+		if(g != null) {
 			return g.getFontMetrics();
 		}
 		
 		return null;
 	}
 	
-	protected void drawGlassPaneString(String processingString, Point point) {
+	protected void drawGlassPaneString(String processingString, Rectangle window) {
 		Graphics g = getGlassPaneGraphics();
-		if(g!=null) {
+		
+		if(g != null) {
 			FontMetrics fm = g.getFontMetrics();
-			int periodWidth = fm.stringWidth(".");
 	    	int textHeight = fm.getHeight();
 	    	int textPadding = textHeight;
 	    	
 			g.setColor(Color.BLACK);
-			g.drawString( processingString, point.x + textPadding/2 - MAX_NUMBER_OF_PERIODS * periodWidth, point.y + textHeight);
+			g.drawString( processingString,  window.x + textPadding, window.y + 2 * textHeight);
 		}
 	}
 
