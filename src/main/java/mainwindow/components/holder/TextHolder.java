@@ -38,13 +38,13 @@ public class TextHolder {
     public TextHolder(LogMergerWindow logMergerWindow) {
     	this.setLogMergerWindow(logMergerWindow);
     	JPanel leftPanel = new JPanel(new BorderLayout());
-		leftPanel.add(new LineNumberComponent(logMergerWindow), BorderLayout.WEST);
+		leftPanel.add(new LineNumberComponent(logMergerWindow, false), BorderLayout.WEST);
 		leftPanel.add(this.unOrderedText, BorderLayout.CENTER);
 		
 		setUnOrderedScrollPane(new PreviewScrollPane(leftPanel));
     	
     	JPanel rightPanel = new JPanel(new BorderLayout());
-    	rightPanel.add(new LineNumberComponent(logMergerWindow), BorderLayout.WEST);
+    	rightPanel.add(new LineNumberComponent(logMergerWindow, true), BorderLayout.WEST);
     	rightPanel.add(this.orderedText, BorderLayout.CENTER);
     	
     	setOrderedScrollPane(new PreviewScrollPane(rightPanel));

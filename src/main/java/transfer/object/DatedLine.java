@@ -17,15 +17,21 @@ public class DatedLine implements Comparable<DatedLine> {
     private String originalStringWithDate;
     private String dateFormat;
     private static boolean orderDescending;
+    private LoggingLevel logLevel;
 
 
     public DatedLine(){
-    	this(null,null);
+    	this( null, null, LoggingLevel.UNKNOWN);
     }
     
     public DatedLine(String originalString, String dateFormat) {
+    	this(originalString, dateFormat, LoggingLevel.UNKNOWN);
+    }
+    
+    public DatedLine(String originalString, String dateFormat, LoggingLevel level) {
     	setOriginalStringWithDate(originalString);
     	setDateFormat(dateFormat);
+    	setLogLevel(level);
     }
     
     public static void setOrderDescending(boolean descending) {
@@ -40,7 +46,15 @@ public class DatedLine implements Comparable<DatedLine> {
 		this.dateFormat = dateFormat;
 	}
 
-    public String getOriginalStringWithDate() {
+    public LoggingLevel getLogLevel() {
+		return logLevel;
+	}
+
+	public void setLogLevel(LoggingLevel logLevel) {
+		this.logLevel = logLevel;
+	}
+
+	public String getOriginalStringWithDate() {
         return originalStringWithDate;
     }
 

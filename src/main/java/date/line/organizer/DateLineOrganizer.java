@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 
 import mainwindow.holder.MainWindowHolder;
 import transfer.object.DatedLine;
+import transfer.object.LoggingLevel;
 
 
 public class DateLineOrganizer {
@@ -51,7 +52,7 @@ public class DateLineOrganizer {
             	DatedLine dLine = new DatedLine(lineRead, format);
             	
             	if(dLine.isValidDate()) {
-            		datedLineList.add(new DatedLine(lineRead, format));
+            		datedLineList.add(new DatedLine(lineRead, format, LoggingLevel.getLevel(lineRead)));
             	} else {
             		if(!datedLineList.isEmpty()) {
             			datedLineList.get(datedLineList.size()-1).appendToOriginalString("\n"+lineRead);

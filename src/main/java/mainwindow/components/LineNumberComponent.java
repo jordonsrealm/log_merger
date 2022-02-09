@@ -21,6 +21,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import transfer.object.DatedLine;
+import transfer.object.LoggingLevel;
 
 
 public class LineNumberComponent extends JComponent implements MouseMotionListener, MouseListener {
@@ -28,8 +29,12 @@ public class LineNumberComponent extends JComponent implements MouseMotionListen
 	private static final Logger logger = LoggerFactory.getLogger(LineNumberComponent.class);
 	private static final long serialVersionUID = 1L;
 	
-	private static final String COLOR_BORDER = "0x494949";
-	private static final String LINE_NUM_BORDER = "0x707070";
+	private static final Color COLOR_BORDER = Color.decode("0x494949");
+	private static final Color LINE_NUM_BORDER = Color.decode("0xffffff");
+	private static final Color ERROR_LEVEL = Color.decode("0xff0000");
+	private static final Color INFO_LEVEL = Color.decode("0xd0d0d0");
+	private static final Color DEBUG_LEVEL = Color.decode("0xb6d7a8");
+	private static final Color TRACE_LEVEL = Color.decode("0xfcfccd");
 	private static final int ARC_BORDER = 6;
 	private static final double HEIGHT_DECREASE = .25d;
 	private static final int BUFFER_HEIGHT = 2;
@@ -37,6 +42,8 @@ public class LineNumberComponent extends JComponent implements MouseMotionListen
     private final JPopupMenu popupmenu = new JPopupMenu("Date Boundary");   
     private final JMenuItem minDate = new JMenuItem("Use as Min Date");  
     private final JMenuItem maxDate = new JMenuItem("Use as Max Date");
+    private List<DatedLine> datedLines = null;
+    private boolean drawLoggingLevelNotes;
     
 	private Point movedPoint;
 	private int strHeight;
@@ -47,7 +54,7 @@ public class LineNumberComponent extends JComponent implements MouseMotionListen
 	private float quotient = 0;
 	
 	
-	public LineNumberComponent(LogMergerWindow logMergerWindow) {
+	public LineNumberComponent(LogMergerWindow logMergerWindow, boolean drawLoggingLevel) {
 		setLogMergerWindow(logMergerWindow);
 		
 		addMouseListener(this);
@@ -56,6 +63,7 @@ public class LineNumberComponent extends JComponent implements MouseMotionListen
 		 
         popupmenu.add(minDate);
         popupmenu.add(maxDate);
+        this.drawLoggingLevelNotes = drawLoggingLevel;
 	}
 	
 	@Override
@@ -64,6 +72,8 @@ public class LineNumberComponent extends JComponent implements MouseMotionListen
 		
 		FontMetrics fm = g.getFontMetrics();
 		strHeight = fm.getHeight();
+		
+		datedLines = getLogMergerWindow().getWindowHolder().getDatedLines();
 
 		drawLineNumbers(g, fm);
 		drawBorder(g);
@@ -86,22 +96,44 @@ public class LineNumberComponent extends JComponent implements MouseMotionListen
 	}
 	
 	private void drawLineNumbers(Graphics g, FontMetrics fm) {
+		Color defColor = g.getColor();
+		
 		for(int t = 0; t <= getHeight()/strHeight; t++) {
+			
+			if(datedLines!=null && t< datedLines.size() && drawLoggingLevelNotes) {
+				if(datedLines.get(t).getLogLevel().equals(LoggingLevel.ERROR)) {
+					g.setColor(ERROR_LEVEL);
+				} else if(datedLines.get(t).getLogLevel().equals(LoggingLevel.INFO)){
+					g.setColor(INFO_LEVEL);
+				} else if(datedLines.get(t).getLogLevel().equals(LoggingLevel.DEBUG)){
+					g.setColor(DEBUG_LEVEL);
+				} else if(datedLines.get(t).getLogLevel().equals(LoggingLevel.TRACE)){
+					g.setColor(TRACE_LEVEL);
+				} else {
+					g.setColor(defColor);
+				}
+				
+				g.fillRoundRect(2, strHeight*t, getWidth()-2, strHeight, ARC_BORDER, ARC_BORDER);
+			}
+			
 			String intStr = String.valueOf(t);
+			g.setColor(Color.BLACK);
 			g.drawString( intStr, (getWidth() - fm.stringWidth(intStr))/2, (int)(strHeight*(t - HEIGHT_DECREASE) + BUFFER_HEIGHT));
 		}
+		
+		g.setColor(defColor);
 	}
 	
 	private void drawBorder(Graphics g) {
 		Color prevColor = g.getColor();
-		g.setColor(Color.decode(COLOR_BORDER));
+		g.setColor(COLOR_BORDER);
 		g.drawRect(0, 0, getWidth()-1, getHeight());
 		g.setColor(prevColor);
 	}
 	
 	private void drawLineBorder(Graphics g) {
 		if(movedPoint != null) {
-			g.setColor(Color.decode(LINE_NUM_BORDER));
+			g.setColor(LINE_NUM_BORDER);
 			g.drawRoundRect(0, (int)((float)movedPoint.y/strHeight)*strHeight, getWidth()-1, strHeight, ARC_BORDER, ARC_BORDER);
 		}
 	}
