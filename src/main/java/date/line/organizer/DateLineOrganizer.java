@@ -82,7 +82,7 @@ public class DateLineOrganizer {
     		return null;
     	}
     	
-    	String currentDateFormat = getMainWindowHolder().getUnorderedText();
+    	String currentDateFormat = getMainWindowHolder().getRegexPatternText();
         SimpleDateFormat formatter = currentDateFormat.isEmpty() ? new SimpleDateFormat(DEFAULT_FORMAT) : new SimpleDateFormat(currentDateFormat);
         
         Date dateFromString = null;

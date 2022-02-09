@@ -38,15 +38,14 @@ public class LoadingIcon extends GlassPaneGraphicsProcessor implements Runnable{
         
         clearGlassPane();
         
-		Component oldComp = getLogMergerWindow().getWindowHolder().getTxtHolder().getOrderedTextArea();
+		Component oldComp = getLogMergerWindow().getWindowHolder().getTxtHolder().getOrderedScrollPane();
 		Component newComp = oldComp;
 		
 		while(newComp.getParent() != null) {
 			newComp = newComp.getParent();
 		}
 		
-		Rectangle processingWindowRectangle =  new Rectangle((newComp.getWidth() + oldComp.getWidth() - 200)/2, (newComp.getHeight() + oldComp.getHeight()/4 - 50)/2, 200, 50);
-        
+		Rectangle processingWindowRectangle =  new Rectangle((newComp.getWidth() - 200)/2 + oldComp.getWidth()/2, (newComp.getHeight() - 50)/2, 200, 50);
         String processingString;
         
         while (running.get()) {
@@ -59,7 +58,7 @@ public class LoadingIcon extends GlassPaneGraphicsProcessor implements Runnable{
         	tick();
         	
         	try {
-				Thread.sleep(20);
+				Thread.sleep(50);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
