@@ -23,16 +23,16 @@ public enum LoggingLevel {
 		Color color = null;
 		switch(this) {
 			case ERROR:
-				color = Color.decode("0xff0000");
+				color = Color.decode("0xff6f68");
 				break;
 			case INFO:
-				color = Color.decode("0xc0c0c0");
-				break;
-			case DEBUG:
 				color = Color.decode("0xb6d7a8");
 				break;
-			case TRACE:
+			case DEBUG:
 				color = Color.decode("0xfcfccd");
+				break;
+			case TRACE:
+				color = Color.decode("0xc0c0c0");
 				break;
 			case UNKNOWN:
 				color = Color.decode("0x494949");

@@ -98,7 +98,7 @@ public class LineNumberComponent extends JComponent implements MouseMotionListen
 			
 			for(DatedLine line: this.datedLines) {
 				g.setColor(line.getLogLevel().getLevelColor());
-				g.fillRoundRect(1, strHeight*rowVal, getWidth()-2, strHeight, ARC_BORDER, ARC_BORDER);
+				g.fillRect(1, strHeight*rowVal, getWidth()-2, strHeight);
 				rowVal += line.getRowCount();
 			}
 		}
