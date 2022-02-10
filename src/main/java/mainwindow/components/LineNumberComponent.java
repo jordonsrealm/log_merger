@@ -32,7 +32,7 @@ public class LineNumberComponent extends JComponent implements MouseMotionListen
 	private static final Color COLOR_BORDER = Color.decode("0x494949");
 	private static final Color LINE_NUM_BORDER = Color.decode("0xffffff");
 	private static final Color ERROR_LEVEL = Color.decode("0xff0000");
-	private static final Color INFO_LEVEL = Color.decode("0xd0d0d0");
+	private static final Color INFO_LEVEL = Color.decode("0xc0c0c0");
 	private static final Color DEBUG_LEVEL = Color.decode("0xb6d7a8");
 	private static final Color TRACE_LEVEL = Color.decode("0xfcfccd");
 	private static final int ARC_BORDER = 6;
@@ -99,8 +99,11 @@ public class LineNumberComponent extends JComponent implements MouseMotionListen
 		Color defColor = g.getColor();
 		
 		for(int t = 0; t <= getHeight()/strHeight; t++) {
+			g.setColor(defColor);
 			
 			if(datedLines!=null && t< datedLines.size() && drawLoggingLevelNotes) {
+				boolean drawLoggingRowBorder = true;
+				
 				if(datedLines.get(t).getLogLevel().equals(LoggingLevel.ERROR)) {
 					g.setColor(ERROR_LEVEL);
 				} else if(datedLines.get(t).getLogLevel().equals(LoggingLevel.INFO)){
@@ -110,10 +113,12 @@ public class LineNumberComponent extends JComponent implements MouseMotionListen
 				} else if(datedLines.get(t).getLogLevel().equals(LoggingLevel.TRACE)){
 					g.setColor(TRACE_LEVEL);
 				} else {
-					g.setColor(defColor);
+					drawLoggingRowBorder = false;
 				}
 				
-				g.fillRoundRect(2, strHeight*t, getWidth()-2, strHeight, ARC_BORDER, ARC_BORDER);
+				if(drawLoggingRowBorder) {
+					g.fillRoundRect(2, strHeight*t, getWidth()-2, strHeight, ARC_BORDER, ARC_BORDER);
+				}
 			}
 			
 			String intStr = String.valueOf(t);
