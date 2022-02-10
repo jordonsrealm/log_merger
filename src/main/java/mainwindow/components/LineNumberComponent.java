@@ -29,7 +29,7 @@ public class LineNumberComponent extends JComponent implements MouseMotionListen
 	private static final long serialVersionUID = 1L;
 	
 	private static final Color COLOR_BORDER = Color.decode("0x494949");
-	private static final Color LINE_NUM_BORDER = Color.decode("0xffffff");
+	private static final Color LINE_NUM_BORDER = Color.decode("0x494949");
 	private static final int ARC_BORDER = 6;
 	private static final double HEIGHT_DECREASE = .25d;
 	private static final int BUFFER_HEIGHT = 2;
