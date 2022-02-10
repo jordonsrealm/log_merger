@@ -1,5 +1,6 @@
 package transfer.object;
 
+import java.awt.Color;
 
 public enum LoggingLevel {
 	INFO("INFO"),
@@ -16,6 +17,29 @@ public enum LoggingLevel {
 	
 	public String level() {
 		return level;
+	}
+	
+	public Color getLevelColor() {
+		Color color = null;
+		switch(this) {
+			case ERROR:
+				color = Color.decode("0xff0000");
+				break;
+			case INFO:
+				color = Color.decode("0xc0c0c0");
+				break;
+			case DEBUG:
+				color = Color.decode("0xb6d7a8");
+				break;
+			case TRACE:
+				color = Color.decode("0xfcfccd");
+				break;
+			case UNKNOWN:
+				color = Color.decode("0x494949");
+				break;
+		}
+		
+		return color;
 	}
 	
 	public static LoggingLevel getLevel(String possibleLevel) {

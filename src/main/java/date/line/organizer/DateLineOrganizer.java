@@ -49,13 +49,14 @@ public class DateLineOrganizer {
         
         try (BufferedReader bufferedReader = new BufferedReader(new StringReader(getNotSortedString()))) {
             while((lineRead = bufferedReader.readLine()) != null){
-            	DatedLine dLine = new DatedLine(lineRead, format);
+            	DatedLine givenDatedLine = new DatedLine(lineRead, format, LoggingLevel.getLevel(lineRead));
             	
-            	if(dLine.isValidDate()) {
-            		datedLineList.add(new DatedLine(lineRead, format, LoggingLevel.getLevel(lineRead)));
+            	if(givenDatedLine.isValidDate()) {
+            		datedLineList.add(givenDatedLine);
             	} else {
             		if(!datedLineList.isEmpty()) {
-            			datedLineList.get(datedLineList.size()-1).appendToOriginalString("\n"+lineRead);
+            			DatedLine currLine = datedLineList.get(datedLineList.size()-1);
+            			currLine.appendToOriginalString("\n"+lineRead);
             		}
             	}
             }

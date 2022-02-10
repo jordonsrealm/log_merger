@@ -18,6 +18,7 @@ public class DatedLine implements Comparable<DatedLine> {
     private String dateFormat;
     private static boolean orderDescending;
     private LoggingLevel logLevel;
+    private int rowCount = 1;
 
 
     public DatedLine(){
@@ -90,6 +91,7 @@ public class DatedLine implements Comparable<DatedLine> {
 
 	public void appendToOriginalString(String stringToAppend) {
     	this.originalStringWithDate += stringToAppend;
+    	this.rowCount++;
     }
     
 	protected String getFormattedDate(String strToConvert, String format) {
@@ -155,6 +157,14 @@ public class DatedLine implements Comparable<DatedLine> {
 			   getDateFormat().equals(datedLine.getDateFormat());
     }
     
+	public int getRowCount() {
+		return rowCount;
+	}
+
+	public void setRowCount(int rowCount) {
+		this.rowCount = rowCount;
+	}
+	
     @Override
 	public int hashCode() {
 		return super.hashCode();

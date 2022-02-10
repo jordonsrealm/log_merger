@@ -21,7 +21,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import transfer.object.DatedLine;
-import transfer.object.LoggingLevel;
 
 
 public class LineNumberComponent extends JComponent implements MouseMotionListener, MouseListener {
@@ -31,10 +30,6 @@ public class LineNumberComponent extends JComponent implements MouseMotionListen
 	
 	private static final Color COLOR_BORDER = Color.decode("0x494949");
 	private static final Color LINE_NUM_BORDER = Color.decode("0xffffff");
-	private static final Color ERROR_LEVEL = Color.decode("0xff0000");
-	private static final Color INFO_LEVEL = Color.decode("0xc0c0c0");
-	private static final Color DEBUG_LEVEL = Color.decode("0xb6d7a8");
-	private static final Color TRACE_LEVEL = Color.decode("0xfcfccd");
 	private static final int ARC_BORDER = 6;
 	private static final double HEIGHT_DECREASE = .25d;
 	private static final int BUFFER_HEIGHT = 2;
@@ -98,29 +93,17 @@ public class LineNumberComponent extends JComponent implements MouseMotionListen
 	private void drawLineNumbers(Graphics g, FontMetrics fm) {
 		Color defColor = g.getColor();
 		
-		for(int t = 0; t <= getHeight()/strHeight; t++) {
-			g.setColor(defColor);
+		if(this.datedLines != null && drawLoggingLevelNotes) {
+			int rowVal = 0;
 			
-			if(datedLines!=null && t< datedLines.size() && drawLoggingLevelNotes) {
-				boolean drawLoggingRowBorder = true;
-				
-				if(datedLines.get(t).getLogLevel().equals(LoggingLevel.ERROR)) {
-					g.setColor(ERROR_LEVEL);
-				} else if(datedLines.get(t).getLogLevel().equals(LoggingLevel.INFO)){
-					g.setColor(INFO_LEVEL);
-				} else if(datedLines.get(t).getLogLevel().equals(LoggingLevel.DEBUG)){
-					g.setColor(DEBUG_LEVEL);
-				} else if(datedLines.get(t).getLogLevel().equals(LoggingLevel.TRACE)){
-					g.setColor(TRACE_LEVEL);
-				} else {
-					drawLoggingRowBorder = false;
-				}
-				
-				if(drawLoggingRowBorder) {
-					g.fillRoundRect(2, strHeight*t, getWidth()-2, strHeight, ARC_BORDER, ARC_BORDER);
-				}
+			for(DatedLine line: this.datedLines) {
+				g.setColor(line.getLogLevel().getLevelColor());
+				g.fillRoundRect(1, strHeight*rowVal, getWidth()-2, strHeight, ARC_BORDER, ARC_BORDER);
+				rowVal += line.getRowCount();
 			}
-			
+		}
+		
+		for(int t = 0; t <= getHeight()/strHeight; t++) {
 			String intStr = String.valueOf(t);
 			g.setColor(Color.BLACK);
 			g.drawString( intStr, (getWidth() - fm.stringWidth(intStr))/2, (int)(strHeight*(t - HEIGHT_DECREASE) + BUFFER_HEIGHT));
