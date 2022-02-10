@@ -7,6 +7,7 @@ public enum LoggingLevel {
 	DEBUG("DEBUG"),
 	ERROR("ERROR"),
 	TRACE("TRACE"),
+	WARN("WARN"),
 	UNKNOWN("UNKNOWN");
 	
 	private String level;
@@ -29,10 +30,13 @@ public enum LoggingLevel {
 				color = Color.decode("0xb6d7a8");
 				break;
 			case DEBUG:
-				color = Color.decode("0xfcfccd");
+				color = Color.decode("0xabc5fe");
 				break;
 			case TRACE:
 				color = Color.decode("0xc0c0c0");
+				break;
+			case WARN:
+				color = Color.decode("0xfeff8f");
 				break;
 			case UNKNOWN:
 				color = Color.decode("0x494949");
@@ -53,6 +57,8 @@ public enum LoggingLevel {
         	returnLevel = ERROR;
         } else if(possibleLevel.contains("TRACE")){
         	returnLevel = TRACE;
+        } else if(possibleLevel.contains("WARN")){
+        	returnLevel = WARN;
         } else {
         	returnLevel = UNKNOWN;
         }
