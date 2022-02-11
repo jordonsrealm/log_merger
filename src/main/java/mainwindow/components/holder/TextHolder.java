@@ -18,7 +18,7 @@ public class TextHolder {
     private static final int TEXT_AREA_ROWS_CNT 	   = 5;
     private static final int TEXT_AREA_COLUMNS_CNT     = 70;
     private static final int TEXT_FIELD_COLUMNS_CNT    = 15;
-    private static final int REGEX_PATTERN_COLUMN_CNT  = 30;
+    private static final int REGEX_PATTERN_COLUMN_CNT  = 16;
     private static final int FILENAME_FIELD_COLUMN_CNT = 60;
     private static final String BLANK_STR    		   = "";
     private static final String WHITE_BACKGROUND = "0xffffff";
