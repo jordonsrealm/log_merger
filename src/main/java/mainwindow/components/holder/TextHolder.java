@@ -7,7 +7,10 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DocumentFilter;
+import javax.swing.text.AbstractDocument;
 import mainwindow.components.LineNumberComponent;
 import mainwindow.components.LogMergerWindow;
 import mainwindow.components.PreviewScrollPane;
@@ -51,6 +54,10 @@ public class TextHolder {
     	
         getRegexPatternTextField().setText(DEFAULT_REGEX_HINT);
         getRegexPatternTextField().setBackground(Color.decode(WHITE_BACKGROUND));
+        
+        DocumentFilter filter = new ExpandingDocumentFilter();
+        AbstractDocument firstNameDoc = (AbstractDocument) minDateField.getDocument();
+        firstNameDoc.setDocumentFilter(filter);
 	}
     
 	public JTextField getFileNameInputTextField() {
@@ -89,4 +96,36 @@ public class TextHolder {
 	public void setLogMergerWindow(LogMergerWindow logMergerWindow) {
 		this.logMergerWindow = logMergerWindow;
 	}
+	
+    class ExpandingDocumentFilter extends DocumentFilter {
+
+        @Override
+        public void insertString(FilterBypass fb, int offset, String text, AttributeSet attr) throws BadLocationException {
+            System.out.println("I" + text);
+            super.insertString(fb, offset, text, attr);
+        }
+
+        @Override
+        public void replace(FilterBypass fb, int offset, int length, String text, AttributeSet attrs) throws BadLocationException {
+            if ("e".equalsIgnoreCase(text)) {
+                text = "example";
+            }
+            super.replace(fb, offset, length, text, attrs); 
+        }
+
+    }
+    
+    class UppercaseDocumentFilter extends DocumentFilter {
+        @Override
+        public void insertString(DocumentFilter.FilterBypass fb, int offset, String text, AttributeSet attr)
+            throws BadLocationException {
+            fb.insertString(offset, text.toUpperCase(), attr);
+        }
+
+        @Override
+        public void replace(DocumentFilter.FilterBypass fb, int offset, int length, String text, AttributeSet attrs)
+            throws BadLocationException {
+            fb.replace(offset, length, text.toUpperCase(), attrs);
+        }
+    }
 }

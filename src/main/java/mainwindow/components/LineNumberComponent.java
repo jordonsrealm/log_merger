@@ -39,14 +39,14 @@ public class LineNumberComponent extends JComponent implements MouseMotionListen
     private final JMenuItem maxDate = new JMenuItem("Use as Max Date");
     private List<DatedLine> datedLines = null;
     private boolean drawLoggingLevelNotes;
-    
+    private DatedLine rightClickedDate;
 	private Point movedPoint;
 	private int strHeight;
 	private boolean drawToolTip;
 	private Rectangle movedRectangle;
-	private int pixelLineNumber;
+	private int pixelIntNumber;
 	private LogMergerWindow logMergerWindow;
-	private float quotient = 0;
+	private float lineNumberRatio = 0;
 	
 	
 	public LineNumberComponent(LogMergerWindow logMergerWindow, boolean drawLoggingLevel) {
@@ -76,14 +76,14 @@ public class LineNumberComponent extends JComponent implements MouseMotionListen
 		handleToolTip(g);
 		
 		minDate.addActionListener((ActionEvent e)->{
-			DatedLine line = getDatedLine((int)quotient);
+			DatedLine line = getRightClickedDate();
 			if(line != null) {
-				setMinDateText(line.getDateAsString());
+				setMinDateText(getRightClickedDate().getDateAsString());
 			}
 		});
 		
 		maxDate.addActionListener((ActionEvent e)->{
-			DatedLine line = getDatedLine((int)quotient);
+			DatedLine line = getRightClickedDate();
 			if(line != null) {
 				setMaxDateText(line.getDateAsString());
 			}
@@ -122,14 +122,22 @@ public class LineNumberComponent extends JComponent implements MouseMotionListen
 	private void drawLineBorder(Graphics g) {
 		if(movedPoint != null) {
 			g.setColor(LINE_NUM_BORDER);
-			g.drawRoundRect(0, (int)((float)movedPoint.y/strHeight)*strHeight, getWidth()-1, strHeight, ARC_BORDER, ARC_BORDER);
+			g.drawRoundRect(0, (int)((float)lineNumberRatio)*strHeight, getWidth()-1, strHeight, ARC_BORDER, ARC_BORDER);
 		}
 	}
 	
 	private void handleToolTip(Graphics g) {
-		DatedLine line = getDatedLine((int)quotient);
-		if(line!=null && line.getDateAsString()!=null) {
-			setToolTipText("Set Date Boundary: " + line.getDateAsString());
+		
+		if(getDatedLines() != null && movedPoint != null) {
+			int lineCount = 1;
+			for(DatedLine line: getDatedLines()) {
+				if((lineCount + line.getRowCount()) > getLine() && getLine() >= lineCount) {
+					setToolTipText("Set Date Boundary: " + line.getDateAsString());
+					break;
+				}
+				
+				lineCount+=line.getRowCount();
+			}
 		}
 	}
 	
@@ -146,10 +154,26 @@ public class LineNumberComponent extends JComponent implements MouseMotionListen
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		logger.info("MouseReleased");
+		movedPoint = e.getPoint();
+		lineNumberRatio = getQuotient(e.getPoint().y, strHeight);
+		pixelIntNumber = (int)lineNumberRatio*strHeight;
 		
 		if(e.isPopupTrigger()) {
-			quotient = getQuotient(e.getPoint().y, strHeight);
-	        popupmenu.show(e.getComponent(), e.getX(), e.getY());
+			if(getDatedLines() != null) {
+				int lineCount = 1;
+				for(DatedLine line: getDatedLines()) {
+					if((lineCount + line.getRowCount()) > getLine() && getLine() >= lineCount) {
+						System.out.println("Within bounds...");
+						setRightClickedDate(line);
+				        popupmenu.show(e.getComponent(), e.getX(), e.getY());
+						break;
+					}
+					
+					lineCount+=line.getRowCount();
+				}
+			}
+			
+			System.out.println("quotient: " + lineNumberRatio + "\npixelIntNumber: " + pixelIntNumber + "\nstrHeight: " + strHeight);
 		}
 	}
 
@@ -157,10 +181,10 @@ public class LineNumberComponent extends JComponent implements MouseMotionListen
 	public void mouseEntered(MouseEvent e) {
 		setDrawToolTip(Boolean.TRUE);
 		movedPoint = e.getPoint();
-		quotient = getQuotient(movedPoint.y, strHeight);
-		pixelLineNumber = (int)quotient*strHeight;
+		lineNumberRatio = getQuotient(movedPoint.y, strHeight);
+		pixelIntNumber = (int)lineNumberRatio*strHeight;
 		
-		redrawRectangle(new Rectangle(0, pixelLineNumber, getWidth(), strHeight+1));
+		redrawRectangle(new Rectangle(0, pixelIntNumber, getWidth(), strHeight+1));
 	}
 
 	@Override
@@ -179,10 +203,10 @@ public class LineNumberComponent extends JComponent implements MouseMotionListen
 	@Override
 	public void mouseMoved(MouseEvent e) {
 		movedPoint = e.getPoint();
-		quotient = getQuotient(movedPoint.y, strHeight);
-		pixelLineNumber = (int)quotient * strHeight;
+		lineNumberRatio = getQuotient(movedPoint.y, strHeight);
+		pixelIntNumber = (int)lineNumberRatio*strHeight;
 		
-		Rectangle mousepointRectangle = new Rectangle(0, pixelLineNumber, getWidth(), strHeight);
+		Rectangle mousepointRectangle = new Rectangle(0, pixelIntNumber, getWidth(), strHeight);
 		
 		if(movedRectangle == null) {
 			movedRectangle = mousepointRectangle;
@@ -190,7 +214,7 @@ public class LineNumberComponent extends JComponent implements MouseMotionListen
 		
 		if(!movedRectangle.intersects(mousepointRectangle)) {
 			movedRectangle = mousepointRectangle;
-			redrawRectangle(new Rectangle(0, pixelLineNumber - strHeight, getWidth(), 4 * strHeight));
+			redrawRectangle(new Rectangle(0, pixelIntNumber - strHeight, getWidth(), 4 * strHeight));
 		}
 	}
 	
@@ -200,6 +224,10 @@ public class LineNumberComponent extends JComponent implements MouseMotionListen
 	
 	private void setMaxDateText(String text) {
 		getLogMergerWindow().getWindowHolder().getTxtHolder().getMaxDateField().setText(text);
+	}
+	
+	protected List<DatedLine> getDatedLines() {
+		return getLogMergerWindow().getWindowHolder().getDatedLines();
 	}
 	
 	protected DatedLine getDatedLine(int index) {
@@ -218,6 +246,10 @@ public class LineNumberComponent extends JComponent implements MouseMotionListen
 	
 	private float getQuotient(int dividend, int divisor) {
 		return divisor==0 ? 0 : (float)dividend/divisor;
+	}
+	
+	private int getLine() {
+		return (int)lineNumberRatio + 1;
 	}
 
 	private void redrawRectangle(Rectangle rect) {
@@ -245,5 +277,13 @@ public class LineNumberComponent extends JComponent implements MouseMotionListen
 
 	public void setDrawToolTip(boolean drawToolTip) {
 		this.drawToolTip = drawToolTip;
+	}
+
+	public DatedLine getRightClickedDate() {
+		return rightClickedDate;
+	}
+
+	public void setRightClickedDate(DatedLine rightClickedDate) {
+		this.rightClickedDate = rightClickedDate;
 	}
 }
