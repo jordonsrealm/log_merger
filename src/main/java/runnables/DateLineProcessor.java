@@ -1,6 +1,6 @@
 package runnables;
 
-import javax.swing.AbstractButton;
+import javax.swing.JComponent;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
@@ -16,10 +16,10 @@ public class DateLineProcessor implements Runnable {
 
 	private LogMergerWindow logMergerWindow;
 	private JScrollPane organizedScrollPane;
-	private AbstractButton button;
+	private JComponent button;
 	private CenteredPointType centeredPointType;
 	
-	public DateLineProcessor(LogMergerWindow logMergerWindow, AbstractButton button, CenteredPointType centeredPointType) {
+	public DateLineProcessor(LogMergerWindow logMergerWindow, JComponent button, CenteredPointType centeredPointType) {
 		setLogMergerWindow(logMergerWindow);
 		setButton(button);
 		setCenteredPointType(centeredPointType);
@@ -55,11 +55,11 @@ public class DateLineProcessor implements Runnable {
 		button.setEnabled(true);
 	}
 
-	public AbstractButton getButton() {
+	public JComponent getButton() {
 		return button;
 	}
 
-	public void setButton(AbstractButton button) {
+	public void setButton(JComponent button) {
 		this.button = button;
 	}
 
