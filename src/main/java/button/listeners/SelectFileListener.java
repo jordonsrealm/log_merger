@@ -4,19 +4,17 @@ import java.awt.event.ActionEvent;
 import java.util.concurrent.ExecutorService;
 
 import glasspane.drawing.GlassPaneSwingWorker;
-import highlighter.UnOrganizedHighlighter;
 import mainwindow.components.LogMergerWindow;
 
 
 public class SelectFileListener extends DrawingComponentListener{
 
-	static UnOrganizedHighlighter myHighlightPainter;
 	private GlassPaneSwingWorker worker;
 
 
-	public SelectFileListener( LogMergerWindow logMergerWindow, ExecutorService executorService, String highlightHexColor) {
+	public SelectFileListener( LogMergerWindow logMergerWindow, ExecutorService executorService) {
 		super(logMergerWindow, executorService);
-		worker = new GlassPaneSwingWorker(logMergerWindow, highlightHexColor);
+		worker = new GlassPaneSwingWorker(logMergerWindow);
 	}
 
 	public void actionPerformed(ActionEvent e) {

@@ -19,6 +19,7 @@ public class DatedLine implements Comparable<DatedLine> {
     private static boolean orderDescending;
     private LoggingLevel logLevel;
     private int rowCount = 1;
+    private boolean visible = false;
 
 
     public DatedLine(){
@@ -61,6 +62,15 @@ public class DatedLine implements Comparable<DatedLine> {
 
     public void setOriginalStringWithDate(String originalStringWithDate) {
         this.originalStringWithDate = originalStringWithDate;
+    }
+    
+    public void handleVisibility(boolean error, boolean unknown, boolean info, boolean warn, boolean debug, boolean trace) {
+    	this.setVisible((this.logLevel.equals(LoggingLevel.ERROR) && error)||
+    					(this.logLevel.equals(LoggingLevel.UNKNOWN) && unknown)||
+    					(this.logLevel.equals(LoggingLevel.INFO) && info)||
+    					(this.logLevel.equals(LoggingLevel.WARN) && warn)||
+    					(this.logLevel.equals(LoggingLevel.DEBUG) && debug)||
+    					(this.logLevel.equals(LoggingLevel.TRACE) && trace));
     }
 
     public boolean isValidDate(){
@@ -134,7 +144,15 @@ public class DatedLine implements Comparable<DatedLine> {
     	return withinBounds;
     }
 
-    @Override
+    public boolean isVisible() {
+		return visible;
+	}
+
+	public void setVisible(boolean visible) {
+		this.visible = visible;
+	}
+
+	@Override
     public int compareTo(DatedLine datedLine) {
         if(getDate() == null || datedLine.getDate() == null){
             return 0;

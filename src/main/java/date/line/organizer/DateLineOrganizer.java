@@ -12,6 +12,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import mainwindow.components.holder.CheckBoxHolder;
 import mainwindow.holder.MainWindowHolder;
 import transfer.object.DatedLine;
 import transfer.object.LoggingLevel;
@@ -43,13 +44,21 @@ public class DateLineOrganizer {
     
     protected List<DatedLine> getDatedLinesUsingFormat(String format) {
     	DatedLine.setOrderDescending(getMainWindowHolder().isDescending());
-        
+    	CheckBoxHolder holder = getMainWindowHolder().getCheckBoxHolder();
+    	boolean markErrors = holder.getErrorCheckBox().isSelected();
+    	boolean markDebugs = holder.getDebugCheckBox().isSelected();
+    	boolean markTraces = holder.getTraceCheckBox().isSelected();
+    	boolean markWarns = holder.getWarnCheckBox().isSelected();
+    	boolean markInfos = holder.getInfoCheckBox().isSelected();
+    	boolean markUnknowns = holder.getUnknownCheckBox().isSelected();
+    	
         ArrayList<DatedLine> datedLineList = new ArrayList<>();
         String lineRead;
         
         try (BufferedReader bufferedReader = new BufferedReader(new StringReader(getNotSortedString()))) {
             while((lineRead = bufferedReader.readLine()) != null){
             	DatedLine givenDatedLine = new DatedLine(lineRead, format, LoggingLevel.getLevel(lineRead));
+            	givenDatedLine.handleVisibility(markErrors, markUnknowns, markInfos, markWarns, markDebugs, markTraces);
             	
             	if(givenDatedLine.isValidDate()) {
             		datedLineList.add(givenDatedLine);
@@ -71,8 +80,10 @@ public class DateLineOrganizer {
     	
     	StringBuilder builder = new StringBuilder();
     	
-        for(DatedLine holder: datedLines){
-            builder.append(holder.getOriginalStringWithDate() + "\n");
+        for(DatedLine datedLine: datedLines){
+        	if(datedLine.isVisible()) {
+                builder.append(datedLine.getOriginalStringWithDate() + "\n");
+        	}
         }
         
         return builder.toString();

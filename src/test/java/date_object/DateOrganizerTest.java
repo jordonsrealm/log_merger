@@ -7,6 +7,8 @@ import static org.mockito.Mockito.mock;
 import org.junit.Test;
 
 import date.line.organizer.DateLineOrganizer;
+import mainwindow.components.ListeningCheckBox;
+import mainwindow.components.holder.CheckBoxHolder;
 import mainwindow.holder.MainWindowHolder;
 
 
@@ -20,8 +22,19 @@ public class DateOrganizerTest {
 		String dateFormat = "yyyy-MM-dd HH:mm:ss.SSS";
 		
 		MainWindowHolder holder = mock(MainWindowHolder.class);
+		CheckBoxHolder chbxHolder = mock(CheckBoxHolder.class);
+		ListeningCheckBox listenBox = mock(ListeningCheckBox.class);
+		
 		doReturn(dateFormat).when(holder).getRegexPatternText();
 		doReturn(strToTest).when(holder).getUnorderedText();
+		doReturn(chbxHolder).when(holder).getCheckBoxHolder();
+		doReturn(listenBox).when(chbxHolder).getInfoCheckBox();
+		doReturn(listenBox).when(chbxHolder).getDebugCheckBox();
+		doReturn(listenBox).when(chbxHolder).getTraceCheckBox();
+		doReturn(listenBox).when(chbxHolder).getWarnCheckBox();
+		doReturn(listenBox).when(chbxHolder).getUnknownCheckBox();
+		doReturn(listenBox).when(chbxHolder).getErrorCheckBox();
+		doReturn(true).when(listenBox).isSelected();
 		
 		DateLineOrganizer boundedDates = new DateLineOrganizer(holder);
 		String sortedString = boundedDates.orderDateLines("", "");

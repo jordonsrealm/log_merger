@@ -1,7 +1,6 @@
 package threads;
 
 import java.awt.Component;
-import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -12,7 +11,6 @@ import mainwindow.components.LogMergerWindow;
 public class LoadingIcon extends GlassPaneGraphicsProcessor implements Runnable{
 
 	private static final AtomicBoolean running = new AtomicBoolean(false);
-    private Point centerPoint;
     
     
     public LoadingIcon(LogMergerWindow logMergerWindow) {
@@ -61,13 +59,4 @@ public class LoadingIcon extends GlassPaneGraphicsProcessor implements Runnable{
 			}
         }
     }
-
-	public Point getCenterPoint() {
-		return centerPoint;
-	}
-
-	public void setCenterPoint(Point centerPoint) {
-		this.centerPoint = centerPoint;
-	}
-
 }

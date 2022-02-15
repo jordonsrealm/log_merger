@@ -9,7 +9,6 @@ import mainwindow.components.holder.ButtonHolder;
 import mainwindow.components.holder.CheckBoxHolder;
 import mainwindow.components.holder.TextHolder;
 import mainwindow.holder.MainWindowHolder;
-
 import java.awt.event.ComponentListener;
 import java.awt.event.ComponentEvent;
 import javax.imageio.ImageIO;
@@ -89,16 +88,28 @@ public class LogMergerWindow extends JFrame implements ComponentListener {
     	ButtonHolder btnH = wHolder.getBtnHolder();
     	TextHolder txtH = wHolder.getTxtHolder();
     	
-        JPanel rightUpperPanel = new JPanel(new FlowLayout());
-        rightUpperPanel.add(chxH.getDescendingCheckBox());
-        rightUpperPanel.add(new JLabel(MIN_DATE_STR));
-        rightUpperPanel.add(txtH.getMinDateField());
-        rightUpperPanel.add(new JLabel(MAX_DATE_STR));
-        rightUpperPanel.add(txtH.getMaxDateField());
-        rightUpperPanel.add(btnH.getSaveFileButton());
+        JPanel rightUpperPanelLoggingLevel = new JPanel(new FlowLayout());
+        rightUpperPanelLoggingLevel.add(chxH.getErrorCheckBox());
+        rightUpperPanelLoggingLevel.add(chxH.getInfoCheckBox());
+        rightUpperPanelLoggingLevel.add(chxH.getTraceCheckBox());
+        rightUpperPanelLoggingLevel.add(chxH.getWarnCheckBox());
+        rightUpperPanelLoggingLevel.add(chxH.getDebugCheckBox());
+        rightUpperPanelLoggingLevel.add(chxH.getUnknownCheckBox());
+        
+        JPanel rightUpperPanelDateOrdering = new JPanel(new FlowLayout());
+        rightUpperPanelDateOrdering.add(chxH.getDescendingCheckBox());
+        rightUpperPanelDateOrdering.add(new JLabel(MIN_DATE_STR));
+        rightUpperPanelDateOrdering.add(txtH.getMinDateField());
+        rightUpperPanelDateOrdering.add(new JLabel(MAX_DATE_STR));
+        rightUpperPanelDateOrdering.add(txtH.getMaxDateField());
+        rightUpperPanelDateOrdering.add(btnH.getSaveFileButton());
+        
+        JPanel rightUpperPanelParent = new JPanel(new BorderLayout());
+        rightUpperPanelParent.add(rightUpperPanelLoggingLevel, BorderLayout.NORTH);
+        rightUpperPanelParent.add(rightUpperPanelDateOrdering, BorderLayout.SOUTH);
         
         JPanel rightParentPanel = new JPanel(new BorderLayout());
-        rightParentPanel.add(rightUpperPanel, BorderLayout.NORTH);
+        rightParentPanel.add(rightUpperPanelParent, BorderLayout.NORTH);
         rightParentPanel.add(txtH.getOrderedScrollPane(), BorderLayout.CENTER);
         
         JPanel regexPatternSection = new JPanel(new FlowLayout());

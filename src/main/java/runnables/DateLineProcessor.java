@@ -25,31 +25,33 @@ public class DateLineProcessor implements Runnable {
 	@Override
 	public void run() {
 		MainWindowHolder mainWindowContainer = getLogMergerWindow().getWindowHolder();
-
-		String minDateString = mainWindowContainer.getMinDateText();
-		String maxDateString = mainWindowContainer.getMaxDateText();
 		
-		button.setEnabled(false);
-    	LoadingIcon loadingIcon = new LoadingIcon( getLogMergerWindow());
-		loadingIcon.startLoading();
-		
-		Thread loadingThread = new Thread(loadingIcon);
-		loadingThread.start();
-		
-		String completeTextString = new DateLineOrganizer(mainWindowContainer).orderDateLines(minDateString, maxDateString);
-		JTextArea orderTextArea = mainWindowContainer.getTxtHolder().getOrderedTextArea();
-		
-		SwingUtilities.invokeLater(()->{
-			orderTextArea.setText(completeTextString);
-			orderTextArea.setCaretPosition(0);
+		if(!(mainWindowContainer.getUnorderedText().isEmpty() && mainWindowContainer.getUnorderedText().isBlank())) {
+			String minDateString = mainWindowContainer.getMinDateText();
+			String maxDateString = mainWindowContainer.getMaxDateText();
+			
+			button.setEnabled(false);
+	    	LoadingIcon loadingIcon = new LoadingIcon( getLogMergerWindow());
+			loadingIcon.startLoading();
+			
+			Thread loadingThread = new Thread(loadingIcon);
+			loadingThread.start();
+			
+			String completeTextString = new DateLineOrganizer(mainWindowContainer).orderDateLines(minDateString, maxDateString);
+			JTextArea orderTextArea = mainWindowContainer.getTxtHolder().getOrderedTextArea();
+			
+			SwingUtilities.invokeLater(()->{
+				orderTextArea.setText(completeTextString);
+				orderTextArea.setCaretPosition(0);
+		        
+		        if(organizedScrollPane != null && organizedScrollPane.getHorizontalScrollBar()!=null) {
+		        	organizedScrollPane.getHorizontalScrollBar().setValue(0);
+		        }
+			});
 	        
-	        if(organizedScrollPane != null && organizedScrollPane.getHorizontalScrollBar()!=null) {
-	        	organizedScrollPane.getHorizontalScrollBar().setValue(0);
-	        }
-		});
-        
-		loadingIcon.stopLoading();
-		button.setEnabled(true);
+			loadingIcon.stopLoading();
+			button.setEnabled(true);
+		}
 	}
 
 	public JComponent getButton() {

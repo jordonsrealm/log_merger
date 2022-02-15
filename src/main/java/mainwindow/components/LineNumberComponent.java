@@ -93,16 +93,20 @@ public class LineNumberComponent extends JComponent implements MouseMotionListen
 	private void drawLineNumbers(Graphics g, FontMetrics fm) {
 		Color defColor = g.getColor();
 		
+		// Draw the colored boxes first
 		if(this.datedLines != null && drawLoggingLevelNotes) {
 			int rowVal = 0;
 			
 			for(DatedLine line: this.datedLines) {
-				g.setColor(line.getLogLevel().getLevelColor());
-				g.fillRect(1, strHeight*rowVal, getWidth()-2, strHeight);
-				rowVal += line.getRowCount();
+				if(line.isVisible()) {
+					g.setColor(line.getLogLevel().getLevelColor());
+					g.fillRect(1, strHeight*rowVal, getWidth()-2, strHeight);
+					rowVal += line.getRowCount();
+				}
 			}
 		}
 		
+		// Now draw the line numbers over the colored boxes
 		for(int t = 0; t <= getHeight()/strHeight; t++) {
 			String intStr = String.valueOf(t);
 			g.setColor(Color.BLACK);
@@ -163,7 +167,6 @@ public class LineNumberComponent extends JComponent implements MouseMotionListen
 				int lineCount = 1;
 				for(DatedLine line: getDatedLines()) {
 					if((lineCount + line.getRowCount()) > getLine() && getLine() >= lineCount) {
-						System.out.println("Within bounds...");
 						setRightClickedDate(line);
 				        popupmenu.show(e.getComponent(), e.getX(), e.getY());
 						break;
@@ -172,8 +175,6 @@ public class LineNumberComponent extends JComponent implements MouseMotionListen
 					lineCount+=line.getRowCount();
 				}
 			}
-			
-			System.out.println("quotient: " + lineNumberRatio + "\npixelIntNumber: " + pixelIntNumber + "\nstrHeight: " + strHeight);
 		}
 	}
 
