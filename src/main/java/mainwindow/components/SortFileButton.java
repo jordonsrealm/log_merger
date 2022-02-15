@@ -4,7 +4,6 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.SwingUtilities;
 
-import centerpoint.object.CenteredPointType;
 import runnables.DateLineProcessor;
 
 
@@ -24,7 +23,7 @@ public class SortFileButton extends AbstractMainWindowContainerButton {
 			getLogMergerWindow().getWindowHolder().setOrderedText("")
 		);
 		
-		Thread thread = new Thread(new DateLineProcessor(getLogMergerWindow(), this, CenteredPointType.ORDERED_TEXT_AREA));
+		Thread thread = new Thread(new DateLineProcessor(getLogMergerWindow(), this));
 		thread.start();
 	}
 }

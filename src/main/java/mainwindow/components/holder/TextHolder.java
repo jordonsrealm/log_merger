@@ -7,8 +7,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
-import centerpoint.object.CenteredPointType;
-
 import mainwindow.components.LineNumberComponent;
 import mainwindow.components.LogMergerWindow;
 import mainwindow.components.PreviewScrollPane;
@@ -55,22 +53,20 @@ public class TextHolder {
         getRegexPatternTextField().setBackground(Color.decode(WHITE_BACKGROUND));
         
         minDateField.addActionListener(ae->{
-        	System.out.println("Pressed key...");
     		SwingUtilities.invokeLater(()->
 				getLogMergerWindow().getWindowHolder().setOrderedText("")
     		);
 		
-			Thread thread = new Thread(new DateLineProcessor(getLogMergerWindow(), minDateField, CenteredPointType.ORDERED_TEXT_AREA));
+			Thread thread = new Thread(new DateLineProcessor(getLogMergerWindow(), minDateField));
 			thread.start();
         });
         
         maxDateField.addActionListener(ae->{
-        	System.out.println("Pressed key...");
     		SwingUtilities.invokeLater(()->
 				getLogMergerWindow().getWindowHolder().setOrderedText("")
     		);
 		
-			Thread thread = new Thread(new DateLineProcessor(getLogMergerWindow(), maxDateField, CenteredPointType.ORDERED_TEXT_AREA));
+			Thread thread = new Thread(new DateLineProcessor(getLogMergerWindow(), maxDateField));
 			thread.start();
         });
 	}

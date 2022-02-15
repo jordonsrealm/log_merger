@@ -21,7 +21,6 @@ import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import centerpoint.object.CenteredPointType;
 import highlighter.UnOrganizedHighlighter;
 import mainwindow.components.AddFileButton;
 import mainwindow.components.LogMergerWindow;
@@ -40,7 +39,7 @@ public class GlassPaneSwingWorker extends SwingWorker<String, Void> {
 	
 	public GlassPaneSwingWorker(LogMergerWindow logMergerWindow, String highlightHexColor) {
 		this.logMergerWindow = logMergerWindow;
-		this.glassPaneDrawingThread = new LoadingIcon(logMergerWindow, CenteredPointType.UN_ORDERED_TEXT_AREA);
+		this.glassPaneDrawingThread = new LoadingIcon(logMergerWindow);
 		myHighlightPainter = new UnOrganizedHighlighter(Color.decode(highlightHexColor));
 	}
 	

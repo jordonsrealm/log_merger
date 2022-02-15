@@ -5,7 +5,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 
-import centerpoint.object.CenteredPointType;
 import date.line.organizer.DateLineOrganizer;
 import mainwindow.components.LogMergerWindow;
 import mainwindow.holder.MainWindowHolder;
@@ -17,12 +16,10 @@ public class DateLineProcessor implements Runnable {
 	private LogMergerWindow logMergerWindow;
 	private JScrollPane organizedScrollPane;
 	private JComponent button;
-	private CenteredPointType centeredPointType;
 	
-	public DateLineProcessor(LogMergerWindow logMergerWindow, JComponent button, CenteredPointType centeredPointType) {
+	public DateLineProcessor(LogMergerWindow logMergerWindow, JComponent button) {
 		setLogMergerWindow(logMergerWindow);
 		setButton(button);
-		setCenteredPointType(centeredPointType);
 	}
 	
 	@Override
@@ -33,7 +30,7 @@ public class DateLineProcessor implements Runnable {
 		String maxDateString = mainWindowContainer.getMaxDateText();
 		
 		button.setEnabled(false);
-    	LoadingIcon loadingIcon = new LoadingIcon( getLogMergerWindow(), centeredPointType);
+    	LoadingIcon loadingIcon = new LoadingIcon( getLogMergerWindow());
 		loadingIcon.startLoading();
 		
 		Thread loadingThread = new Thread(loadingIcon);
@@ -69,13 +66,5 @@ public class DateLineProcessor implements Runnable {
 
 	public void setLogMergerWindow(LogMergerWindow logMergerWindow) {
 		this.logMergerWindow = logMergerWindow;
-	}
-
-	public CenteredPointType getCenteredPointType() {
-		return centeredPointType;
-	}
-
-	public void setCenteredPointType(CenteredPointType centeredPointType) {
-		this.centeredPointType = centeredPointType;
 	}
 }

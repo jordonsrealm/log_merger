@@ -5,8 +5,6 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import centerpoint.factory.CenteredPointFactory;
-import centerpoint.object.CenteredPointType;
 import glasspane.drawing.GlassPaneGraphicsProcessor;
 import mainwindow.components.LogMergerWindow;
 
@@ -17,9 +15,8 @@ public class LoadingIcon extends GlassPaneGraphicsProcessor implements Runnable{
     private Point centerPoint;
     
     
-    public LoadingIcon(LogMergerWindow logMergerWindow, CenteredPointType centerPointType) {
+    public LoadingIcon(LogMergerWindow logMergerWindow) {
     	super(logMergerWindow);
-    	setCenterPoint(CenteredPointFactory.getCenteredPoint( centerPointType, logMergerWindow).getCenteredPoint());
     }
   
     public void startLoading() {

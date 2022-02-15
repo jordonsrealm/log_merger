@@ -21,7 +21,6 @@ import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import centerpoint.object.CenteredPointType;
 import configuration.ConfigurationGetter;
 import highlighter.UnOrganizedHighlighter;
 import mainwindow.holder.MainWindowHolder;
@@ -54,7 +53,7 @@ public class AddFileButton extends AbstractMainWindowContainerButton {
 			JTextArea unOrganizedText = windowHolder.getTxtHolder().getUnOrderedText();
 
 			SwingWorker<String, Void> worker = new SwingWorker<String, Void>() {
-				LoadingIcon glassPaneDrawingThread = new LoadingIcon(getLogMergerWindow(), CenteredPointType.UN_ORDERED_TEXT_AREA);
+				LoadingIcon glassPaneDrawingThread = new LoadingIcon(getLogMergerWindow());
 
 				public String doInBackground() throws IOException {
 					windowHolder.setSearchBtnEnabled(false);
