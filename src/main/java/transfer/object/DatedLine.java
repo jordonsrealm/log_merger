@@ -16,7 +16,7 @@ public class DatedLine implements Comparable<DatedLine> {
     private static final String REPLACE_SEQ = "\\d\\d";
     private String originalStringWithDate;
     private String dateFormat;
-    private static boolean orderDescending;
+    private static boolean descendingOrder;
     private LoggingLevel logLevel;
     private int rowCount = 1;
     private boolean visible = false;
@@ -36,8 +36,8 @@ public class DatedLine implements Comparable<DatedLine> {
     	setLogLevel(level);
     }
     
-    public static void setOrderDescending(boolean descending) {
-    	orderDescending = descending;
+    public static void setDescendingOrder(boolean descending) {
+    	descendingOrder = descending;
     }
 
 	public String getDateFormat() {
@@ -151,13 +151,21 @@ public class DatedLine implements Comparable<DatedLine> {
 	public void setVisible(boolean visible) {
 		this.visible = visible;
 	}
+	
+	public int getRowCount() {
+		return rowCount;
+	}
 
+	public void setRowCount(int rowCount) {
+		this.rowCount = rowCount;
+	}
+	
 	@Override
     public int compareTo(DatedLine datedLine) {
         if(getDate() == null || datedLine.getDate() == null){
             return 0;
         }else{
-            return getDate().compareTo(datedLine.getDate()) * (orderDescending?-1:1);
+            return getDate().compareTo(datedLine.getDate()) * (descendingOrder?-1:1);
         }
     }
     
@@ -175,14 +183,6 @@ public class DatedLine implements Comparable<DatedLine> {
 			   getDateFormat().equals(datedLine.getDateFormat());
     }
     
-	public int getRowCount() {
-		return rowCount;
-	}
-
-	public void setRowCount(int rowCount) {
-		this.rowCount = rowCount;
-	}
-	
     @Override
 	public int hashCode() {
 		return super.hashCode();

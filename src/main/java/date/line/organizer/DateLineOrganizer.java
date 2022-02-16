@@ -43,7 +43,7 @@ public class DateLineOrganizer {
     }
     
     protected List<DatedLine> getDatedLinesUsingFormat(String format) {
-    	DatedLine.setOrderDescending(getMainWindowHolder().isDescending());
+    	DatedLine.setDescendingOrder(getMainWindowHolder().isDescending());
     	CheckBoxHolder holder = getMainWindowHolder().getCheckBoxHolder();
     	boolean markErrors = holder.getErrorCheckBox().isSelected();
     	boolean markDebugs = holder.getDebugCheckBox().isSelected();
