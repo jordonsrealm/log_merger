@@ -21,7 +21,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import transfer.object.DatedLine;
-import transfer.object.LoggingLevel;
 
 
 public class LineNumberComponent extends JComponent implements MouseMotionListener, MouseListener {
