@@ -39,7 +39,7 @@ public enum LoggingLevel {
 				color = Color.decode("0xfeff8f");
 				break;
 			case UNKNOWN:
-				color = Color.decode("0x494949");
+				color = Color.decode("0xe9e9e9");
 				break;
 		}
 		
