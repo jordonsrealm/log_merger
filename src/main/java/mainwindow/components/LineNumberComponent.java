@@ -21,6 +21,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import transfer.object.DatedLine;
+import transfer.object.LoggingLevel;
 
 
 public class LineNumberComponent extends JComponent implements MouseMotionListener, MouseListener {
@@ -37,9 +38,9 @@ public class LineNumberComponent extends JComponent implements MouseMotionListen
     private final JPopupMenu popupmenu = new JPopupMenu("Date Boundary");   
     private final JMenuItem minDate = new JMenuItem("Use as Min Date");  
     private final JMenuItem maxDate = new JMenuItem("Use as Max Date");
-    private List<DatedLine> datedLines = null;
+    private transient List<DatedLine> datedLines = null;
     private boolean drawLoggingLevelNotes;
-    private DatedLine rightClickedDate;
+    private transient DatedLine rightClickedDate;
 	private Point movedPoint;
 	private int strHeight;
 	private boolean drawToolTip;
@@ -106,10 +107,12 @@ public class LineNumberComponent extends JComponent implements MouseMotionListen
 			}
 		}
 		
+		g.setColor(Color.BLACK);
+		
 		// Now draw the line numbers over the colored boxes
 		for(int t = 0; t <= getHeight()/strHeight; t++) {
 			String intStr = String.valueOf(t);
-			g.setColor(Color.BLACK);
+			
 			g.drawString( intStr, (getWidth() - fm.stringWidth(intStr))/2, (int)(strHeight*(t - HEIGHT_DECREASE) + BUFFER_HEIGHT));
 		}
 		
@@ -126,7 +129,7 @@ public class LineNumberComponent extends JComponent implements MouseMotionListen
 	private void drawLineBorder(Graphics g) {
 		if(movedPoint != null) {
 			g.setColor(LINE_NUM_BORDER);
-			g.drawRoundRect(0, (int)((float)lineNumberRatio)*strHeight, getWidth()-1, strHeight, ARC_BORDER, ARC_BORDER);
+			g.drawRoundRect(0, (int)(lineNumberRatio)*strHeight, getWidth()-1, strHeight, ARC_BORDER, ARC_BORDER);
 		}
 	}
 	
@@ -162,18 +165,16 @@ public class LineNumberComponent extends JComponent implements MouseMotionListen
 		lineNumberRatio = getQuotient(e.getPoint().y, strHeight);
 		pixelIntNumber = (int)lineNumberRatio*strHeight;
 		
-		if(e.isPopupTrigger()) {
-			if(getDatedLines() != null) {
-				int lineCount = 1;
-				for(DatedLine line: getDatedLines()) {
-					if((lineCount + line.getRowCount()) > getLine() && getLine() >= lineCount) {
-						setRightClickedDate(line);
-				        popupmenu.show(e.getComponent(), e.getX(), e.getY());
-						break;
-					}
-					
-					lineCount+=line.getRowCount();
+		if(e.isPopupTrigger() && getDatedLines() != null) {
+			int lineCount = 1;
+			for(DatedLine line: getDatedLines()) {
+				if((lineCount + line.getRowCount()) > getLine() && getLine() >= lineCount) {
+					setRightClickedDate(line);
+					popupmenu.show(e.getComponent(), e.getX(), e.getY());
+					break;
 				}
+
+				lineCount+=line.getRowCount();
 			}
 		}
 	}
