@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.List;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingWorker;
@@ -51,12 +50,7 @@ public class GlassPaneSwingWorker extends SwingWorker<String, Void> {
 
 		return result;
 	}
-
-	@Override
-	protected void process(List<Void> chunks) {
-		super.process(chunks);
-	}
-
+	
 	@Override
 	protected void done() {
 		AddFileButton selectFileBtn = getWindowHolder().getBtnHolder().getAddFileButton();

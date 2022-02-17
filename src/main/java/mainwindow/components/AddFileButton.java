@@ -40,8 +40,9 @@ public class AddFileButton extends AbstractMainWindowContainerButton {
 		if(!windowHolder.getFileNameInputText().isEmpty()) {
 			JTextArea unOrganizedText = windowHolder.getTxtHolder().getUnOrderedText();
 
+			LoadingIcon loadinIcon = new LoadingIcon(getLogMergerWindow());
+			
 			SwingWorker<String, Void> worker = new SwingWorker<String, Void>() {
-				LoadingIcon loadinIcon = new LoadingIcon(getLogMergerWindow());
 
 				public String doInBackground() throws IOException {
 					windowHolder.setSearchBtnEnabled(false);
@@ -64,6 +65,7 @@ public class AddFileButton extends AbstractMainWindowContainerButton {
 					return result;
 				}
 
+				@Override
 				public void done() {
 					try {
 						unOrganizedText.setText(get());
