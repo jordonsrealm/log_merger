@@ -36,7 +36,7 @@ public class GlassPaneSwingWorker extends SwingWorker<String, Void> {
 		
 		File file = new File(getWindowHolder().getTxtHolder().getFileNameInputTextField().getText());
 
-		loadingIconThread.startLoading();
+		loadingIconThread.initialize();
 
 		String result = "";
 
@@ -63,7 +63,7 @@ public class GlassPaneSwingWorker extends SwingWorker<String, Void> {
 			
 			unOrganizedScrollPane.getHorizontalScrollBar().setValue(0);
 
-			loadingIconThread.stopLoading();
+			loadingIconThread.terminate();
 
 			selectFileBtn.setEnabled(true);
 			unOrganizedText.setEnabled(true);

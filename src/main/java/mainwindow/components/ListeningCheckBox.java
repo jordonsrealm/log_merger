@@ -1,17 +1,12 @@
 package mainwindow.components;
 
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-
-//import java.awt.event.ActionListener;
-
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JCheckBox;
-import javax.swing.SwingUtilities;
-
-import runnables.DateLineProcessor;
+import threads.DateLineWorker;
 
 
-public class ListeningCheckBox extends JCheckBox implements ItemListener{
+public class ListeningCheckBox extends JCheckBox implements ActionListener{
 
 	private static final long serialVersionUID = 1L;
 	protected transient LogMergerWindow logMergerWindow;
@@ -24,7 +19,7 @@ public class ListeningCheckBox extends JCheckBox implements ItemListener{
 	public ListeningCheckBox(LogMergerWindow logMergerWindow, String title) {
 		super(title);
 		this.setLogMergerWindow(logMergerWindow);
-		this.addItemListener(this);
+		this.addActionListener(this);
 	}
 
 	public LogMergerWindow getLogMergerWindow() {
@@ -36,12 +31,8 @@ public class ListeningCheckBox extends JCheckBox implements ItemListener{
 	}
 
 	@Override
-	public void itemStateChanged(ItemEvent e) {
-		SwingUtilities.invokeLater(()->
-			getLogMergerWindow().getWindowHolder().setOrderedText("")
-		);
-
-		Thread thread = new Thread(new DateLineProcessor(getLogMergerWindow(), this));
-		thread.start();
+	public void actionPerformed(ActionEvent e) {
+		DateLineWorker worker = new DateLineWorker(getLogMergerWindow());
+		worker.execute();
 	}
 }

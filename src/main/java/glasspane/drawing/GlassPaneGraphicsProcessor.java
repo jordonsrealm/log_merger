@@ -21,7 +21,9 @@ public class GlassPaneGraphicsProcessor {
 	}
 	
 	protected void clearGlassPane() {
-		getGlassPaneGraphics().clearRect(0, 0, getGlassPane().getWidth(), getGlassPane().getHeight());
+		if(getGlassPane()!=null) {
+			getGlassPaneGraphics().clearRect(0, 0, getGlassPane().getWidth(), getGlassPane().getHeight());
+		}
 	}
 	
 	protected void drawBox(Rectangle window) {

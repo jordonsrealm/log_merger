@@ -49,7 +49,7 @@ public class AddFileButton extends AbstractMainWindowContainerButton {
 
 					File file = new File(windowHolder.getFileNameInputText());
 
-					loadinIcon.startLoading();
+					loadinIcon.initialize();
 
 					String result = "";
 
@@ -73,7 +73,7 @@ public class AddFileButton extends AbstractMainWindowContainerButton {
 						
 						windowHolder.setUnOrderedHorizontalScrollBar(0);
 
-						loadinIcon.stopLoading();
+						loadinIcon.terminate();
 
 						windowHolder.setSearchBtnEnabled(true);
 						unOrganizedText.setEnabled(true);

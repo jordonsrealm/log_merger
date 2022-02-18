@@ -1,6 +1,5 @@
 package mainwindow.components.holder;
 
-import mainwindow.components.DescendingCheckBox;
 import mainwindow.components.ListeningCheckBox;
 import mainwindow.components.LogMergerWindow;
 import transfer.object.LoggingLevel;
@@ -14,7 +13,7 @@ public class CheckBoxHolder {
 	private ListeningCheckBox unknownCheckBox;
 	private ListeningCheckBox infoCheckBox;
 	private ListeningCheckBox warnCheckBox;
-	private DescendingCheckBox descendingCheckBox;
+	private ListeningCheckBox descendingCheckBox;
 	private LogMergerWindow logMergerWindow;
 	private static final String DESCENDING_TEXT = "Descending";
 	
@@ -23,9 +22,9 @@ public class CheckBoxHolder {
 		this.logMergerWindow = logMergerWindow;
 	}
 
-	public DescendingCheckBox getDescendingCheckBox() {
+	public ListeningCheckBox getDescendingCheckBox() {
 		if(descendingCheckBox == null) {
-			descendingCheckBox = new DescendingCheckBox(logMergerWindow, DESCENDING_TEXT);
+			descendingCheckBox = new ListeningCheckBox(logMergerWindow, DESCENDING_TEXT);
 		}
 		return descendingCheckBox;
 	}

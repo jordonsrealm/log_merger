@@ -32,7 +32,7 @@ public class DateLineProcessor implements Runnable {
 			
 			button.setEnabled(false);
 	    	LoadingIcon loadingIcon = new LoadingIcon( getLogMergerWindow());
-			loadingIcon.startLoading();
+			loadingIcon.initialize();
 			
 			Thread loadingThread = new Thread(loadingIcon);
 			loadingThread.start();
@@ -49,7 +49,7 @@ public class DateLineProcessor implements Runnable {
 		        }
 			});
 	        
-			loadingIcon.stopLoading();
+			loadingIcon.terminate();
 			button.setEnabled(true);
 		}
 	}

@@ -17,12 +17,12 @@ public class LoadingIcon extends GlassPaneGraphicsProcessor implements Runnable{
     	super(logMergerWindow);
     }
   
-    public void startLoading() {
+    public void initialize() {
         setTickCounter(0);
         getGlassPane().setVisible(true);
     }
   
-    public void stopLoading() {
+    public void terminate() {
         running.set(false);
         getGlassPane().setVisible(false);
     }
