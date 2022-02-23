@@ -114,10 +114,6 @@ public class MainWindowHolder {
 		getTxtHolder().getUnOrderedScrollPane().getHorizontalScrollBar().setValue(newVal);
 	}
 	
-	public void setSearchBtnEnabled(boolean enabled) {
-		getBtnHolder().getSearchButton().setEnabled(enabled);
-	}
-	
 	public String getMinDateText() {
 		return getTxtHolder().getMinDateField().getText();
 	}

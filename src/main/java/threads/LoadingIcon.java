@@ -17,12 +17,12 @@ public class LoadingIcon extends GlassPaneGraphicsProcessor implements Runnable{
     	super(logMergerWindow);
     }
   
-    public void initialize() {
+    public void initializeLoadingIcon() {
         setTickCounter(0);
         getGlassPane().setVisible(true);
     }
   
-    public void terminate() {
+    public void terminateLoadingIcon() {
         running.set(false);
         getGlassPane().setVisible(false);
     }
@@ -40,16 +40,15 @@ public class LoadingIcon extends GlassPaneGraphicsProcessor implements Runnable{
 			newComp = newComp.getParent();
 		}
 		
-		Rectangle processingWindowRectangle =  new Rectangle((newComp.getWidth() - 200)/2 + oldComp.getWidth()/2, (newComp.getHeight() - 50)/2, 200, 50);
-        String processingString;
-        
+		setLoadingRectangle(new Rectangle((newComp.getWidth() - 200)/2 + oldComp.getWidth()/2, (newComp.getHeight() - 50)/2, 200, 50));
+		
         while (running.get()) {
             
-        	processingString = buildProcessingLogo();
+        	buildProcessingLogo();
         	
-        	clearProcessingLogoArea( processingString, processingWindowRectangle);
-            drawBox(processingWindowRectangle);
-        	drawGlassPaneString(processingString, processingWindowRectangle);
+        	clearProcessingLogoArea();
+            drawBox();
+        	drawGlassPaneString();
         	tick();
         	
         	try {

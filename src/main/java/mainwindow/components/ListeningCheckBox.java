@@ -3,7 +3,8 @@ package mainwindow.components;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JCheckBox;
-import threads.DateLineWorker;
+
+import swingworkers.DateLineWorker;
 
 
 public class ListeningCheckBox extends JCheckBox implements ActionListener{

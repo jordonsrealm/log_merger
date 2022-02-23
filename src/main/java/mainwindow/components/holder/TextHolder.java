@@ -6,11 +6,10 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
 import mainwindow.components.LineNumberComponent;
 import mainwindow.components.LogMergerWindow;
 import mainwindow.components.PreviewScrollPane;
-import runnables.DateLineProcessor;
+import swingworkers.DateLineWorker;
 
 
 public class TextHolder {
@@ -37,6 +36,7 @@ public class TextHolder {
     
     public TextHolder(LogMergerWindow logMergerWindow) {
     	this.setLogMergerWindow(logMergerWindow);
+    	
     	JPanel leftPanel = new JPanel(new BorderLayout());
 		leftPanel.add(new LineNumberComponent(logMergerWindow, false), BorderLayout.WEST);
 		leftPanel.add(this.unOrderedText, BorderLayout.CENTER);
@@ -53,21 +53,13 @@ public class TextHolder {
         getRegexPatternTextField().setBackground(Color.decode(WHITE_BACKGROUND));
         
         minDateField.addActionListener(ae->{
-    		SwingUtilities.invokeLater(()->
-				getLogMergerWindow().getWindowHolder().setOrderedText("")
-    		);
-		
-			Thread thread = new Thread(new DateLineProcessor(getLogMergerWindow(), minDateField));
-			thread.start();
+    		DateLineWorker worker = new DateLineWorker(getLogMergerWindow());
+    		worker.execute();
         });
         
         maxDateField.addActionListener(ae->{
-    		SwingUtilities.invokeLater(()->
-				getLogMergerWindow().getWindowHolder().setOrderedText("")
-    		);
-		
-			Thread thread = new Thread(new DateLineProcessor(getLogMergerWindow(), maxDateField));
-			thread.start();
+    		DateLineWorker worker = new DateLineWorker(getLogMergerWindow());
+    		worker.execute();
         });
 	}
     

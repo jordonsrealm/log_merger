@@ -15,8 +15,6 @@ import java.util.List;
 import javax.swing.JComponent;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
-import javax.swing.SwingUtilities;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,19 +32,18 @@ public class LineNumberComponent extends JComponent implements MouseMotionListen
 	private static final double HEIGHT_DECREASE = .25d;
 	private static final int BUFFER_HEIGHT = 2;
 	private final Dimension setDimension = new Dimension(34,10);
-    private final JPopupMenu popupmenu = new JPopupMenu("Date Boundary");   
-    private final JMenuItem minDate = new JMenuItem("Use as Min Date");  
-    private final JMenuItem maxDate = new JMenuItem("Use as Max Date");
+	private float lineNumberRatio = 0;
+    private final JPopupMenu popupmenu = new JPopupMenu("Date Boundary");
     private transient List<DatedLine> datedLines = null;
+    
     private boolean drawLoggingLevelNotes;
     private transient DatedLine rightClickedDate;
 	private Point movedPoint;
-	private int strHeight;
+	private int strFontHeight;
 	private boolean drawToolTip;
 	private Rectangle movedRectangle;
 	private int pixelIntNumber;
 	private LogMergerWindow logMergerWindow;
-	private float lineNumberRatio = 0;
 	
 	
 	public LineNumberComponent(LogMergerWindow logMergerWindow, boolean drawLoggingLevel) {
@@ -55,25 +52,8 @@ public class LineNumberComponent extends JComponent implements MouseMotionListen
 		addMouseListener(this);
 		addMouseMotionListener(this);
 		setPreferredSize(setDimension);
-		 
-        popupmenu.add(minDate);
-        popupmenu.add(maxDate);
-        this.drawLoggingLevelNotes = drawLoggingLevel;
-	}
-	
-	@Override
-	public void paintComponent(Graphics g) {
-		super.paintComponents(g);
-		
-		FontMetrics fm = g.getFontMetrics();
-		strHeight = fm.getHeight();
-		
-		datedLines = getLogMergerWindow().getWindowHolder().getDatedLines();
-
-		drawLineNumbers(g, fm);
-		drawBorder(g);
-		drawLineBorder(g);
-		handleToolTip(g);
+		JMenuItem minDate = new JMenuItem("Use as Min Date");
+		JMenuItem maxDate = new JMenuItem("Use as Max Date");
 		
 		minDate.addActionListener((ActionEvent e)->{
 			DatedLine line = getRightClickedDate();
@@ -88,6 +68,26 @@ public class LineNumberComponent extends JComponent implements MouseMotionListen
 				setMaxDateText(line.getDateAsString());
 			}
 		});
+				
+        popupmenu.add(minDate);
+        popupmenu.add(maxDate);
+        
+        this.drawLoggingLevelNotes = drawLoggingLevel;
+	}
+	
+	@Override
+	public void paintComponent(Graphics g) {
+		super.paintComponents(g);
+		
+		FontMetrics fm = g.getFontMetrics();
+		strFontHeight = fm.getHeight();
+		
+		datedLines = getLogMergerWindow().getWindowHolder().getDatedLines();
+
+		drawLineNumbers(g, fm);
+		drawBorder(g);
+		drawLineBorder(g);
+		handleToolTip(g);
 	}
 	
 	private void drawLineNumbers(Graphics g, FontMetrics fm) {
@@ -100,7 +100,7 @@ public class LineNumberComponent extends JComponent implements MouseMotionListen
 			for(DatedLine line: this.datedLines) {
 				if(line.isVisible()) {
 					g.setColor(line.getLogLevel().getLevelColor());
-					g.fillRect(1, strHeight*rowVal, getWidth()-2, strHeight);
+					g.fillRect(1, strFontHeight*rowVal, getWidth()-2, strFontHeight);
 					rowVal += line.getRowCount();
 				}
 			}
@@ -109,10 +109,10 @@ public class LineNumberComponent extends JComponent implements MouseMotionListen
 		g.setColor(Color.BLACK);
 		
 		// Now draw the line numbers over the colored boxes
-		for(int t = 0; t <= getHeight()/strHeight; t++) {
+		for(int t = 0; t <= getHeight()/strFontHeight; t++) {
 			String intStr = String.valueOf(t);
 			
-			g.drawString( intStr, (getWidth() - fm.stringWidth(intStr))/2, (int)(strHeight*(t - HEIGHT_DECREASE) + BUFFER_HEIGHT));
+			g.drawString( intStr, (getWidth() - fm.stringWidth(intStr))/2, (int)(strFontHeight*(t - HEIGHT_DECREASE) + BUFFER_HEIGHT));
 		}
 		
 		g.setColor(defColor);
@@ -128,15 +128,16 @@ public class LineNumberComponent extends JComponent implements MouseMotionListen
 	private void drawLineBorder(Graphics g) {
 		if(movedPoint != null) {
 			g.setColor(LINE_NUM_BORDER);
-			g.drawRoundRect(0, (int)(lineNumberRatio)*strHeight, getWidth()-1, strHeight, ARC_BORDER, ARC_BORDER);
+			g.drawRoundRect(0, (int)(lineNumberRatio)*strFontHeight, getWidth()-1, strFontHeight, ARC_BORDER, ARC_BORDER);
 		}
 	}
 	
 	private void handleToolTip(Graphics g) {
+		List<DatedLine> dateLines = getDatedLines();
 		
-		if(getDatedLines() != null && movedPoint != null) {
+		if(dateLines != null && movedPoint != null) {
 			int lineCount = 1;
-			for(DatedLine line: getDatedLines()) {
+			for(DatedLine line: dateLines) {
 				if((lineCount + line.getRowCount()) > getLine() && getLine() >= lineCount) {
 					setToolTipText("Set Date Boundary: " + line.getDateAsString());
 					break;
@@ -161,12 +162,13 @@ public class LineNumberComponent extends JComponent implements MouseMotionListen
 	public void mouseReleased(MouseEvent e) {
 		logger.info("MouseReleased");
 		movedPoint = e.getPoint();
-		lineNumberRatio = getQuotient(e.getPoint().y, strHeight);
-		pixelIntNumber = (int)lineNumberRatio*strHeight;
+		lineNumberRatio = getQuotient(e.getPoint().y, strFontHeight);
+		pixelIntNumber = (int)lineNumberRatio*strFontHeight;
 		
-		if(e.isPopupTrigger() && getDatedLines() != null) {
+		List<DatedLine> dateLines = getDatedLines();
+		if(e.isPopupTrigger() && dateLines != null) {
 			int lineCount = 1;
-			for(DatedLine line: getDatedLines()) {
+			for(DatedLine line: dateLines) {
 				if((lineCount + line.getRowCount()) > getLine() && getLine() >= lineCount) {
 					setRightClickedDate(line);
 					popupmenu.show(e.getComponent(), e.getX(), e.getY());
@@ -182,10 +184,10 @@ public class LineNumberComponent extends JComponent implements MouseMotionListen
 	public void mouseEntered(MouseEvent e) {
 		setDrawToolTip(Boolean.TRUE);
 		movedPoint = e.getPoint();
-		lineNumberRatio = getQuotient(movedPoint.y, strHeight);
-		pixelIntNumber = (int)lineNumberRatio*strHeight;
+		lineNumberRatio = getQuotient(movedPoint.y, strFontHeight);
+		pixelIntNumber = (int)lineNumberRatio*strFontHeight;
 		
-		redrawRectangle(new Rectangle(0, pixelIntNumber, getWidth(), strHeight+1));
+		drawMouseMovedBorder(new Rectangle(0, pixelIntNumber, getWidth(), strFontHeight+1));
 	}
 
 	@Override
@@ -193,7 +195,7 @@ public class LineNumberComponent extends JComponent implements MouseMotionListen
 		setDrawToolTip(Boolean.FALSE);
 		movedPoint = null;
 		
-		redrawRectangle(null);
+		drawMouseMovedBorder(null);
 	}
 
 	@Override
@@ -204,10 +206,10 @@ public class LineNumberComponent extends JComponent implements MouseMotionListen
 	@Override
 	public void mouseMoved(MouseEvent e) {
 		movedPoint = e.getPoint();
-		lineNumberRatio = getQuotient(movedPoint.y, strHeight);
-		pixelIntNumber = (int)lineNumberRatio*strHeight;
+		lineNumberRatio = getQuotient(movedPoint.y, strFontHeight);
+		pixelIntNumber = (int)lineNumberRatio*strFontHeight;
 		
-		Rectangle mousepointRectangle = new Rectangle(0, pixelIntNumber, getWidth(), strHeight);
+		Rectangle mousepointRectangle = new Rectangle(0, pixelIntNumber, getWidth(), strFontHeight);
 		
 		if(movedRectangle == null) {
 			movedRectangle = mousepointRectangle;
@@ -215,7 +217,7 @@ public class LineNumberComponent extends JComponent implements MouseMotionListen
 		
 		if(!movedRectangle.intersects(mousepointRectangle)) {
 			movedRectangle = mousepointRectangle;
-			redrawRectangle(new Rectangle(0, pixelIntNumber - strHeight, getWidth(), 4 * strHeight));
+			drawMouseMovedBorder(new Rectangle(0, pixelIntNumber - strFontHeight, getWidth(), 4 * strFontHeight));
 		}
 	}
 	
@@ -231,20 +233,6 @@ public class LineNumberComponent extends JComponent implements MouseMotionListen
 		return getLogMergerWindow().getWindowHolder().getDatedLines();
 	}
 	
-	protected DatedLine getDatedLine(int index) {
-		DatedLine line = null;
-		List<DatedLine> lines = getLogMergerWindow().getWindowHolder().getDatedLines();
-		if(lines==null || lines.isEmpty()) {
-			return line;
-		} else {
-			if(index < lines.size()) {
-				line = lines.get(index);
-			}
-		}
-		
-		return line;
-	}
-	
 	private float getQuotient(int dividend, int divisor) {
 		return divisor==0 ? 0 : (float)dividend/divisor;
 	}
@@ -253,15 +241,12 @@ public class LineNumberComponent extends JComponent implements MouseMotionListen
 		return (int)lineNumberRatio + 1;
 	}
 
-	private void redrawRectangle(Rectangle rect) {
-		SwingUtilities.invokeLater(()->{
-				if(rect == null) {
-					repaint();
-				} else {
-					repaint(rect);
-				}
-			}
-		);
+	private void drawMouseMovedBorder(Rectangle rect) {
+		if(rect == null) {
+			repaint();
+		} else {
+			repaint(rect);
+		}
 	}
 
 	public LogMergerWindow getLogMergerWindow() {

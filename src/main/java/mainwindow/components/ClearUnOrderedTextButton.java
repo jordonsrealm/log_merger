@@ -43,7 +43,7 @@ public class ClearUnOrderedTextButton extends AbstractMainWindowContainerButton 
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		getLogMergerWindow().getWindowHolder().setUnorderedText("");
+		this.getWindowHolder().setUnorderedText("");
 	}
 	
 }

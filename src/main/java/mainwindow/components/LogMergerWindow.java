@@ -38,10 +38,8 @@ public class LogMergerWindow extends JFrame implements ComponentListener {
         
         setWindowHolder(new MainWindowHolder(this));
         
-        getWindowHolder().setTopPanel(searchFileArea());
         getWindowHolder().setBottomPanel(textAreas());
         
-        add(getWindowHolder().getTopPanel(), BorderLayout.NORTH);
         add(getWindowHolder().getBottomPanel(), BorderLayout.CENTER);
         
         setImageIconForApplication();
@@ -64,22 +62,6 @@ public class LogMergerWindow extends JFrame implements ComponentListener {
         this.setLocationRelativeTo(null);
         this.setResizable(true);
         this.setVisible(true);
-    }
-    
-    private JPanel searchFileArea() {
-    	MainWindowHolder wHolder = getWindowHolder();
-    	ButtonHolder btnH = wHolder.getBtnHolder();
-    	TextHolder txtH = wHolder.getTxtHolder();
-    	
-        JPanel searchFileSection = new JPanel(new FlowLayout());
-        searchFileSection.add(btnH.getSearchButton());
-        searchFileSection.add(txtH.getFileNameInputTextField());
-        searchFileSection.add(btnH.getAddFileButton());
-        
-        JPanel parentContainer = new JPanel(new BorderLayout());
-        parentContainer.add(searchFileSection, BorderLayout.CENTER);
-        
-        return parentContainer;
     }
     
     private JSplitPane textAreas(){

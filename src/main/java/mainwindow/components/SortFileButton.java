@@ -2,9 +2,7 @@ package mainwindow.components;
 
 import java.awt.event.ActionEvent;
 
-import javax.swing.SwingUtilities;
-
-import runnables.DateLineProcessor;
+import swingworkers.DateLineWorker;
 
 
 public class SortFileButton extends AbstractMainWindowContainerButton {
@@ -19,11 +17,7 @@ public class SortFileButton extends AbstractMainWindowContainerButton {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		SwingUtilities.invokeLater(()->
-			getLogMergerWindow().getWindowHolder().setOrderedText("")
-		);
-		
-		Thread thread = new Thread(new DateLineProcessor(getLogMergerWindow(), this));
-		thread.start();
+		DateLineWorker worker = new DateLineWorker(getLogMergerWindow());
+		worker.execute();
 	}
 }

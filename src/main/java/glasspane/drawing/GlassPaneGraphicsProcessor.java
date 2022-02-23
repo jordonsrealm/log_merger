@@ -14,6 +14,8 @@ public class GlassPaneGraphicsProcessor {
     public static final int MAX_NUMBER_OF_PERIODS  = 40;
     private LogMergerWindow logMergerWindow;
     private int tickCounter = 0;
+    private String processingText = "";
+    private Rectangle loadingRectangle = null;
 	
 	
 	public GlassPaneGraphicsProcessor(LogMergerWindow logMergerWindow) {
@@ -26,29 +28,34 @@ public class GlassPaneGraphicsProcessor {
 		}
 	}
 	
-	protected void drawBox(Rectangle window) {
-		
+	protected void drawBox() {
     	Graphics glassPaneGraphics = getGlassPaneGraphics();
+    	Color currColor = glassPaneGraphics.getColor();
     	
+    	Rectangle window = getLoadingRectangle();
 		glassPaneGraphics.setColor(Color.RED);
     	glassPaneGraphics.drawRect( window.x, window.y, window.width, window.height);
+    	glassPaneGraphics.setColor(currColor);
 	}
     
-    protected void clearProcessingLogoArea(String processingString, Rectangle window) {
+    protected void clearProcessingLogoArea() {
     	Graphics glassPaneGraphics = getGlassPaneGraphics();
+    	Color currColor = glassPaneGraphics.getColor();
 		
+    	Rectangle window = getLoadingRectangle();
     	glassPaneGraphics.setColor(Color.WHITE);
     	glassPaneGraphics.fillRect( window.x, window.y, window.width, window.height);
+    	glassPaneGraphics.setColor(currColor);
     }
     
-    protected String buildProcessingLogo() {
-    	String processingString = DEFAULT_PROCESSING_STRING_LABEL;
+    protected void buildProcessingLogo() {
+    	StringBuilder stringBuilder = new StringBuilder(DEFAULT_PROCESSING_STRING_LABEL);
     	
-    	for(int t=getTickCounter(); t > 0; t--) {
-    		processingString+=".";
+    	for(int t = getTickCounter(); t > 0; t--) {
+    		stringBuilder.append(".");
     	}
     	
-    	return processingString;
+    	setProcessingText(stringBuilder.toString());
     }
     
     public void tick() {
@@ -75,26 +82,36 @@ public class GlassPaneGraphicsProcessor {
         return getGlassPane().getGraphics();
 	}
 	
-	protected FontMetrics getGlassPaneFontMetrics() {
-		Graphics g = getGlassPane().getGraphics();
-		if(g != null) {
-			return g.getFontMetrics();
-		}
-		
-		return null;
-	}
-	
-	protected void drawGlassPaneString(String processingString, Rectangle window) {
+	protected void drawGlassPaneString() {
 		Graphics g = getGlassPaneGraphics();
 		
+		Rectangle window = getLoadingRectangle();
 		if(g != null) {
 			FontMetrics fm = g.getFontMetrics();
 	    	int textHeight = fm.getHeight();
 	    	int textPadding = textHeight;
 	    	
+	    	Color currColor = g.getColor();
 			g.setColor(Color.BLACK);
-			g.drawString( processingString,  window.x + textPadding, window.y + 2 * textHeight);
+			g.drawString( getProcessingText(),  window.x + textPadding, window.y + 2 * textHeight);
+			g.setColor(currColor);
 		}
+	}
+
+	public String getProcessingText() {
+		return processingText;
+	}
+
+	public void setProcessingText(String processingText) {
+		this.processingText = processingText;
+	}
+
+	public Rectangle getLoadingRectangle() {
+		return loadingRectangle;
+	}
+
+	public void setLoadingRectangle(Rectangle loadingRectangle) {
+		this.loadingRectangle = loadingRectangle;
 	}
 
 	public LogMergerWindow getLogMergerWindow() {

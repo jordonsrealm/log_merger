@@ -1,4 +1,4 @@
-package threads;
+package swingworkers;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -12,6 +12,7 @@ import date.line.organizer.DateLineOrganizer;
 import mainwindow.components.LogMergerWindow;
 import mainwindow.components.holder.TextHolder;
 import mainwindow.holder.MainWindowHolder;
+import threads.LoadingIcon;
 
 public class DateLineWorker extends SwingWorker<String, Integer> {
 	private LogMergerWindow logMergerWindow;
@@ -23,7 +24,7 @@ public class DateLineWorker extends SwingWorker<String, Integer> {
 		this.setLogMergerWindow(logMergerWindow);
 		
 		loadinIcon = new LoadingIcon( getLogMergerWindow());
-		loadinIcon.initialize();
+		loadinIcon.initializeLoadingIcon();
 		
 		loadingThread = new Thread(loadinIcon);
 		loadingThread.start();
@@ -70,7 +71,7 @@ public class DateLineWorker extends SwingWorker<String, Integer> {
 			}
 		});
         
-		loadinIcon.terminate();
+		loadinIcon.terminateLoadingIcon();
 	}
 
 	public LogMergerWindow getLogMergerWindow() {

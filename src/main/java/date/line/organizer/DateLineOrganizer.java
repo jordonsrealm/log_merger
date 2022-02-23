@@ -33,13 +33,27 @@ public class DateLineOrganizer {
     	
     	List<DatedLine> datedLines = getDatedLinesUsingFormat(getCurrentDateFormat());
         
-    	datedLines.removeIf(datedLine -> !datedLine.isWithinBounds(getDateFromFormat(minDateString), getDateFromFormat(maxDateString)));
+    	datedLines = handleDateRanges(datedLines, minDateString, maxDateString);
     	
-    	Collections.sort(datedLines);
+    	datedLines = getOrdereDatedLines(datedLines);
     	
-    	getMainWindowHolder().setDatedLines(datedLines);
+    	updateMainWindowHolderWithDatedLines(datedLines);
     	
     	return returnCompleteTextFromDatedLines(datedLines);
+    }
+    
+    protected void updateMainWindowHolderWithDatedLines(List<DatedLine> datedLines) {
+    	getMainWindowHolder().setDatedLines(datedLines);
+    }
+    
+    protected List<DatedLine> handleDateRanges(List<DatedLine> datedLines, String minDateString, String maxDateString){
+    	datedLines.removeIf(datedLine -> !datedLine.isWithinBounds(getDateFromFormat(minDateString), getDateFromFormat(maxDateString)));
+    	return datedLines;
+    }
+    
+    protected List<DatedLine> getOrdereDatedLines(List<DatedLine> lines){
+    	Collections.sort(lines);
+    	return lines;
     }
     
     protected List<DatedLine> getDatedLinesUsingFormat(String format) {
