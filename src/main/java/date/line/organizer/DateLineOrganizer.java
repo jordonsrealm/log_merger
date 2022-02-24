@@ -59,20 +59,13 @@ public class DateLineOrganizer {
     protected List<DatedLine> getDatedLinesUsingFormat(String format) {
     	DatedLine.setDescendingOrder(getWindowComponentHolder().isDescending());
     	CheckBoxHolder holder = getWindowComponentHolder().getCheckBoxHolder();
-    	boolean markErrors = holder.getErrorCheckBox().isSelected();
-    	boolean markDebugs = holder.getDebugCheckBox().isSelected();
-    	boolean markTraces = holder.getTraceCheckBox().isSelected();
-    	boolean markWarns = holder.getWarnCheckBox().isSelected();
-    	boolean markInfos = holder.getInfoCheckBox().isSelected();
-    	boolean markUnknowns = holder.getUnknownCheckBox().isSelected();
-    	
         ArrayList<DatedLine> datedLineList = new ArrayList<>();
         String lineRead;
         
         try (BufferedReader bufferedReader = new BufferedReader(new StringReader(getNotSortedString()))) {
             while((lineRead = bufferedReader.readLine()) != null){
             	DatedLine givenDatedLine = new DatedLine(lineRead, format, LoggingLevel.getLevel(lineRead));
-            	givenDatedLine.handleVisibility(markErrors, markUnknowns, markInfos, markWarns, markDebugs, markTraces);
+            	givenDatedLine.handleVisibility(holder);
             	
             	if(givenDatedLine.isValidDate()) {
             		datedLineList.add(givenDatedLine);

@@ -9,6 +9,8 @@ import java.util.regex.Pattern;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import mainwindow.components.holder.CheckBoxHolder;
+
 
 public class DatedLine implements Comparable<DatedLine> {
 
@@ -64,13 +66,13 @@ public class DatedLine implements Comparable<DatedLine> {
         this.originalStringWithDate = originalStringWithDate;
     }
     
-    public void handleVisibility(boolean error, boolean unknown, boolean info, boolean warn, boolean debug, boolean trace) {
-    	this.setVisible((this.logLevel.equals(LoggingLevel.ERROR) && error)||
-    					(this.logLevel.equals(LoggingLevel.UNKNOWN) && unknown)||
-    					(this.logLevel.equals(LoggingLevel.INFO) && info)||
-    					(this.logLevel.equals(LoggingLevel.WARN) && warn)||
-    					(this.logLevel.equals(LoggingLevel.DEBUG) && debug)||
-    					(this.logLevel.equals(LoggingLevel.TRACE) && trace));
+    public void handleVisibility(CheckBoxHolder holder) {
+    	this.setVisible((this.logLevel.equals(LoggingLevel.ERROR) && holder.isErrorSelected())||
+    					(this.logLevel.equals(LoggingLevel.UNKNOWN) && holder.isUnknownSelected())||
+    					(this.logLevel.equals(LoggingLevel.INFO) && holder.isInfoSelected())||
+    					(this.logLevel.equals(LoggingLevel.WARN) && holder.isWarnSelected())||
+    					(this.logLevel.equals(LoggingLevel.DEBUG) && holder.isDebugSelected())||
+    					(this.logLevel.equals(LoggingLevel.TRACE) && holder.isTraceSelected()));
     }
 
     public boolean isValidDate(){
