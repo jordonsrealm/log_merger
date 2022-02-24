@@ -13,7 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import mainwindow.components.holder.CheckBoxHolder;
-import mainwindow.holder.MainWindowHolder;
+import mainwindow.holder.WindowComponentHolder;
 import transfer.object.DatedLine;
 import transfer.object.LoggingLevel;
 
@@ -22,11 +22,11 @@ public class DateLineOrganizer {
 	
 	private static final Logger logger = LoggerFactory.getLogger(DateLineOrganizer.class);
     private static final String DEFAULT_FORMAT = "yyyy-MM-dd HH:mm:ss.SSS";
-    private MainWindowHolder mainWindowContainer;
+    private WindowComponentHolder windowComponentHolder;
 	
 	
-	public DateLineOrganizer(MainWindowHolder mainWindowContainer) {
-		setMainWindowContainer(mainWindowContainer);
+	public DateLineOrganizer(WindowComponentHolder windowComponentHolder) {
+		setWindowComponentHolder(windowComponentHolder);
 	}
 
     public String orderDateLines(String minDateString, String maxDateString) {
@@ -43,7 +43,7 @@ public class DateLineOrganizer {
     }
     
     protected void updateMainWindowHolderWithDatedLines(List<DatedLine> datedLines) {
-    	getMainWindowHolder().setDatedLines(datedLines);
+    	getWindowComponentHolder().setDatedLines(datedLines);
     }
     
     protected List<DatedLine> handleDateRanges(List<DatedLine> datedLines, String minDateString, String maxDateString){
@@ -57,8 +57,8 @@ public class DateLineOrganizer {
     }
     
     protected List<DatedLine> getDatedLinesUsingFormat(String format) {
-    	DatedLine.setDescendingOrder(getMainWindowHolder().isDescending());
-    	CheckBoxHolder holder = getMainWindowHolder().getCheckBoxHolder();
+    	DatedLine.setDescendingOrder(getWindowComponentHolder().isDescending());
+    	CheckBoxHolder holder = getWindowComponentHolder().getCheckBoxHolder();
     	boolean markErrors = holder.getErrorCheckBox().isSelected();
     	boolean markDebugs = holder.getDebugCheckBox().isSelected();
     	boolean markTraces = holder.getTraceCheckBox().isSelected();
@@ -109,7 +109,7 @@ public class DateLineOrganizer {
     		return null;
     	}
     	
-    	String currentDateFormat = getMainWindowHolder().getRegexPatternText();
+    	String currentDateFormat = getWindowComponentHolder().getRegexPatternText();
         SimpleDateFormat formatter = currentDateFormat.isEmpty() ? new SimpleDateFormat(DEFAULT_FORMAT) : new SimpleDateFormat(currentDateFormat);
         
         Date dateFromString = null;
@@ -123,18 +123,18 @@ public class DateLineOrganizer {
     }
     
     protected String getNotSortedString() {
-		return getMainWindowHolder().getUnorderedText();
+		return getWindowComponentHolder().getUnorderedText();
 	}
 
     protected String getCurrentDateFormat() {
-		return getMainWindowHolder().getRegexPatternText();
+		return getWindowComponentHolder().getRegexPatternText();
 	}
 
-	public MainWindowHolder getMainWindowHolder() {
-		return mainWindowContainer;
+	public WindowComponentHolder getWindowComponentHolder() {
+		return windowComponentHolder;
 	}
 
-	public void setMainWindowContainer(MainWindowHolder mainWindowContainer) {
-		this.mainWindowContainer = mainWindowContainer;
+	public void setWindowComponentHolder(WindowComponentHolder mainWindowContainer) {
+		this.windowComponentHolder = mainWindowContainer;
 	}
 }

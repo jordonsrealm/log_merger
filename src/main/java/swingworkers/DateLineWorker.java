@@ -11,7 +11,7 @@ import javax.swing.SwingWorker;
 import date.line.organizer.DateLineOrganizer;
 import mainwindow.components.LogMergerWindow;
 import mainwindow.components.holder.TextHolder;
-import mainwindow.holder.MainWindowHolder;
+import mainwindow.holder.WindowComponentHolder;
 import threads.LoadingIcon;
 
 public class DateLineWorker extends SwingWorker<String, Integer> {
@@ -32,7 +32,7 @@ public class DateLineWorker extends SwingWorker<String, Integer> {
 
 	@Override
 	protected String doInBackground() throws Exception {
-		MainWindowHolder mainWindowContainer = getLogMergerWindow().getWindowHolder();
+		WindowComponentHolder mainWindowContainer = getLogMergerWindow().getWindowComponentHolder();
 		
 		String convertedString = "";
 		if(!(mainWindowContainer.getUnorderedText().isEmpty() && mainWindowContainer.getUnorderedText().isBlank())) {
@@ -52,7 +52,7 @@ public class DateLineWorker extends SwingWorker<String, Integer> {
 
 	@Override
 	protected void done() {
-		TextHolder holder = getLogMergerWindow().getWindowHolder().getTxtHolder();
+		TextHolder holder = getLogMergerWindow().getWindowComponentHolder().getTxtHolder();
 		JTextArea orderTextArea = holder.getOrderedTextArea();
 		JScrollPane organizedScrollPane = holder.getUnOrderedScrollPane();
 		

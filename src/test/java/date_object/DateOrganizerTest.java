@@ -9,7 +9,7 @@ import org.junit.Test;
 import date.line.organizer.DateLineOrganizer;
 import mainwindow.components.ListeningCheckBox;
 import mainwindow.components.holder.CheckBoxHolder;
-import mainwindow.holder.MainWindowHolder;
+import mainwindow.holder.WindowComponentHolder;
 
 
 public class DateOrganizerTest {
@@ -21,7 +21,7 @@ public class DateOrganizerTest {
 						 + "2022-01-06 21:10:23.021	[AWT-EventQueue-0]\n";
 		String dateFormat = "yyyy-MM-dd HH:mm:ss.SSS";
 		
-		MainWindowHolder holder = mock(MainWindowHolder.class);
+		WindowComponentHolder holder = mock(WindowComponentHolder.class);
 		CheckBoxHolder chbxHolder = mock(CheckBoxHolder.class);
 		ListeningCheckBox listenBox = mock(ListeningCheckBox.class);
 		

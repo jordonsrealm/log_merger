@@ -8,7 +8,7 @@ import configuration.ConfigurationGetter;
 import mainwindow.components.holder.ButtonHolder;
 import mainwindow.components.holder.CheckBoxHolder;
 import mainwindow.components.holder.TextHolder;
-import mainwindow.holder.MainWindowHolder;
+import mainwindow.holder.WindowComponentHolder;
 import java.awt.event.ComponentListener;
 import java.awt.event.ComponentEvent;
 import javax.imageio.ImageIO;
@@ -22,7 +22,7 @@ public class LogMergerWindow extends JFrame implements ComponentListener {
 
 	private static final long serialVersionUID = 1L;
 	private static final Logger logger = LoggerFactory.getLogger(LogMergerWindow.class);
-    private transient MainWindowHolder windowHolder;
+    private transient WindowComponentHolder windowHolder;
     private transient ExecutorService executor;
 
     private static final String DATE_PATTERN = "DATE PATTERN";
@@ -36,11 +36,11 @@ public class LogMergerWindow extends JFrame implements ComponentListener {
     	setExecutor(executor);
         addComponentListener(this);
         
-        setWindowHolder(new MainWindowHolder(this));
+        setWindowComponentHolder(new WindowComponentHolder(this));
         
-        getWindowHolder().setBottomPanel(textAreas());
+        getWindowComponentHolder().setMergingSplitPane(textAreas());
         
-        add(getWindowHolder().getBottomPanel(), BorderLayout.CENTER);
+        add(getWindowComponentHolder().getMergingSplitPane(), BorderLayout.CENTER);
         
         setImageIconForApplication();
         setFrameDimensionsAndBehaviors();
@@ -65,7 +65,7 @@ public class LogMergerWindow extends JFrame implements ComponentListener {
     }
     
     private JSplitPane textAreas(){
-    	MainWindowHolder wHolder = getWindowHolder();
+    	WindowComponentHolder wHolder = getWindowComponentHolder();
     	CheckBoxHolder chxH = wHolder.getCheckBoxHolder();
     	ButtonHolder btnH = wHolder.getBtnHolder();
     	TextHolder txtH = wHolder.getTxtHolder();
@@ -121,14 +121,14 @@ public class LogMergerWindow extends JFrame implements ComponentListener {
 
 	@Override
 	public void componentResized(ComponentEvent e) {
-		getWindowHolder().getBottomPanel().setDividerLocation(getWidth()/2);
+		getWindowComponentHolder().getMergingSplitPane().setDividerLocation(getWidth()/2);
 	}
 
-	public MainWindowHolder getWindowHolder() {
+	public WindowComponentHolder getWindowComponentHolder() {
 		return this.windowHolder;
 	}
 	
-	public void setWindowHolder(MainWindowHolder holder) {
+	public void setWindowComponentHolder(WindowComponentHolder holder) {
 		this.windowHolder = holder;
 	}
 

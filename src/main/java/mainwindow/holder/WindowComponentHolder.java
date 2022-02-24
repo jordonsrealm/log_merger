@@ -12,50 +12,35 @@ import java.awt.Component;
 import java.util.List;
 
 
-public class MainWindowHolder {
+public class WindowComponentHolder {
     
     private TextHolder txtHolder;
     private ButtonHolder btnHolder;
     private CheckBoxHolder checkBoxHolder;
     
-    private Component glassPane;
-    private JPanel topPanel;
-    private JSplitPane bottomPanel;
+    private JSplitPane mergingSplitPane;
     private LogMergerWindow logMergerWindow;
     
     private List<DatedLine> datedLines;
     
     
-    public MainWindowHolder(LogMergerWindow logMergerWindow) {
+    public WindowComponentHolder(LogMergerWindow logMergerWindow) {
     	this.logMergerWindow = logMergerWindow;
-        this.glassPane = logMergerWindow.getGlassPane();
     	this.btnHolder = new ButtonHolder(logMergerWindow);
     	this.checkBoxHolder = new CheckBoxHolder(logMergerWindow);
     	this.txtHolder = new TextHolder(logMergerWindow);
 	}
 
 	public Component getGlassPane() {
-		return this.glassPane;
+		return this.logMergerWindow.getGlassPane();
 	}
 
-	public void setGlassPane(Component glassPane) {
-		this.glassPane = glassPane;
+	public JSplitPane getMergingSplitPane() {
+		return this.mergingSplitPane;
 	}
 
-	public JSplitPane getBottomPanel() {
-		return this.bottomPanel;
-	}
-
-	public void setBottomPanel(JSplitPane bottomPanel) {
-		this.bottomPanel = bottomPanel;
-	}
-
-	public JPanel getTopPanel() {
-		return this.topPanel;
-	}
-
-	public void setTopPanel(JPanel topPanel) {
-		this.topPanel = topPanel;
+	public void setMergingSplitPane(JSplitPane bottomPanel) {
+		this.mergingSplitPane = bottomPanel;
 	}
 
 	public LogMergerWindow getLogMergerWindow() {

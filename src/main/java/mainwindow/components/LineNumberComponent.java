@@ -82,7 +82,7 @@ public class LineNumberComponent extends JComponent implements MouseMotionListen
 		FontMetrics fm = g.getFontMetrics();
 		strFontHeight = fm.getHeight();
 		
-		datedLines = getLogMergerWindow().getWindowHolder().getDatedLines();
+		datedLines = getLogMergerWindow().getWindowComponentHolder().getDatedLines();
 
 		drawLineNumbers(g, fm);
 		drawBorder(g);
@@ -222,15 +222,15 @@ public class LineNumberComponent extends JComponent implements MouseMotionListen
 	}
 	
 	private void setMinDateText(String text) {
-		getLogMergerWindow().getWindowHolder().getTxtHolder().getMinDateField().setText(text);
+		getLogMergerWindow().getWindowComponentHolder().getTxtHolder().getMinDateField().setText(text);
 	}
 	
 	private void setMaxDateText(String text) {
-		getLogMergerWindow().getWindowHolder().getTxtHolder().getMaxDateField().setText(text);
+		getLogMergerWindow().getWindowComponentHolder().getTxtHolder().getMaxDateField().setText(text);
 	}
 	
 	protected List<DatedLine> getDatedLines() {
-		return getLogMergerWindow().getWindowHolder().getDatedLines();
+		return getLogMergerWindow().getWindowComponentHolder().getDatedLines();
 	}
 	
 	private float getQuotient(int dividend, int divisor) {

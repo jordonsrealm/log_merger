@@ -33,7 +33,7 @@ public class LoadingIcon extends GlassPaneGraphicsProcessor implements Runnable{
         
         clearGlassPane();
         
-		Component oldComp = getLogMergerWindow().getWindowHolder().getTxtHolder().getOrderedScrollPane();
+		Component oldComp = getLogMergerWindow().getWindowComponentHolder().getTxtHolder().getOrderedScrollPane();
 		Component newComp = oldComp;
 		
 		while(newComp.getParent() != null) {

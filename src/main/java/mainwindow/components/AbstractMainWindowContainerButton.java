@@ -4,7 +4,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 
-import mainwindow.holder.MainWindowHolder;
+import mainwindow.holder.WindowComponentHolder;
 
 
 public abstract class AbstractMainWindowContainerButton extends JButton implements ActionListener {
@@ -26,7 +26,7 @@ public abstract class AbstractMainWindowContainerButton extends JButton implemen
 		return logMergerWindow;
 	}
 	
-	public MainWindowHolder getWindowHolder() {
-		return getLogMergerWindow().getWindowHolder();
+	public WindowComponentHolder getWindowHolder() {
+		return getLogMergerWindow().getWindowComponentHolder();
 	}
 }
