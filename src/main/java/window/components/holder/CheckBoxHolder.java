@@ -78,30 +78,30 @@ public class CheckBoxHolder {
 	}
 	
 	public boolean isDescending() {
-		return descendingCheckBox.isSelected();
+		return getDescendingCheckBox().isSelected();
 	}
 	
 	public boolean isTraceSelected() {
-		return traceCheckBox.isSelected();
+		return getTraceCheckBox().isSelected();
 	}
 	
 	public boolean isErrorSelected() {
-		return errorCheckBox.isSelected();
+		return getErrorCheckBox().isSelected();
 	}
 	
 	public boolean isDebugSelected() {
-		return debugCheckBox.isSelected();
+		return getDebugCheckBox().isSelected();
 	}
 	
 	public boolean isUnknownSelected() {
-		return unknownCheckBox.isSelected();
+		return getUnknownCheckBox().isSelected();
 	}
 	
 	public boolean isInfoSelected() {
-		return infoCheckBox.isSelected();
+		return getInfoCheckBox().isSelected();
 	}
 	
 	public boolean isWarnSelected() {
-		return warnCheckBox.isSelected();
+		return getWarnCheckBox().isSelected();
 	}
 }

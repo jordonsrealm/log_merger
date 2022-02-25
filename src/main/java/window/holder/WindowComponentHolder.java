@@ -56,15 +56,15 @@ public class WindowComponentHolder {
 	}
 
 	public TextHolder getTxtHolder() {
-		return txtHolder;
+		return this.txtHolder;
 	}
 	
 	public CheckBoxHolder getCheckBoxHolder() {
-		return checkBoxHolder;
+		return this.checkBoxHolder;
 	}
 	
 	public boolean isDescending() {
-		return checkBoxHolder.getDescendingCheckBox().isSelected();
+		return getCheckBoxHolder().getDescendingCheckBox().isSelected();
 	}
 	
 	public String getRegexPatternText() {

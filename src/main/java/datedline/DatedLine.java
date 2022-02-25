@@ -92,7 +92,7 @@ public class DatedLine implements Comparable<DatedLine> {
         try {
 			date = new SimpleDateFormat(dateFormat).parse(formattedDate);
 		} catch (ParseException e) {
-			logger.debug("Unable to parse date: {} from format: {}", formattedDate, this.dateFormat);
+			logger.debug("Unable to parse date: {} from format: {}, Exception: {}", formattedDate, this.dateFormat, e);
 		}
         
         return date;
