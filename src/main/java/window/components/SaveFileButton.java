@@ -1,4 +1,4 @@
-package mainwindow.components;
+package window.components;
 
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;

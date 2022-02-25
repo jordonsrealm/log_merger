@@ -1,14 +1,15 @@
-package mainwindow.components;
+package window.components;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.ExecutorService;
 import configuration.ConfigurationGetter;
-import mainwindow.components.holder.ButtonHolder;
-import mainwindow.components.holder.CheckBoxHolder;
-import mainwindow.components.holder.TextHolder;
-import mainwindow.holder.WindowComponentHolder;
+import window.components.holder.ButtonHolder;
+import window.components.holder.CheckBoxHolder;
+import window.components.holder.TextHolder;
+import window.holder.WindowComponentHolder;
+
 import java.awt.event.ComponentListener;
 import java.awt.event.ComponentEvent;
 import javax.imageio.ImageIO;

@@ -1,4 +1,4 @@
-package mainwindow.components;
+package window.components;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -18,7 +18,7 @@ import javax.swing.JPopupMenu;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import transfer.object.DatedLine;
+import datedline.DatedLine;
 
 
 public class LineNumberComponent extends JComponent implements MouseMotionListener, MouseListener {

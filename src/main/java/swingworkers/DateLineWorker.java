@@ -8,11 +8,11 @@ import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 
-import date.line.organizer.DateLineOrganizer;
-import mainwindow.components.LogMergerWindow;
-import mainwindow.components.holder.TextHolder;
-import mainwindow.holder.WindowComponentHolder;
-import threads.LoadingIcon;
+import datedline.organizer.DateLineOrganizer;
+import loadingicon.LoadingIcon;
+import window.components.LogMergerWindow;
+import window.components.holder.TextHolder;
+import window.holder.WindowComponentHolder;
 
 public class DateLineWorker extends SwingWorker<String, Integer> {
 	private LogMergerWindow logMergerWindow;

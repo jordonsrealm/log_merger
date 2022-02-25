@@ -1,9 +1,9 @@
-package mainwindow.components.holder;
+package window.components.holder;
 
-import mainwindow.components.ClearUnOrderedTextButton;
-import mainwindow.components.LogMergerWindow;
-import mainwindow.components.SortFileButton;
-import mainwindow.components.SaveFileButton;
+import window.components.ClearUnOrderedTextButton;
+import window.components.LogMergerWindow;
+import window.components.SaveFileButton;
+import window.components.SortFileButton;
 
 
 public class ButtonHolder {

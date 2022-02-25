@@ -1,4 +1,4 @@
-package transfer.object;
+package datedline;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -9,7 +9,8 @@ import java.util.regex.Pattern;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import mainwindow.components.holder.CheckBoxHolder;
+import datedline.logginglevel.LoggingLevel;
+import window.components.holder.CheckBoxHolder;
 
 
 public class DatedLine implements Comparable<DatedLine> {

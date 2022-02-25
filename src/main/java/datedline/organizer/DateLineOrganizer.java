@@ -1,4 +1,4 @@
-package date.line.organizer;
+package datedline.organizer;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,10 +12,10 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import mainwindow.components.holder.CheckBoxHolder;
-import mainwindow.holder.WindowComponentHolder;
-import transfer.object.DatedLine;
-import transfer.object.LoggingLevel;
+import datedline.DatedLine;
+import datedline.logginglevel.LoggingLevel;
+import window.components.holder.CheckBoxHolder;
+import window.holder.WindowComponentHolder;
 
 
 public class DateLineOrganizer {

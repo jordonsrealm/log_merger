@@ -1,14 +1,13 @@
-package threads;
+package loadingicon;
 
 import java.awt.Component;
 import java.awt.Rectangle;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import glasspane.drawing.GlassPaneGraphicsProcessor;
-import mainwindow.components.LogMergerWindow;
+import window.components.LogMergerWindow;
 
 
-public class LoadingIcon extends GlassPaneGraphicsProcessor implements Runnable{
+public class LoadingIcon extends LoadingIconGraphicsHandler implements Runnable{
 
 	private static final AtomicBoolean running = new AtomicBoolean(false);
     

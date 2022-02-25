@@ -1,10 +1,10 @@
-package mainwindow.components;
+package window.components;
 
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 
-import mainwindow.holder.WindowComponentHolder;
+import window.holder.WindowComponentHolder;
 
 
 public abstract class AbstractMainWindowContainerButton extends JButton implements ActionListener {

@@ -1,4 +1,4 @@
-package mainwindow.components;
+package window.components;
 
 import java.awt.Component;
 import java.awt.event.AdjustmentEvent;

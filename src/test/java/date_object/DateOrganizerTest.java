@@ -6,10 +6,10 @@ import static org.mockito.Mockito.mock;
 
 import org.junit.Test;
 
-import date.line.organizer.DateLineOrganizer;
-import mainwindow.components.ListeningCheckBox;
-import mainwindow.components.holder.CheckBoxHolder;
-import mainwindow.holder.WindowComponentHolder;
+import datedline.organizer.DateLineOrganizer;
+import window.components.ListeningCheckBox;
+import window.components.holder.CheckBoxHolder;
+import window.holder.WindowComponentHolder;
 
 
 public class DateOrganizerTest {

@@ -1,8 +1,8 @@
-package mainwindow.components.holder;
+package window.components.holder;
 
-import mainwindow.components.ListeningCheckBox;
-import mainwindow.components.LogMergerWindow;
-import transfer.object.LoggingLevel;
+import datedline.logginglevel.LoggingLevel;
+import window.components.ListeningCheckBox;
+import window.components.LogMergerWindow;
 
 
 public class CheckBoxHolder {

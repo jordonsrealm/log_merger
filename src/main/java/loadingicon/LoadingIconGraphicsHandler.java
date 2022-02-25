@@ -1,14 +1,15 @@
-package glasspane.drawing;
+package loadingicon;
 
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Rectangle;
-import mainwindow.components.LogMergerWindow;
+
+import window.components.LogMergerWindow;
 
 
-public class GlassPaneGraphicsProcessor {
+public class LoadingIconGraphicsHandler {
 
     private static final String DEFAULT_PROCESSING_STRING_LABEL = "Processing";
     public static final int MAX_NUMBER_OF_PERIODS  = 40;
@@ -18,7 +19,7 @@ public class GlassPaneGraphicsProcessor {
     private Rectangle loadingRectangle = null;
 	
 	
-	public GlassPaneGraphicsProcessor(LogMergerWindow logMergerWindow) {
+	public LoadingIconGraphicsHandler(LogMergerWindow logMergerWindow) {
 		this.setLogMergerWindow(logMergerWindow);
 	}
 	
