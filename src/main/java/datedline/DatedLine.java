@@ -137,10 +137,10 @@ public class DatedLine implements Comparable<DatedLine> {
     	} else {
         	if(minimumDate != null) {
         		withinBounds = getDate().after(minimumDate) || getDate().equals(minimumDate);
-        	} else {
-        		if(maximumDate != null) {
-        			withinBounds = getDate().before(maximumDate) || getDate().equals(maximumDate);
-        		}
+        	}
+        		
+        	if(maximumDate != null) {
+        		withinBounds = getDate().before(maximumDate) || getDate().equals(maximumDate);
         	}
     	}
     	
