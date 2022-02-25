@@ -1,7 +1,7 @@
 package window.components.holder;
 
+import logmerger.frame.LogMergerFrame;
 import window.components.ClearUnOrderedTextButton;
-import window.components.LogMergerWindow;
 import window.components.SaveFileButton;
 import window.components.SortFileButton;
 
@@ -13,7 +13,7 @@ public class ButtonHolder {
     private SortFileButton mergeButton;
     
     
-    public ButtonHolder(LogMergerWindow logMergerWindow) {
+    public ButtonHolder(LogMergerFrame logMergerWindow) {
     	clearUnOrderedTextButton = new ClearUnOrderedTextButton(logMergerWindow);
 		saveFileButton = new SaveFileButton(logMergerWindow);
 		mergeButton = new SortFileButton(logMergerWindow);

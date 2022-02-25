@@ -4,30 +4,31 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JCheckBox;
 
+import logmerger.frame.LogMergerFrame;
 import swingworkers.DateLineWorker;
 
 
 public class ListeningCheckBox extends JCheckBox implements ActionListener{
 
 	private static final long serialVersionUID = 1L;
-	protected transient LogMergerWindow logMergerWindow;
+	protected transient LogMergerFrame logMergerWindow;
 	
 	
-	public ListeningCheckBox(LogMergerWindow logMergerWindow) {
+	public ListeningCheckBox(LogMergerFrame logMergerWindow) {
 		this(logMergerWindow, "");
 	}
 	
-	public ListeningCheckBox(LogMergerWindow logMergerWindow, String title) {
+	public ListeningCheckBox(LogMergerFrame logMergerWindow, String title) {
 		super(title);
 		this.setLogMergerWindow(logMergerWindow);
 		this.addActionListener(this);
 	}
 
-	public LogMergerWindow getLogMergerWindow() {
+	public LogMergerFrame getLogMergerWindow() {
 		return logMergerWindow;
 	}
 
-	public void setLogMergerWindow(LogMergerWindow windowHolder) {
+	public void setLogMergerWindow(LogMergerFrame windowHolder) {
 		this.logMergerWindow = windowHolder;
 	}
 

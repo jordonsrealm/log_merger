@@ -19,6 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import datedline.DatedLine;
+import logmerger.frame.LogMergerFrame;
 
 
 public class LineNumberComponent extends JComponent implements MouseMotionListener, MouseListener {
@@ -43,10 +44,10 @@ public class LineNumberComponent extends JComponent implements MouseMotionListen
 	private boolean drawToolTip;
 	private Rectangle movedRectangle;
 	private int pixelIntNumber;
-	private LogMergerWindow logMergerWindow;
+	private LogMergerFrame logMergerWindow;
 	
 	
-	public LineNumberComponent(LogMergerWindow logMergerWindow, boolean drawLoggingLevel) {
+	public LineNumberComponent(LogMergerFrame logMergerWindow, boolean drawLoggingLevel) {
 		setLogMergerWindow(logMergerWindow);
 		
 		addMouseListener(this);
@@ -249,11 +250,11 @@ public class LineNumberComponent extends JComponent implements MouseMotionListen
 		}
 	}
 
-	public LogMergerWindow getLogMergerWindow() {
+	public LogMergerFrame getLogMergerWindow() {
 		return logMergerWindow;
 	}
 
-	public void setLogMergerWindow(LogMergerWindow logMergerWindow) {
+	public void setLogMergerWindow(LogMergerFrame logMergerWindow) {
 		this.logMergerWindow = logMergerWindow;
 	}
 

@@ -3,7 +3,7 @@ package window.holder;
 import javax.swing.*;
 
 import datedline.DatedLine;
-import window.components.LogMergerWindow;
+import logmerger.frame.LogMergerFrame;
 import window.components.holder.ButtonHolder;
 import window.components.holder.CheckBoxHolder;
 import window.components.holder.TextHolder;
@@ -19,12 +19,12 @@ public class WindowComponentHolder {
     private CheckBoxHolder checkBoxHolder;
     
     private JSplitPane mergingSplitPane;
-    private LogMergerWindow logMergerWindow;
+    private LogMergerFrame logMergerWindow;
     
     private List<DatedLine> datedLines;
     
     
-    public WindowComponentHolder(LogMergerWindow logMergerWindow) {
+    public WindowComponentHolder(LogMergerFrame logMergerWindow) {
     	this.logMergerWindow = logMergerWindow;
     	this.btnHolder = new ButtonHolder(logMergerWindow);
     	this.checkBoxHolder = new CheckBoxHolder(logMergerWindow);
@@ -43,11 +43,11 @@ public class WindowComponentHolder {
 		this.mergingSplitPane = bottomPanel;
 	}
 
-	public LogMergerWindow getLogMergerWindow() {
+	public LogMergerFrame getLogMergerWindow() {
 		return this.logMergerWindow;
 	}
 
-	public void setLogMergerWindow(LogMergerWindow logMergerWindow) {
+	public void setLogMergerWindow(LogMergerFrame logMergerWindow) {
 		this.logMergerWindow = logMergerWindow;
 	}
 

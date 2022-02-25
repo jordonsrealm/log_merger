@@ -7,28 +7,26 @@ import javax.swing.UIManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import window.components.LogMergerWindow;
+import configuration.ConfigurationGetter;
+import logmerger.frame.LogMergerFrame;
 
 public class LogMerger {
 
 	private static final Logger logger = LoggerFactory.getLogger(LogMerger.class);
-	static int availableCores;
-	static ExecutorService logMergerExecutor;
-	static LogMergerWindow logMergerWindow;
+	private static final ExecutorService logMergerExecutor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
 	
 	private LogMerger() {}
 	
 	public static void main(String[] args) {
 
-		try {
-			UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName()); }
-		catch (Exception e) {
-			logger.error("Unable to set cross platform look and feel UI", e); 
+		if(ConfigurationGetter.instance().useLookAndFeel()) {
+			try {
+				UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName()); }
+			catch (Exception e) {
+				logger.error("Unable to set cross platform look and feel UI", e); 
+			}
 		}
 		
-		availableCores = Runtime.getRuntime().availableProcessors();
-		
-		logMergerExecutor = Executors.newFixedThreadPool(availableCores);
-		logMergerWindow   = new LogMergerWindow(logMergerExecutor);
+		new LogMergerFrame(logMergerExecutor);
 	}
 }

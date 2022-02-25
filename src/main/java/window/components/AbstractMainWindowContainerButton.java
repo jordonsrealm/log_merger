@@ -4,25 +4,26 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 
+import logmerger.frame.LogMergerFrame;
 import window.holder.WindowComponentHolder;
 
 
 public abstract class AbstractMainWindowContainerButton extends JButton implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
-	private LogMergerWindow logMergerWindow;
+	private LogMergerFrame logMergerWindow;
 	
-	protected AbstractMainWindowContainerButton(LogMergerWindow logMergerWindow) {
+	protected AbstractMainWindowContainerButton(LogMergerFrame logMergerWindow) {
 		this(logMergerWindow,null);
 	}
 	
-	protected AbstractMainWindowContainerButton(LogMergerWindow logMergerWindow, String title) {
+	protected AbstractMainWindowContainerButton(LogMergerFrame logMergerWindow, String title) {
 		super(title);
 		this.logMergerWindow =  logMergerWindow;
 		this.addActionListener(this);
 	}
 
-	public LogMergerWindow getLogMergerWindow() {
+	public LogMergerFrame getLogMergerWindow() {
 		return logMergerWindow;
 	}
 	

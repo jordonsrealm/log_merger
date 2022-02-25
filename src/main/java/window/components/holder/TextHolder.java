@@ -7,9 +7,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import logmerger.frame.LogMergerFrame;
 import swingworkers.DateLineWorker;
 import window.components.LineNumberComponent;
-import window.components.LogMergerWindow;
 import window.components.PreviewScrollPane;
 
 
@@ -32,10 +32,10 @@ public class TextHolder {
     private JScrollPane orderedScrollPane	= new JScrollPane(this.orderedText);
     private JTextField minDateField = new JTextField(TEXT_FIELD_COLUMNS_CNT);
     private JTextField maxDateField = new JTextField(TEXT_FIELD_COLUMNS_CNT);
-    private LogMergerWindow logMergerWindow;
+    private LogMergerFrame logMergerWindow;
     
     
-    public TextHolder(LogMergerWindow logMergerWindow) {
+    public TextHolder(LogMergerFrame logMergerWindow) {
     	this.setLogMergerWindow(logMergerWindow);
     	
     	JPanel leftPanel = new JPanel(new BorderLayout());
@@ -94,10 +94,10 @@ public class TextHolder {
 	public JTextField getMaxDateField() {
 		return this.maxDateField;
 	}
-	public LogMergerWindow getLogMergerWindow() {
+	public LogMergerFrame getLogMergerWindow() {
 		return logMergerWindow;
 	}
-	public void setLogMergerWindow(LogMergerWindow logMergerWindow) {
+	public void setLogMergerWindow(LogMergerFrame logMergerWindow) {
 		this.logMergerWindow = logMergerWindow;
 	}
 }

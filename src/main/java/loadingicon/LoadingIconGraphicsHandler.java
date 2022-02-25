@@ -6,20 +6,20 @@ import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 
-import window.components.LogMergerWindow;
+import logmerger.frame.LogMergerFrame;
 
 
 public class LoadingIconGraphicsHandler {
 
     private static final String DEFAULT_PROCESSING_STRING_LABEL = "Processing";
     public static final int MAX_NUMBER_OF_PERIODS  = 40;
-    private LogMergerWindow logMergerWindow;
+    private LogMergerFrame logMergerWindow;
     private int tickCounter = 0;
     private String processingText = "";
     private Rectangle loadingRectangle = null;
 	
 	
-	public LoadingIconGraphicsHandler(LogMergerWindow logMergerWindow) {
+	public LoadingIconGraphicsHandler(LogMergerFrame logMergerWindow) {
 		this.setLogMergerWindow(logMergerWindow);
 	}
 	
@@ -115,11 +115,11 @@ public class LoadingIconGraphicsHandler {
 		this.loadingRectangle = loadingRectangle;
 	}
 
-	public LogMergerWindow getLogMergerWindow() {
+	public LogMergerFrame getLogMergerWindow() {
 		return logMergerWindow;
 	}
 
-	public void setLogMergerWindow(LogMergerWindow logMergerWindow) {
+	public void setLogMergerWindow(LogMergerFrame logMergerWindow) {
 		this.logMergerWindow = logMergerWindow;
 	}
 }

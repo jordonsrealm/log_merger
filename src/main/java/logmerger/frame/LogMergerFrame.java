@@ -1,17 +1,16 @@
-package window.components;
+package logmerger.frame;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.ExecutorService;
 import configuration.ConfigurationGetter;
+import logmerger.frame.listener.LogMergerFrameListener;
 import window.components.holder.ButtonHolder;
 import window.components.holder.CheckBoxHolder;
 import window.components.holder.TextHolder;
 import window.holder.WindowComponentHolder;
 
-import java.awt.event.ComponentListener;
-import java.awt.event.ComponentEvent;
 import javax.imageio.ImageIO;
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,10 +18,10 @@ import javax.swing.*;
 import java.awt.*;
 
 
-public class LogMergerWindow extends JFrame implements ComponentListener {
+public class LogMergerFrame extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	private static final Logger logger = LoggerFactory.getLogger(LogMergerWindow.class);
+	private static final Logger logger = LoggerFactory.getLogger(LogMergerFrame.class);
     private transient WindowComponentHolder windowHolder;
     private transient ExecutorService executor;
 
@@ -31,20 +30,18 @@ public class LogMergerWindow extends JFrame implements ComponentListener {
     private static final String MAX_DATE_STR = "Max Date";
     
 
-    public LogMergerWindow(ExecutorService executor) {
-    	setLayout(new BorderLayout());
-        setTitle(ConfigurationGetter.instance().getApplicationName());
-    	setExecutor(executor);
-        addComponentListener(this);
+    public LogMergerFrame(ExecutorService executor) {
+    	this.setExecutor(executor);
+    	this.setLayout(new BorderLayout());
+    	this.setTitle(ConfigurationGetter.instance().getApplicationName());
+    	this.setWindowComponentHolder(new WindowComponentHolder(this));
         
-        setWindowComponentHolder(new WindowComponentHolder(this));
+    	this.add(createdTextAreas(), BorderLayout.CENTER);
         
-        getWindowComponentHolder().setMergingSplitPane(textAreas());
+    	this.setImageIconForApplication();
+    	this.setFrameDimensionsAndBehaviors();
         
-        add(getWindowComponentHolder().getMergingSplitPane(), BorderLayout.CENTER);
-        
-        setImageIconForApplication();
-        setFrameDimensionsAndBehaviors();
+    	this.addComponentListener(new LogMergerFrameListener(this));
     }
     
     private void setImageIconForApplication() {
@@ -58,14 +55,14 @@ public class LogMergerWindow extends JFrame implements ComponentListener {
     }
 
     private void setFrameDimensionsAndBehaviors(){
-        this.setSize(new Dimension(ConfigurationGetter.instance().getConfigWindowW(),ConfigurationGetter.instance().getConfigWindowH()));
+        this.setSize(new Dimension(ConfigurationGetter.instance().getConfigWindowW(), ConfigurationGetter.instance().getConfigWindowH()));
         this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         this.setLocationRelativeTo(null);
         this.setResizable(true);
         this.setVisible(true);
     }
     
-    private JSplitPane textAreas(){
+    private JSplitPane createdTextAreas(){
     	WindowComponentHolder wHolder = getWindowComponentHolder();
     	CheckBoxHolder chxH = wHolder.getCheckBoxHolder();
     	ButtonHolder btnH = wHolder.getBtnHolder();
@@ -108,6 +105,8 @@ public class LogMergerWindow extends JFrame implements ComponentListener {
         JSplitPane parentContainer;
         parentContainer = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftParentPanel, rightParentPanel);
         parentContainer.setDividerLocation(ConfigurationGetter.instance().getConfigWindowW()/2);
+        
+        getWindowComponentHolder().setMergingSplitPane(parentContainer);
 
         return parentContainer;
     }
@@ -120,11 +119,6 @@ public class LogMergerWindow extends JFrame implements ComponentListener {
 		this.executor = executor;
 	}
 
-	@Override
-	public void componentResized(ComponentEvent e) {
-		getWindowComponentHolder().getMergingSplitPane().setDividerLocation(getWidth()/2);
-	}
-
 	public WindowComponentHolder getWindowComponentHolder() {
 		return this.windowHolder;
 	}
@@ -132,14 +126,4 @@ public class LogMergerWindow extends JFrame implements ComponentListener {
 	public void setWindowComponentHolder(WindowComponentHolder holder) {
 		this.windowHolder = holder;
 	}
-
-	@Override
-	public void componentMoved(ComponentEvent e) {/* Didn't want to extend the ComponentAdapter*/}
-
-	@Override
-	public void componentShown(ComponentEvent e) {/* Didn't want to extend the ComponentAdapter*/}
-
-	@Override
-	public void componentHidden(ComponentEvent e) {/* Didn't want to extend the ComponentAdapter*/}
-	
 }

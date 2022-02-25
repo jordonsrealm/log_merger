@@ -13,6 +13,8 @@ import javax.swing.filechooser.FileSystemView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import logmerger.frame.LogMergerFrame;
+
 
 public class SaveFileButton extends AbstractMainWindowContainerButton {
 
@@ -21,7 +23,7 @@ public class SaveFileButton extends AbstractMainWindowContainerButton {
     private static final String BTN_TITLE = "Save";
 	
 
-	public SaveFileButton(LogMergerWindow mainWindow) {
+	public SaveFileButton(LogMergerFrame mainWindow) {
 		super(mainWindow, BTN_TITLE);
 	}
 

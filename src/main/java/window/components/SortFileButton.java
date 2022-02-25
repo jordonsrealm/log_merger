@@ -2,6 +2,7 @@ package window.components;
 
 import java.awt.event.ActionEvent;
 
+import logmerger.frame.LogMergerFrame;
 import swingworkers.DateLineWorker;
 
 
@@ -11,7 +12,7 @@ public class SortFileButton extends AbstractMainWindowContainerButton {
     private static final String BTN_TITLE = "Sort";
 	
 	
-	public SortFileButton(LogMergerWindow mainWindow) {
+	public SortFileButton(LogMergerFrame mainWindow) {
 		super(mainWindow, BTN_TITLE);
 	}
 

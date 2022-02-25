@@ -8,6 +8,8 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import logmerger.frame.LogMergerFrame;
+
 
 public class ClearUnOrderedTextButton extends AbstractMainWindowContainerButton {
 	
@@ -17,7 +19,7 @@ public class ClearUnOrderedTextButton extends AbstractMainWindowContainerButton 
 	private BufferedImage image;
 	
 
-	public ClearUnOrderedTextButton(LogMergerWindow mainWindow) {
+	public ClearUnOrderedTextButton(LogMergerFrame mainWindow) {
 		super(mainWindow);
 	    setToolTipText(CLEAR_TOOLTIP);
 	    

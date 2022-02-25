@@ -4,7 +4,7 @@ import java.awt.Component;
 import java.awt.Rectangle;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import window.components.LogMergerWindow;
+import logmerger.frame.LogMergerFrame;
 
 
 public class LoadingIcon extends LoadingIconGraphicsHandler implements Runnable{
@@ -12,7 +12,7 @@ public class LoadingIcon extends LoadingIconGraphicsHandler implements Runnable{
 	private static final AtomicBoolean running = new AtomicBoolean(false);
     
     
-    public LoadingIcon(LogMergerWindow logMergerWindow) {
+    public LoadingIcon(LogMergerFrame logMergerWindow) {
     	super(logMergerWindow);
     }
   

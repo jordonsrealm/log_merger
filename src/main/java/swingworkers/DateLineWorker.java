@@ -10,17 +10,17 @@ import javax.swing.SwingWorker;
 
 import datedline.organizer.DateLineOrganizer;
 import loadingicon.LoadingIcon;
-import window.components.LogMergerWindow;
+import logmerger.frame.LogMergerFrame;
 import window.components.holder.TextHolder;
 import window.holder.WindowComponentHolder;
 
 public class DateLineWorker extends SwingWorker<String, Integer> {
-	private LogMergerWindow logMergerWindow;
+	private LogMergerFrame logMergerWindow;
 	private LoadingIcon loadinIcon;
 	private Thread loadingThread;
 	
 	
-	public DateLineWorker(LogMergerWindow logMergerWindow) {
+	public DateLineWorker(LogMergerFrame logMergerWindow) {
 		this.setLogMergerWindow(logMergerWindow);
 		
 		loadinIcon = new LoadingIcon( getLogMergerWindow());
@@ -74,11 +74,11 @@ public class DateLineWorker extends SwingWorker<String, Integer> {
 		loadinIcon.terminateLoadingIcon();
 	}
 
-	public LogMergerWindow getLogMergerWindow() {
+	public LogMergerFrame getLogMergerWindow() {
 		return logMergerWindow;
 	}
 
-	public void setLogMergerWindow(LogMergerWindow logMergerWindow) {
+	public void setLogMergerWindow(LogMergerFrame logMergerWindow) {
 		this.logMergerWindow = logMergerWindow;
 	}
 

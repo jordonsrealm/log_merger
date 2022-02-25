@@ -1,8 +1,8 @@
 package window.components.holder;
 
 import datedline.logginglevel.LoggingLevel;
+import logmerger.frame.LogMergerFrame;
 import window.components.ListeningCheckBox;
-import window.components.LogMergerWindow;
 
 
 public class CheckBoxHolder {
@@ -14,11 +14,11 @@ public class CheckBoxHolder {
 	private ListeningCheckBox infoCheckBox;
 	private ListeningCheckBox warnCheckBox;
 	private ListeningCheckBox descendingCheckBox;
-	private LogMergerWindow logMergerWindow;
+	private LogMergerFrame logMergerWindow;
 	private static final String DESCENDING_TEXT = "Descending";
 	
 	
-	public CheckBoxHolder(LogMergerWindow logMergerWindow) {
+	public CheckBoxHolder(LogMergerFrame logMergerWindow) {
 		this.logMergerWindow = logMergerWindow;
 	}
 
