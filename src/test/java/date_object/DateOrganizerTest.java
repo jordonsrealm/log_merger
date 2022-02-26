@@ -5,10 +5,7 @@ import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 
 import org.junit.Test;
-import org.mockito.Mockito;
-
 import datedline.organizer.DateLineOrganizer;
-import window.components.ListeningCheckBox;
 import window.components.holder.CheckBoxHolder;
 import window.holder.WindowComponentHolder;
 
@@ -24,8 +21,6 @@ public class DateOrganizerTest {
 		
 		WindowComponentHolder windowComponentHolder = mock(WindowComponentHolder.class);
 		CheckBoxHolder chbxHolder = mock(CheckBoxHolder.class);
-		ListeningCheckBox listenBox = mock(ListeningCheckBox.class);
-		
 		doReturn(dateFormat).when(windowComponentHolder).getRegexPatternText();
 		doReturn(strToTest).when(windowComponentHolder).getUnorderedText();
 		doReturn(chbxHolder).when(windowComponentHolder).getCheckBoxHolder();
