@@ -1,12 +1,13 @@
 package swingworker;
 
-import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import datedline.organizer.DateLineOrganizer;
 import loadingicon.LoadingIcon;
@@ -14,7 +15,9 @@ import logmerger.frame.LogMergerFrame;
 import window.components.holder.TextHolder;
 import window.holder.WindowComponentHolder;
 
+
 public class DateLineWorker extends SwingWorker<String, Integer> {
+	private static final Logger logger = LoggerFactory.getLogger(DateLineWorker.class);
 	private LogMergerFrame logMergerWindow;
 	private LoadingIcon loadinIcon;
 	private Thread loadingThread;
@@ -46,11 +49,6 @@ public class DateLineWorker extends SwingWorker<String, Integer> {
 	}
 
 	@Override
-	protected void process(List<Integer> chunks) {
-		
-	}
-
-	@Override
 	protected void done() {
 		TextHolder holder = getLogMergerWindow().getWindowComponentHolder().getTxtHolder();
 		JTextArea orderTextArea = holder.getOrderedTextArea();
@@ -64,10 +62,11 @@ public class DateLineWorker extends SwingWorker<String, Integer> {
 				if(organizedScrollPane != null && organizedScrollPane.getHorizontalScrollBar()!=null) {
 					organizedScrollPane.getHorizontalScrollBar().setValue(0);
 				}
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			} catch (ExecutionException e) {
-				e.printStackTrace();
+			} catch (InterruptedException ie) {
+				logger.error("Error caught, reinterruping current Thread again...", ie);
+				Thread.currentThread().interrupt();
+			} catch (ExecutionException ee) {
+				logger.error("Execution exception!...", ee);
 			}
 		});
         

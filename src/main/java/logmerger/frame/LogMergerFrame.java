@@ -20,8 +20,8 @@ import java.awt.*;
 
 public class LogMergerFrame extends JFrame {
 
-	private static final long serialVersionUID = 1L;
 	private static final Logger logger = LoggerFactory.getLogger(LogMergerFrame.class);
+	private static final long serialVersionUID = 1L;
     private transient WindowComponentHolder windowHolder;
     private transient ExecutorService executor;
 
@@ -56,7 +56,7 @@ public class LogMergerFrame extends JFrame {
 
     private void setFrameDimensionsAndBehaviors(){
         this.setSize(new Dimension(ConfigurationGetter.instance().getConfigWindowW(), ConfigurationGetter.instance().getConfigWindowH()));
-        this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
         this.setResizable(true);
         this.setVisible(true);

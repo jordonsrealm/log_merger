@@ -3,6 +3,7 @@ package logmerger;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +28,8 @@ public class LogMerger {
 			}
 		}
 		
-		new LogMergerFrame(logMergerExecutor);
+		SwingUtilities.invokeLater(()->{
+			new LogMergerFrame(logMergerExecutor);
+		});
 	}
 }

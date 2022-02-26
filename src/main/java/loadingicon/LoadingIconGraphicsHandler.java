@@ -2,9 +2,10 @@ package loadingicon;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+
+import javax.swing.JScrollPane;
 
 import logmerger.frame.LogMergerFrame;
 
@@ -12,53 +13,54 @@ import logmerger.frame.LogMergerFrame;
 public class LoadingIconGraphicsHandler {
 
     private static final String DEFAULT_PROCESSING_STRING_LABEL = "Processing";
-    public static final int MAX_NUMBER_OF_PERIODS  = 40;
-    private LogMergerFrame logMergerWindow;
+    public static final int MAX_NUMBER_OF_PERIODS  = 20;
+    private LogMergerFrame logMergerFrame;
     private int tickCounter = 0;
-    private String processingText = "";
+    protected static final int LOGO_WIDTH = 150;
+    protected static final int LOGO_HEIGHT = 40;
     private Rectangle loadingRectangle = null;
+    private JScrollPane orderedJScrollPane = null;
 	
 	
-	public LoadingIconGraphicsHandler(LogMergerFrame logMergerWindow) {
-		this.setLogMergerWindow(logMergerWindow);
+	public LoadingIconGraphicsHandler(LogMergerFrame logMergerFrame) {
+		this.logMergerFrame = logMergerFrame;
+		this.orderedJScrollPane = logMergerFrame.getWindowComponentHolder().getTxtHolder().getOrderedScrollPane();
+		this.loadingRectangle = new Rectangle((int)(logMergerFrame.getSize().getWidth() - LOGO_WIDTH)/2 + orderedJScrollPane.getWidth()/2, (int)(logMergerFrame.getSize().getHeight() - LOGO_HEIGHT)/2, LOGO_WIDTH, LOGO_HEIGHT);
 	}
 	
 	protected void clearGlassPane() {
 		if(getGlassPane()!=null) {
-			getGlassPaneGraphics().clearRect(0, 0, getGlassPane().getWidth(), getGlassPane().getHeight());
+			getGlassPane().getGraphics().clearRect(0, 0, getGlassPane().getWidth(), getGlassPane().getHeight());
 		}
 	}
-	
-	protected void drawBox() {
-    	Graphics glassPaneGraphics = getGlassPaneGraphics();
-    	Color currColor = glassPaneGraphics.getColor();
-    	
-    	Rectangle window = getLoadingRectangle();
-		glassPaneGraphics.setColor(Color.RED);
-    	glassPaneGraphics.drawRect( window.x, window.y, window.width, window.height);
-    	glassPaneGraphics.setColor(currColor);
-	}
     
-    protected void clearProcessingLogoArea() {
-    	Graphics glassPaneGraphics = getGlassPaneGraphics();
-    	Color currColor = glassPaneGraphics.getColor();
-		
-    	Rectangle window = getLoadingRectangle();
-    	glassPaneGraphics.setColor(Color.WHITE);
-    	glassPaneGraphics.fillRect( window.x, window.y, window.width, window.height);
-    	glassPaneGraphics.setColor(currColor);
-    }
-    
-    protected void buildProcessingLogo() {
+    protected void drawLoadingIconArea() {
+    	// Create the LoadingIcon string
     	StringBuilder stringBuilder = new StringBuilder(DEFAULT_PROCESSING_STRING_LABEL);
-    	
     	for(int t = getTickCounter(); t > 0; t--) {
     		stringBuilder.append(".");
     	}
     	
-    	setProcessingText(stringBuilder.toString());
+    	// Clear LoadingIcon Area
+    	Graphics glassPaneGraphics = getGlassPane().getGraphics();
+    	Color currColor = glassPaneGraphics.getColor();
+		
+    	glassPaneGraphics.setColor(Color.WHITE);
+    	glassPaneGraphics.fillRect( loadingRectangle.x, loadingRectangle.y, loadingRectangle.width, loadingRectangle.height);
+    	
+    	// Draw LoadingIcon Box Area
+		glassPaneGraphics.setColor(Color.RED);
+    	glassPaneGraphics.drawRect( loadingRectangle.x, loadingRectangle.y, loadingRectangle.width, loadingRectangle.height);
+    	glassPaneGraphics.setColor(currColor);
+    	
+		// Draw LoadingIcon string
+    	int textHeight = glassPaneGraphics.getFontMetrics().getHeight();
+    	
+    	glassPaneGraphics.setColor(Color.BLACK);
+    	glassPaneGraphics.drawString( stringBuilder.toString(),  loadingRectangle.x + textHeight/2, loadingRectangle.y + (3 * textHeight)/2);
+    	glassPaneGraphics.setColor(currColor);
     }
-    
+	
     public void tick() {
     	if(tickCounter > MAX_NUMBER_OF_PERIODS) {
     		tickCounter = 0;
@@ -76,50 +78,6 @@ public class LoadingIconGraphicsHandler {
 	}
 	
 	public Component getGlassPane() {
-		return getLogMergerWindow().getGlassPane();
-	}
-	
-	protected Graphics getGlassPaneGraphics() {
-        return getGlassPane().getGraphics();
-	}
-	
-	protected void drawGlassPaneString() {
-		Graphics g = getGlassPaneGraphics();
-		
-		Rectangle window = getLoadingRectangle();
-		if(g != null) {
-			FontMetrics fm = g.getFontMetrics();
-	    	int textHeight = fm.getHeight();
-	    	int textPadding = textHeight;
-	    	
-	    	Color currColor = g.getColor();
-			g.setColor(Color.BLACK);
-			g.drawString( getProcessingText(),  window.x + textPadding, window.y + 2 * textHeight);
-			g.setColor(currColor);
-		}
-	}
-
-	public String getProcessingText() {
-		return processingText;
-	}
-
-	public void setProcessingText(String processingText) {
-		this.processingText = processingText;
-	}
-
-	public Rectangle getLoadingRectangle() {
-		return loadingRectangle;
-	}
-
-	public void setLoadingRectangle(Rectangle loadingRectangle) {
-		this.loadingRectangle = loadingRectangle;
-	}
-
-	public LogMergerFrame getLogMergerWindow() {
-		return logMergerWindow;
-	}
-
-	public void setLogMergerWindow(LogMergerFrame logMergerWindow) {
-		this.logMergerWindow = logMergerWindow;
+		return logMergerFrame.getGlassPane();
 	}
 }
