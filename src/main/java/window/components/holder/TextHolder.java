@@ -10,7 +10,7 @@ import javax.swing.JTextField;
 import logmerger.frame.LogMergerFrame;
 import window.components.LineNumberComponent;
 import window.components.PreviewScrollPane;
-import window.components.listeners.DateFieldListener;
+import window.components.listener.DateFieldListener;
 
 
 public class TextHolder {

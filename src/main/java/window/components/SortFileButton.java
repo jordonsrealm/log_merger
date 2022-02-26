@@ -3,7 +3,7 @@ package window.components;
 import java.awt.event.ActionEvent;
 
 import logmerger.frame.LogMergerFrame;
-import swingworkers.DateLineWorker;
+import swingworker.DateLineWorker;
 
 
 public class SortFileButton extends AbstractMainWindowContainerButton {

@@ -1,4 +1,4 @@
-package swingworkers;
+package swingworker;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;

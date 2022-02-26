@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JCheckBox;
 
 import logmerger.frame.LogMergerFrame;
-import swingworkers.DateLineWorker;
+import swingworker.DateLineWorker;
 
 
 public class ListeningCheckBox extends JCheckBox implements ActionListener{
