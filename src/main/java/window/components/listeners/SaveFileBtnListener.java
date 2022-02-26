@@ -15,14 +15,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
-public class SaveFileListener implements ActionListener {
+public class SaveFileBtnListener implements ActionListener {
 
-	private static final Logger logger = LoggerFactory.getLogger(SaveFileListener.class);
+	private static final Logger logger = LoggerFactory.getLogger(SaveFileBtnListener.class);
 	private JTextArea organizedText;
 	private static final String DIALOG_TITLE = "Specify a file to save";
 	
 	
-	public SaveFileListener(JTextArea organizedText) {
+	public SaveFileBtnListener(JTextArea organizedText) {
 		this.organizedText = organizedText;
 	}
 	
