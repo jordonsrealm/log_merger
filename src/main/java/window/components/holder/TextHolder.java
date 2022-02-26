@@ -8,9 +8,9 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import logmerger.frame.LogMergerFrame;
-import swingworkers.DateLineWorker;
 import window.components.LineNumberComponent;
 import window.components.PreviewScrollPane;
+import window.components.listeners.DateFieldListener;
 
 
 public class TextHolder {
@@ -53,15 +53,10 @@ public class TextHolder {
         getRegexPatternTextField().setText(DEFAULT_REGEX_HINT);
         getRegexPatternTextField().setBackground(Color.decode(WHITE_BACKGROUND));
         
-        minDateField.addActionListener(ae->{
-    		DateLineWorker worker = new DateLineWorker(getLogMergerWindow());
-    		worker.execute();
-        });
+        DateFieldListener dateFieldListener = new DateFieldListener(getLogMergerWindow());
         
-        maxDateField.addActionListener(ae->{
-    		DateLineWorker worker = new DateLineWorker(getLogMergerWindow());
-    		worker.execute();
-        });
+        minDateField.addActionListener(dateFieldListener);
+        maxDateField.addActionListener(dateFieldListener);
 	}
     
 	public JTextField getFileNameInputTextField() {

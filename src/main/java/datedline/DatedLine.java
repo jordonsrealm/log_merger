@@ -40,7 +40,7 @@ public class DatedLine implements Comparable<DatedLine> {
     }
     
     public static void setDescendingOrder(boolean descending) {
-    	descendingOrder = descending;
+    	DatedLine.descendingOrder = descending;
     }
 
 	public String getDateFormat() {

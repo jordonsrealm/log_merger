@@ -7,6 +7,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.SwingUtilities;
 
 import logmerger.frame.LogMergerFrame;
 
@@ -16,7 +17,7 @@ public class ClearUnOrderedTextButton extends AbstractMainWindowContainerButton 
 	private static final long serialVersionUID = 1L;
     private static final String CLEAR_TOOLTIP = "Clear Text";
     private static final String RES_CLEAR_BUTTON_IMAGE = "/clear_btn.png";
-	private BufferedImage image;
+	private transient BufferedImage clearBtnImg;
 	
 
 	public ClearUnOrderedTextButton(LogMergerFrame mainWindow) {
@@ -24,8 +25,8 @@ public class ClearUnOrderedTextButton extends AbstractMainWindowContainerButton 
 	    setToolTipText(CLEAR_TOOLTIP);
 	    
 	    try {
-			image = ImageIO.read(getClass().getResource(RES_CLEAR_BUTTON_IMAGE));
-			Dimension setDim = new Dimension( image.getWidth(), image.getHeight());
+			clearBtnImg = ImageIO.read(getClass().getResource(RES_CLEAR_BUTTON_IMAGE));
+			Dimension setDim = new Dimension( clearBtnImg.getWidth(), clearBtnImg.getHeight());
 			this.setPreferredSize(setDim);
 			this.setMinimumSize(setDim);
 			this.setMaximumSize(setDim);
@@ -38,14 +39,16 @@ public class ClearUnOrderedTextButton extends AbstractMainWindowContainerButton 
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
-		if(image != null) {
-			g.drawImage(image, 0, 0, null);
+		if(clearBtnImg != null) {
+			g.drawImage(clearBtnImg, 0, 0, null);
 		}
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		this.getWindowHolder().setUnorderedText("");
+		SwingUtilities.invokeLater(()->
+			this.getWindowHolder().setUnorderedText("")
+		);
 	}
 	
 }
