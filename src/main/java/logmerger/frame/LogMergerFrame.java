@@ -36,7 +36,7 @@ public class LogMergerFrame extends JFrame {
     	this.setTitle(ConfigurationGetter.instance().getApplicationName());
     	this.setWindowComponentHolder(new WindowComponentHolder(this));
         
-    	this.add(createdTextAreas(), BorderLayout.CENTER);
+    	this.add(getTextAreas(), BorderLayout.CENTER);
         
     	this.setImageIconForApplication();
     	this.setFrameDimensionsAndBehaviors();
@@ -62,7 +62,7 @@ public class LogMergerFrame extends JFrame {
         this.setVisible(true);
     }
     
-    private JSplitPane createdTextAreas(){
+    private JSplitPane getTextAreas(){
     	WindowComponentHolder wHolder = getWindowComponentHolder();
     	CheckBoxHolder chxH = wHolder.getCheckBoxHolder();
     	ButtonHolder btnH = wHolder.getBtnHolder();
