@@ -1,4 +1,4 @@
-package window.components.holder;
+package window.component.holder;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -8,9 +8,9 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import logmerger.frame.LogMergerFrame;
-import window.components.LineNumberComponent;
-import window.components.PreviewScrollPane;
-import window.components.listener.DateFieldListener;
+import window.component.LineNumberComponent;
+import window.component.PreviewScrollPane;
+import window.component.listener.DateFieldListener;
 
 
 public class TextHolder {

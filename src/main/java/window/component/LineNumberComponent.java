@@ -1,4 +1,4 @@
-package window.components;
+package window.component;
 
 import java.awt.Color;
 import java.awt.Dimension;

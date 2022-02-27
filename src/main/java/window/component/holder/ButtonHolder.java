@@ -1,9 +1,9 @@
-package window.components.holder;
+package window.component.holder;
 
 import logmerger.frame.LogMergerFrame;
-import window.components.ClearUnOrderedTextButton;
-import window.components.SaveFileButton;
-import window.components.SortFileButton;
+import window.component.ClearUnOrderedTextButton;
+import window.component.SaveFileButton;
+import window.component.SortFileButton;
 
 
 public class ButtonHolder {

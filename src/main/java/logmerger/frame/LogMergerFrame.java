@@ -6,9 +6,9 @@ import org.slf4j.LoggerFactory;
 import java.util.concurrent.ExecutorService;
 import configuration.ConfigurationGetter;
 import logmerger.frame.listener.LogMergerFrameListener;
-import window.components.holder.ButtonHolder;
-import window.components.holder.CheckBoxHolder;
-import window.components.holder.TextHolder;
+import window.component.holder.ButtonHolder;
+import window.component.holder.CheckBoxHolder;
+import window.component.holder.TextHolder;
 import window.holder.WindowComponentHolder;
 
 import javax.imageio.ImageIO;

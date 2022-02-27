@@ -10,7 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import datedline.logginglevel.LoggingLevel;
-import window.components.holder.CheckBoxHolder;
+import window.component.holder.CheckBoxHolder;
 
 
 public class DatedLine implements Comparable<DatedLine> {

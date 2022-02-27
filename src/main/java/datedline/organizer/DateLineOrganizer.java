@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
 
 import datedline.DatedLine;
 import datedline.logginglevel.LoggingLevel;
-import window.components.holder.CheckBoxHolder;
+import window.component.holder.CheckBoxHolder;
 import window.holder.WindowComponentHolder;
 
 

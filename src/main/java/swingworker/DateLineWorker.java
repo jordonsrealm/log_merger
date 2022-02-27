@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 import datedline.organizer.DateLineOrganizer;
 import loadingicon.LoadingIcon;
 import logmerger.frame.LogMergerFrame;
-import window.components.holder.TextHolder;
+import window.component.holder.TextHolder;
 import window.holder.WindowComponentHolder;
 
 

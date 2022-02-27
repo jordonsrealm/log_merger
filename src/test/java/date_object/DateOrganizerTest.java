@@ -6,7 +6,7 @@ import static org.mockito.Mockito.mock;
 
 import org.junit.Test;
 import datedline.organizer.DateLineOrganizer;
-import window.components.holder.CheckBoxHolder;
+import window.component.holder.CheckBoxHolder;
 import window.holder.WindowComponentHolder;
 
 

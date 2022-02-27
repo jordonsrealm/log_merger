@@ -1,8 +1,8 @@
-package window.components.holder;
+package window.component.holder;
 
 import datedline.logginglevel.LoggingLevel;
 import logmerger.frame.LogMergerFrame;
-import window.components.ListeningCheckBox;
+import window.component.ListeningCheckBox;
 
 
 public class CheckBoxHolder {

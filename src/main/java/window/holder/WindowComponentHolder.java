@@ -4,9 +4,9 @@ import javax.swing.*;
 
 import datedline.DatedLine;
 import logmerger.frame.LogMergerFrame;
-import window.components.holder.ButtonHolder;
-import window.components.holder.CheckBoxHolder;
-import window.components.holder.TextHolder;
+import window.component.holder.ButtonHolder;
+import window.component.holder.CheckBoxHolder;
+import window.component.holder.TextHolder;
 
 import java.awt.Component;
 import java.util.List;
