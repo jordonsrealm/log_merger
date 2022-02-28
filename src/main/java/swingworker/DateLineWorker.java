@@ -16,7 +16,7 @@ import loadingicongraphicshandler.LoadingIconGraphicsHandler;
 import logmerger.frame.LogMergerFrame;
 import swingworker.publish.action.PublishedAction;
 import window.component.holder.TextHolder;
-import window.holder.WindowComponentHolder;
+import window.component.holder.WindowComponentHolder;
 
 
 public class DateLineWorker extends SwingWorker<String, String> {

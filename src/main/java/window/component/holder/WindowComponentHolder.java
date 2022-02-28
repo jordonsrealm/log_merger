@@ -1,12 +1,9 @@
-package window.holder;
+package window.component.holder;
 
 import javax.swing.*;
 
 import datedline.DatedLine;
 import logmerger.frame.LogMergerFrame;
-import window.component.holder.ButtonHolder;
-import window.component.holder.CheckBoxHolder;
-import window.component.holder.TextHolder;
 
 import java.awt.Component;
 import java.util.List;

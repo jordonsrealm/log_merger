@@ -167,7 +167,7 @@ public class DatedLine implements Comparable<DatedLine> {
 	public int compareTo(DatedLine datedLine) {
 		if(getDate() == null || datedLine.getDate() == null){
 			return 0;
-		}else{
+		} else {
 			return getDate().compareTo(datedLine.getDate()) * (descendingOrder?-1:1);
 		}
 	}

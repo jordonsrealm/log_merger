@@ -9,7 +9,7 @@ import logmerger.frame.listener.LogMergerFrameListener;
 import window.component.holder.ButtonHolder;
 import window.component.holder.CheckBoxHolder;
 import window.component.holder.TextHolder;
-import window.holder.WindowComponentHolder;
+import window.component.holder.WindowComponentHolder;
 
 import javax.imageio.ImageIO;
 import java.io.IOException;

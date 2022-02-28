@@ -7,7 +7,7 @@ import static org.mockito.Mockito.mock;
 import org.junit.Test;
 import datedline.organizer.DateLineOrganizer;
 import window.component.holder.CheckBoxHolder;
-import window.holder.WindowComponentHolder;
+import window.component.holder.WindowComponentHolder;
 
 
 public class DateOrganizerTest {

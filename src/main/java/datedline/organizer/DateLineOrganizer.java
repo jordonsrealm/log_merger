@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
 import datedline.DatedLine;
 import datedline.logginglevel.LoggingLevel;
 import window.component.holder.CheckBoxHolder;
-import window.holder.WindowComponentHolder;
+import window.component.holder.WindowComponentHolder;
 
 
 public class DateLineOrganizer {
