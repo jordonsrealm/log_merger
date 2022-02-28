@@ -5,7 +5,6 @@ import java.util.concurrent.ExecutionException;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -76,23 +75,21 @@ public class DateLineWorker extends SwingWorker<String, String> {
 		JTextArea orderTextArea = holder.getOrderedTextArea();
 		JScrollPane organizedScrollPane = holder.getUnOrderedScrollPane();
 		
-		SwingUtilities.invokeLater(()->{
-			try {
-				String completedText = get();
-				orderTextArea.setText(completedText);
-				orderTextArea.setCaretPosition(0);
-				
-				if(organizedScrollPane != null && organizedScrollPane.getHorizontalScrollBar()!=null) {
-					organizedScrollPane.getHorizontalScrollBar().setValue(0);
-				}
-			} catch (InterruptedException ie) {
-				logger.error("Error caught, reinterruping current Thread again...", ie);
-				Thread.currentThread().interrupt();
-			} catch (ExecutionException ee) {
-				logger.error("Execution exception!...", ee);
+		try {
+			String completedText = get();
+			orderTextArea.setText(completedText);
+			orderTextArea.setCaretPosition(0);
+			
+			if(organizedScrollPane != null && organizedScrollPane.getHorizontalScrollBar() != null) {
+				organizedScrollPane.getHorizontalScrollBar().setValue(0);
 			}
-		});
-        
+		} catch (InterruptedException ie) {
+			logger.error("Error caught, reinterruping current Thread again...", ie);
+			Thread.currentThread().interrupt();
+		} catch (ExecutionException ee) {
+			logger.error("Execution exception!...", ee);
+		}
+		
 		getProgressDisplay().terminate();
 	}
 
