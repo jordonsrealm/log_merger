@@ -32,13 +32,10 @@ public class DateLineWorker extends SwingWorker<String, String> {
 
 	@Override
 	protected String doInBackground() throws Exception {
-		getLoadingIconGraphicsHandler().setVisible(true);
-		getLoadingIconGraphicsHandler().handleListener(true);
-		getLoadingIconGraphicsHandler().setCurrentState("");
+		getLoadingIconGraphicsHandler().initiate();
 		
 		WindowComponentHolder mainWindowContainer = getLogMergerWindow().getWindowComponentHolder();
 		
-		publish("Working on creating dated lines...");
 		String convertedString = "";
 		if(!(mainWindowContainer.getUnorderedText().isEmpty() && mainWindowContainer.getUnorderedText().isBlank())) {
 			String minDateString = mainWindowContainer.getMinDateText();
@@ -95,8 +92,7 @@ public class DateLineWorker extends SwingWorker<String, String> {
 			}
 		});
         
-		getLoadingIconGraphicsHandler().setVisible(false);
-		getLoadingIconGraphicsHandler().handleListener(false);
+		getLoadingIconGraphicsHandler().terminate();
 	}
 
 	public LogMergerFrame getLogMergerWindow() {

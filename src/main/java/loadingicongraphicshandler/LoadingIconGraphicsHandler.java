@@ -30,22 +30,15 @@ public class LoadingIconGraphicsHandler {
 		this.glassPaneListener = new GlassPaneListener();
 	}
 	
-	public void clearGlassPane() {
-		if(getGlassPane()!=null) {
-			getGlassPane().getGraphics().clearRect(0, 0, getGlassPane().getWidth(), getGlassPane().getHeight());
-		}
+	public void initiate() {
+		this.getGlassPane().setVisible(true);
+		this.getGlassPane().addMouseListener(this.getGlasspaneListener());
+		this.setCurrentState("");
 	}
 	
-	public void setVisible(boolean isVisible) {
-		this.getGlassPane().setVisible(isVisible);
-	}
-	
-	public void handleListener(boolean addListener) {
-		if(addListener) {
-			this.getGlassPane().addMouseListener(this.getGlasspaneListener());
-		} else { 
-			this.getGlassPane().removeMouseListener(this.getGlasspaneListener());
-		}
+	public void terminate() {
+		this.getGlassPane().setVisible(false);
+		this.getGlassPane().removeMouseListener(this.getGlasspaneListener());
 	}
     
 	public void drawLoadingIconArea(String currentState) {
