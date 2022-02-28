@@ -57,8 +57,9 @@ public class DateLineWorker extends SwingWorker<String, String> {
 			
 	    	publish(PublishedAction.TO_FULL_TEXT.action());
 			convertedString = dateLineOrganizer.returnCompleteTextFromDatedLines(lines);
+			
+			publish(PublishedAction.FINISHED.action());
 		}
-		publish(PublishedAction.FINISHED.action());
 		
 		return convertedString;
 	}
