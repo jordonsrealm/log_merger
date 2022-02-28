@@ -1,4 +1,4 @@
-package swingworker.action;
+package swingworker.publish.action;
 
 public enum PublishedAction {
 	CREATING_DATE_LINES("Working on creating dated lines..."),

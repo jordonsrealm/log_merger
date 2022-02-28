@@ -14,7 +14,7 @@ import datedline.DatedLine;
 import datedline.organizer.DateLineOrganizer;
 import loadingicongraphicshandler.LoadingIconGraphicsHandler;
 import logmerger.frame.LogMergerFrame;
-import swingworker.action.PublishedAction;
+import swingworker.publish.action.PublishedAction;
 import window.component.holder.TextHolder;
 import window.holder.WindowComponentHolder;
 
