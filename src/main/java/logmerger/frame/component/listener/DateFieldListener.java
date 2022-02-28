@@ -4,7 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import logmerger.frame.LogMergerFrame;
-import swingworker.DateLineWorker;
+import logmerger.frame.component.swingworker.DateLineWorker;
 
 
 public class DateFieldListener implements ActionListener{

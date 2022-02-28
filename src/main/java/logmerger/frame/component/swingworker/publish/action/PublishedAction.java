@@ -1,4 +1,4 @@
-package swingworker.publish.action;
+package logmerger.frame.component.swingworker.publish.action;
 
 public enum PublishedAction {
 	CREATING_DATE_LINES("Working on creating dated lines..."),

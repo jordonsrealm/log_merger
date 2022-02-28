@@ -4,7 +4,7 @@ import java.awt.event.ActionEvent;
 
 import logmerger.frame.LogMergerFrame;
 import logmerger.frame.component.AbstractLogMergerFrameButton;
-import swingworker.DateLineWorker;
+import logmerger.frame.component.swingworker.DateLineWorker;
 
 
 public class SortFileButton extends AbstractLogMergerFrameButton {

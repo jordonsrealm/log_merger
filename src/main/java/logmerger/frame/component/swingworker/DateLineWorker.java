@@ -1,4 +1,4 @@
-package swingworker;
+package logmerger.frame.component.swingworker;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -13,10 +13,10 @@ import org.slf4j.LoggerFactory;
 import logmerger.frame.LogMergerFrame;
 import logmerger.frame.component.holder.TextHolder;
 import logmerger.frame.component.holder.WindowComponentHolder;
+import logmerger.frame.component.swingworker.publish.action.PublishedAction;
 import logmerger.frame.datedline.DatedLine;
 import logmerger.frame.datedline.organizer.DateLineOrganizer;
 import logmerger.frame.progressdisplay.ProgressDisplay;
-import swingworker.publish.action.PublishedAction;
 
 
 public class DateLineWorker extends SwingWorker<String, String> {
