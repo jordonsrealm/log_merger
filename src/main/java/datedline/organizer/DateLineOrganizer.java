@@ -28,7 +28,15 @@ public class DateLineOrganizer {
 	public DateLineOrganizer(WindowComponentHolder windowComponentHolder) {
 		setWindowComponentHolder(windowComponentHolder);
 	}
-
+	
+	public WindowComponentHolder getWindowComponentHolder() {
+		return windowComponentHolder;
+	}
+	
+	public void setWindowComponentHolder(WindowComponentHolder mainWindowContainer) {
+		this.windowComponentHolder = mainWindowContainer;
+	}
+	
     public String orderDateLines(String minDateString, String maxDateString) {
     	
     	List<DatedLine> datedLines = getDatedLinesUsingFormat(getCurrentDateFormat());
@@ -42,18 +50,22 @@ public class DateLineOrganizer {
     	return returnCompleteTextFromDatedLines(datedLines);
     }
     
-    protected void updateMainWindowHolderWithDatedLines(List<DatedLine> datedLines) {
+    public void updateMainWindowHolderWithDatedLines(List<DatedLine> datedLines) {
     	getWindowComponentHolder().setDatedLines(datedLines);
     }
     
-    protected List<DatedLine> handleDateRanges(List<DatedLine> datedLines, String minDateString, String maxDateString){
+    public List<DatedLine> handleDateRanges(List<DatedLine> datedLines, String minDateString, String maxDateString){
     	datedLines.removeIf(datedLine -> !datedLine.isWithinBounds(getDateFromFormat(minDateString), getDateFromFormat(maxDateString)));
     	return datedLines;
     }
     
-    protected List<DatedLine> getOrdereDatedLines(List<DatedLine> lines){
+    public List<DatedLine> getOrdereDatedLines(List<DatedLine> lines){
     	Collections.sort(lines);
     	return lines;
+    }
+    
+    public List<DatedLine> getDatedLinesUsingFormat(){
+    	return this.getDatedLinesUsingFormat(getCurrentDateFormat());
     }
     
     protected List<DatedLine> getDatedLinesUsingFormat(String format) {
@@ -69,11 +81,9 @@ public class DateLineOrganizer {
             	
             	if(givenDatedLine.isValidDate()) {
             		datedLineList.add(givenDatedLine);
-            	} else {
-            		if(!datedLineList.isEmpty()) {
-            			DatedLine currLine = datedLineList.get(datedLineList.size()-1);
-            			currLine.appendToOriginalString("\n"+lineRead);
-            		}
+            	} else if(!datedLineList.isEmpty()) {
+            		DatedLine currLine = datedLineList.get(datedLineList.size()-1);
+            		currLine.appendToOriginalString("\n"+lineRead);
             	}
             }
         } catch (IOException ex) {
@@ -83,7 +93,7 @@ public class DateLineOrganizer {
         return datedLineList;
     }
     
-    protected String returnCompleteTextFromDatedLines(List<DatedLine> datedLines) {
+    public String returnCompleteTextFromDatedLines(List<DatedLine> datedLines) {
     	
     	StringBuilder builder = new StringBuilder();
     	
@@ -121,13 +131,5 @@ public class DateLineOrganizer {
 
     protected String getCurrentDateFormat() {
 		return getWindowComponentHolder().getRegexPatternText();
-	}
-
-	public WindowComponentHolder getWindowComponentHolder() {
-		return windowComponentHolder;
-	}
-
-	public void setWindowComponentHolder(WindowComponentHolder mainWindowContainer) {
-		this.windowComponentHolder = mainWindowContainer;
 	}
 }

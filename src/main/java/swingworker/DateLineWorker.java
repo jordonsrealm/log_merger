@@ -1,5 +1,6 @@
 package swingworker;
 
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import javax.swing.JScrollPane;
@@ -9,43 +10,66 @@ import javax.swing.SwingWorker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import datedline.DatedLine;
 import datedline.organizer.DateLineOrganizer;
-import loadingicon.LoadingIcon;
+import loadingicongraphicshandler.LoadingIconGraphicsHandler;
 import logmerger.frame.LogMergerFrame;
+import swingworker.action.PublishedAction;
 import window.component.holder.TextHolder;
 import window.holder.WindowComponentHolder;
 
 
-public class DateLineWorker extends SwingWorker<String, Integer> {
+public class DateLineWorker extends SwingWorker<String, String> {
 	private static final Logger logger = LoggerFactory.getLogger(DateLineWorker.class);
 	private LogMergerFrame logMergerWindow;
-	private LoadingIcon loadinIcon;
-	private Thread loadingThread;
+	private LoadingIconGraphicsHandler loadingIconGraphicsHandler;
 	
 	
 	public DateLineWorker(LogMergerFrame logMergerWindow) {
 		this.setLogMergerWindow(logMergerWindow);
-		
-		loadinIcon = new LoadingIcon( getLogMergerWindow());
-		loadinIcon.initializeLoadingIcon();
-		
-		loadingThread = new Thread(loadinIcon);
-		loadingThread.start();
+    	this.setLoadingIconGraphicsHandler(new LoadingIconGraphicsHandler(getLogMergerWindow()));
 	}
 
 	@Override
 	protected String doInBackground() throws Exception {
+		getLoadingIconGraphicsHandler().setVisible(true);
+		getLoadingIconGraphicsHandler().handleListener(true);
+		getLoadingIconGraphicsHandler().setCurrentState("");
+		
 		WindowComponentHolder mainWindowContainer = getLogMergerWindow().getWindowComponentHolder();
 		
+		publish("Working on creating dated lines...");
 		String convertedString = "";
 		if(!(mainWindowContainer.getUnorderedText().isEmpty() && mainWindowContainer.getUnorderedText().isBlank())) {
 			String minDateString = mainWindowContainer.getMinDateText();
 			String maxDateString = mainWindowContainer.getMaxDateText();
-		
-			convertedString = new DateLineOrganizer(mainWindowContainer).orderDateLines(minDateString, maxDateString);
+			
+			DateLineOrganizer dateLineOrganizer = new DateLineOrganizer(mainWindowContainer);
+			
+			publish(PublishedAction.CREATING_DATE_LINES.action());
+			List<DatedLine> lines = dateLineOrganizer.getDatedLinesUsingFormat();
+			
+			publish(PublishedAction.DATE_BOUNDS.action());
+			lines = dateLineOrganizer.handleDateRanges(lines, minDateString, maxDateString);
+			
+			publish(PublishedAction.ORDERING.action());
+			lines = dateLineOrganizer.getOrdereDatedLines(lines);
+			
+			publish(PublishedAction.UPDATING_DATE_LINES.action());
+	    	dateLineOrganizer.updateMainWindowHolderWithDatedLines(lines);
+			
+	    	publish(PublishedAction.TO_FULL_TEXT.action());
+			convertedString = dateLineOrganizer.returnCompleteTextFromDatedLines(lines);
 		}
+		publish(PublishedAction.FINISHED.action());
 		
 		return convertedString;
+	}
+	
+	@Override
+	protected void process(List<String> chunks) {
+		String currentState = chunks.get(chunks.size()-1);
+		getLoadingIconGraphicsHandler().setCurrentState(currentState);
 	}
 
 	@Override
@@ -56,7 +80,8 @@ public class DateLineWorker extends SwingWorker<String, Integer> {
 		
 		SwingUtilities.invokeLater(()->{
 			try {
-				orderTextArea.setText(get());
+				String completedText = get();
+				orderTextArea.setText(completedText);
 				orderTextArea.setCaretPosition(0);
 				
 				if(organizedScrollPane != null && organizedScrollPane.getHorizontalScrollBar()!=null) {
@@ -70,7 +95,8 @@ public class DateLineWorker extends SwingWorker<String, Integer> {
 			}
 		});
         
-		loadinIcon.terminateLoadingIcon();
+		getLoadingIconGraphicsHandler().setVisible(false);
+		getLoadingIconGraphicsHandler().handleListener(false);
 	}
 
 	public LogMergerFrame getLogMergerWindow() {
@@ -79,6 +105,14 @@ public class DateLineWorker extends SwingWorker<String, Integer> {
 
 	public void setLogMergerWindow(LogMergerFrame logMergerWindow) {
 		this.logMergerWindow = logMergerWindow;
+	}
+
+	public LoadingIconGraphicsHandler getLoadingIconGraphicsHandler() {
+		return loadingIconGraphicsHandler;
+	}
+
+	public void setLoadingIconGraphicsHandler(LoadingIconGraphicsHandler loadingIconGraphicsHandler) {
+		this.loadingIconGraphicsHandler = loadingIconGraphicsHandler;
 	}
 
 }
