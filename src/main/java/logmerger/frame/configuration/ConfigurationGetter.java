@@ -1,4 +1,4 @@
-package configuration;
+package logmerger.frame.configuration;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;

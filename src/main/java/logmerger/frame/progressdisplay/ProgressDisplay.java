@@ -1,4 +1,4 @@
-package loadingicongraphicshandler;
+package logmerger.frame.progressdisplay;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -9,10 +9,10 @@ import java.awt.event.MouseListener;
 import javax.swing.JScrollPane;
 
 import logmerger.frame.LogMergerFrame;
-import logmerger.frame.listener.GlassPaneListener;
+import logmerger.frame.glasspane.listener.GlassPaneListener;
 
 
-public class LoadingIconGraphicsHandler {
+public class ProgressDisplay {
 
     public static final int MAX_NUMBER_OF_PERIODS  = 20;
     private LogMergerFrame logMergerFrame;
@@ -23,7 +23,7 @@ public class LoadingIconGraphicsHandler {
     private GlassPaneListener glassPaneListener;
 	
 	
-	public LoadingIconGraphicsHandler(LogMergerFrame logMergerFrame) {
+	public ProgressDisplay(LogMergerFrame logMergerFrame) {
 		this.logMergerFrame = logMergerFrame;
 		this.orderedJScrollPane = logMergerFrame.getWindowComponentHolder().getTxtHolder().getOrderedScrollPane();
 		this.loadingRectangle = new Rectangle((int)(logMergerFrame.getSize().getWidth() - LOGO_WIDTH)/2 + orderedJScrollPane.getWidth()/2, (int)(logMergerFrame.getSize().getHeight() - LOGO_HEIGHT)/2, LOGO_WIDTH, LOGO_HEIGHT);

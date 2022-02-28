@@ -5,9 +5,10 @@ import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 
 import org.junit.Test;
-import datedline.organizer.DateLineOrganizer;
-import window.component.holder.CheckBoxHolder;
-import window.component.holder.WindowComponentHolder;
+
+import logmerger.frame.component.holder.CheckBoxHolder;
+import logmerger.frame.component.holder.WindowComponentHolder;
+import logmerger.frame.datedline.organizer.DateLineOrganizer;
 
 
 public class DateOrganizerTest {

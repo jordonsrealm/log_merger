@@ -10,29 +10,29 @@ import javax.swing.SwingWorker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import datedline.DatedLine;
-import datedline.organizer.DateLineOrganizer;
-import loadingicongraphicshandler.LoadingIconGraphicsHandler;
 import logmerger.frame.LogMergerFrame;
+import logmerger.frame.component.holder.TextHolder;
+import logmerger.frame.component.holder.WindowComponentHolder;
+import logmerger.frame.datedline.DatedLine;
+import logmerger.frame.datedline.organizer.DateLineOrganizer;
+import logmerger.frame.progressdisplay.ProgressDisplay;
 import swingworker.publish.action.PublishedAction;
-import window.component.holder.TextHolder;
-import window.component.holder.WindowComponentHolder;
 
 
 public class DateLineWorker extends SwingWorker<String, String> {
 	private static final Logger logger = LoggerFactory.getLogger(DateLineWorker.class);
 	private LogMergerFrame logMergerWindow;
-	private LoadingIconGraphicsHandler loadingIconGraphicsHandler;
+	private ProgressDisplay progressDisplay;
 	
 	
 	public DateLineWorker(LogMergerFrame logMergerWindow) {
 		this.setLogMergerWindow(logMergerWindow);
-    	this.setLoadingIconGraphicsHandler(new LoadingIconGraphicsHandler(getLogMergerWindow()));
+    	this.setProgressDisplay(new ProgressDisplay(getLogMergerWindow()));
 	}
 
 	@Override
 	protected String doInBackground() throws Exception {
-		getLoadingIconGraphicsHandler().initiate();
+		getProgressDisplay().initiate();
 		
 		WindowComponentHolder mainWindowContainer = getLogMergerWindow().getWindowComponentHolder();
 		
@@ -67,7 +67,7 @@ public class DateLineWorker extends SwingWorker<String, String> {
 	@Override
 	protected void process(List<String> chunks) {
 		String currentState = chunks.get(chunks.size()-1);
-		getLoadingIconGraphicsHandler().setCurrentState(currentState);
+		getProgressDisplay().setCurrentState(currentState);
 	}
 
 	@Override
@@ -93,7 +93,7 @@ public class DateLineWorker extends SwingWorker<String, String> {
 			}
 		});
         
-		getLoadingIconGraphicsHandler().terminate();
+		getProgressDisplay().terminate();
 	}
 
 	public LogMergerFrame getLogMergerWindow() {
@@ -104,12 +104,12 @@ public class DateLineWorker extends SwingWorker<String, String> {
 		this.logMergerWindow = logMergerWindow;
 	}
 
-	public LoadingIconGraphicsHandler getLoadingIconGraphicsHandler() {
-		return loadingIconGraphicsHandler;
+	public ProgressDisplay getProgressDisplay() {
+		return progressDisplay;
 	}
 
-	public void setLoadingIconGraphicsHandler(LoadingIconGraphicsHandler loadingIconGraphicsHandler) {
-		this.loadingIconGraphicsHandler = loadingIconGraphicsHandler;
+	public void setProgressDisplay(ProgressDisplay loadingIconGraphicsHandler) {
+		this.progressDisplay = loadingIconGraphicsHandler;
 	}
 
 }

@@ -1,4 +1,4 @@
-package window.component;
+package logmerger.frame.component.impl;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -10,9 +10,10 @@ import javax.imageio.ImageIO;
 import javax.swing.SwingUtilities;
 
 import logmerger.frame.LogMergerFrame;
+import logmerger.frame.component.AbstractLogMergerFrameButton;
 
 
-public class ClearUnOrderedTextButton extends AbstractMainWindowContainerButton {
+public class ClearUnOrderedTextButton extends AbstractLogMergerFrameButton {
 	
 	private static final long serialVersionUID = 1L;
     private static final String CLEAR_TOOLTIP = "Clear Text";

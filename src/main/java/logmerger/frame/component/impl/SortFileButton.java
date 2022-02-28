@@ -1,12 +1,13 @@
-package window.component;
+package logmerger.frame.component.impl;
 
 import java.awt.event.ActionEvent;
 
 import logmerger.frame.LogMergerFrame;
+import logmerger.frame.component.AbstractLogMergerFrameButton;
 import swingworker.DateLineWorker;
 
 
-public class SortFileButton extends AbstractMainWindowContainerButton {
+public class SortFileButton extends AbstractLogMergerFrameButton {
 	
 	private static final long serialVersionUID = 1L;
     private static final String BTN_TITLE = "Sort";

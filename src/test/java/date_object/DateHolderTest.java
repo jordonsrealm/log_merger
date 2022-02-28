@@ -9,7 +9,7 @@ import java.util.GregorianCalendar;
 
 import org.junit.Test;
 
-import datedline.DatedLine;
+import logmerger.frame.datedline.DatedLine;
 
 
 public class DateHolderTest {

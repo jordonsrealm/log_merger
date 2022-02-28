@@ -8,8 +8,8 @@ import javax.swing.UIManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import configuration.ConfigurationGetter;
 import logmerger.frame.LogMergerFrame;
+import logmerger.frame.configuration.ConfigurationGetter;
 
 public class LogMerger {
 

@@ -1,4 +1,4 @@
-package window.component;
+package logmerger.frame.component.impl;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -18,8 +18,8 @@ import javax.swing.JPopupMenu;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import datedline.DatedLine;
 import logmerger.frame.LogMergerFrame;
+import logmerger.frame.datedline.DatedLine;
 
 
 public class LineNumberComponent extends JComponent implements MouseMotionListener, MouseListener {

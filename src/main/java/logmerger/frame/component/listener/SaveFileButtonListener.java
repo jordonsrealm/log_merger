@@ -1,37 +1,36 @@
-package window.component;
+package logmerger.frame.component.listener;
 
-import java.awt.Graphics;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
 import javax.swing.JFileChooser;
+import javax.swing.JTextArea;
 import javax.swing.filechooser.FileSystemView;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import logmerger.frame.LogMergerFrame;
 
+public class SaveFileButtonListener implements ActionListener {
 
-public class SaveFileButton extends AbstractMainWindowContainerButton {
-
-	private static final long serialVersionUID = 1L;
-	private static final Logger logger = LoggerFactory.getLogger(SaveFileButton.class);
-    private static final String BTN_TITLE = "Save";
+	private static final Logger logger = LoggerFactory.getLogger(SaveFileButtonListener.class);
+	private JTextArea organizedText;
+	private static final String DIALOG_TITLE = "Specify a file to save";
 	
-
-	public SaveFileButton(LogMergerFrame mainWindow) {
-		super(mainWindow, BTN_TITLE);
+	
+	public SaveFileButtonListener(JTextArea organizedText) {
+		this.organizedText = organizedText;
 	}
-
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
         JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
-        jfc.setDialogTitle("Specify a file to save");
+        jfc.setDialogTitle(DIALOG_TITLE);
 
         int userSelection = jfc.showSaveDialog(null);
 
@@ -40,23 +39,15 @@ public class SaveFileButton extends AbstractMainWindowContainerButton {
             logger.debug("Saving file as: {}", fileToSave.getAbsolutePath());
 
             try(FileOutputStream outputStream = new FileOutputStream(fileToSave)){
-                byte[] bytes = getLogMergerWindow().getWindowComponentHolder().getOrderedText().getBytes();
-                outputStream.write(bytes);
+                outputStream.write(this.organizedText.getText().getBytes());
+                logger.debug("Saved to file: {}", fileToSave.getName());
             } catch(FileNotFoundException ex){
                 logger.error("Unable to find the file to save to...", ex);
             } catch (IOException ioEx){
                 logger.error("Uable to create file to save to...", ioEx);
             }
-
-            logger.info("Saved to file: {}", fileToSave.getName());
         }
     
-	
-	}
-
-	@Override
-	protected void paintComponent(Graphics g) {
-		super.paintComponent(g);
 	}
 
 }

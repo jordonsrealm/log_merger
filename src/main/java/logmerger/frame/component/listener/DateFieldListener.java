@@ -1,4 +1,4 @@
-package window.component.listener;
+package logmerger.frame.component.listener;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

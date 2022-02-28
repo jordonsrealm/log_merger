@@ -1,4 +1,4 @@
-package datedline.logginglevel;
+package logmerger.frame.datedline.logginglevel;
 
 import java.awt.Color;
 

@@ -1,9 +1,9 @@
-package window.component.holder;
+package logmerger.frame.component.holder;
 
 import javax.swing.*;
 
-import datedline.DatedLine;
 import logmerger.frame.LogMergerFrame;
+import logmerger.frame.datedline.DatedLine;
 
 import java.awt.Component;
 import java.util.List;

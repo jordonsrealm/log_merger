@@ -1,4 +1,4 @@
-package window.component;
+package logmerger.frame.component.impl;
 
 import java.awt.Component;
 import java.awt.event.AdjustmentEvent;
