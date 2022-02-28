@@ -44,7 +44,7 @@ public class DatedLine implements Comparable<DatedLine> {
 	}
 
 	public String getDateFormat() {
-		return dateFormat;
+		return this.dateFormat;
 	}
 
 	public void setDateFormat(String dateFormat) {
@@ -52,7 +52,7 @@ public class DatedLine implements Comparable<DatedLine> {
 	}
 
 	public LoggingLevel getLogLevel() {
-		return logLevel;
+		return this.logLevel;
 	}
 
 	public void setLogLevel(LoggingLevel logLevel) {
@@ -60,7 +60,7 @@ public class DatedLine implements Comparable<DatedLine> {
 	}
 
 	public String getOriginalStringWithDate() {
-		return originalStringWithDate;
+		return this.originalStringWithDate;
 	}
 
 	public void setOriginalStringWithDate(String originalStringWithDate) {
@@ -68,7 +68,7 @@ public class DatedLine implements Comparable<DatedLine> {
 	}
 
 	public boolean isVisible() {
-		return visible;
+		return this.visible;
 	}
 
 	public void setVisible(boolean visible) {
@@ -76,7 +76,7 @@ public class DatedLine implements Comparable<DatedLine> {
 	}
 
 	public int getRowCount() {
-		return rowCount;
+		return this.rowCount;
 	}
 
 	public void setRowCount(int rowCount) {
@@ -84,7 +84,7 @@ public class DatedLine implements Comparable<DatedLine> {
 	}
 
 	public void handleVisibility(CheckBoxHolder holder) {
-		this.setVisible((this.logLevel.equals(LoggingLevel.ERROR) && holder.isErrorSelected())||
+		setVisible((this.logLevel.equals(LoggingLevel.ERROR) && holder.isErrorSelected())||
 				(this.logLevel.equals(LoggingLevel.UNKNOWN) && holder.isUnknownSelected())||
 				(this.logLevel.equals(LoggingLevel.INFO) && holder.isInfoSelected())||
 				(this.logLevel.equals(LoggingLevel.WARN) && holder.isWarnSelected())||
@@ -106,7 +106,7 @@ public class DatedLine implements Comparable<DatedLine> {
 		}
 
 		try {
-			date = new SimpleDateFormat(dateFormat).parse(formattedDate);
+			date = new SimpleDateFormat(this.dateFormat).parse(formattedDate);
 		} catch (ParseException e) {
 			logger.debug("Unable to parse date: {} from format: {}, Exception: {}", formattedDate, this.dateFormat, e);
 		}
@@ -182,8 +182,8 @@ public class DatedLine implements Comparable<DatedLine> {
 
 		DatedLine datedLine = (DatedLine) obj;
 		return getDate().equals(datedLine.getDate()) && 
-				getOriginalStringWithDate().equals(datedLine.getOriginalStringWithDate()) &&
-				getDateFormat().equals(datedLine.getDateFormat());
+				this.originalStringWithDate.equals(datedLine.getOriginalStringWithDate()) &&
+				this.dateFormat.equals(datedLine.getDateFormat());
 	}
 
 	@Override

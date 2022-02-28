@@ -17,8 +17,8 @@ public class LogMergerFrameListener implements ComponentListener{
 	
 	@Override
 	public void componentResized(ComponentEvent e) {
-		int newWidth = getLogMergerFrame().getSize().width;
-		getLogMergerFrame().getWindowComponentHolder().getMergingSplitPane().setDividerLocation(newWidth/2);
+		int frameWidth = getLogMergerFrame().getSize().width;
+		getLogMergerFrame().getWindowComponentHolder().getMergingSplitPane().setDividerLocation(frameWidth/2);
 	}
 
 	@Override

@@ -3,17 +3,19 @@ package datedline.logginglevel;
 import java.awt.Color;
 
 public enum LoggingLevel {
-	INFO("INFO"),
-	DEBUG("DEBUG"),
-	ERROR("ERROR"),
-	TRACE("TRACE"),
-	WARN("WARN"),
-	UNKNOWN("UNKNOWN");
+	ERROR("ERROR", "0xff6f68"),
+	INFO("INFO", "0xb6d7a8"),
+	DEBUG("DEBUG", "0xabc5fe"),
+	TRACE("TRACE", "0xc0c0c0"),
+	WARN("WARN", "0xfeff8f"),
+	UNKNOWN("UNKNOWN", "0xe9e9e9");
 	
 	private String level;
+	private String color;
 	
-	LoggingLevel(String level) {
+	LoggingLevel(String level, String color) {
 		this.level = level;
+		this.color = color;
 	}
 	
 	public String level() {
@@ -21,29 +23,7 @@ public enum LoggingLevel {
 	}
 	
 	public Color getLevelColor() {
-		Color color = null;
-		switch(this) {
-			case ERROR:
-				color = Color.decode("0xff6f68");
-				break;
-			case INFO:
-				color = Color.decode("0xb6d7a8");
-				break;
-			case DEBUG:
-				color = Color.decode("0xabc5fe");
-				break;
-			case TRACE:
-				color = Color.decode("0xc0c0c0");
-				break;
-			case WARN:
-				color = Color.decode("0xfeff8f");
-				break;
-			case UNKNOWN:
-				color = Color.decode("0xe9e9e9");
-				break;
-		}
-		
-		return color;
+		return Color.decode(this.color);
 	}
 	
 	public static LoggingLevel getLevel(String possibleLevel) {
