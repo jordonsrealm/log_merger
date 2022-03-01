@@ -42,22 +42,22 @@ public class DateLineWorker extends SwingWorker<String, String> {
 			
 			DateLineOrganizer dateLineOrganizer = new DateLineOrganizer(mainWindowContainer);
 			
-			publish(PublishedAction.CREATING_DATE_LINES.action());
+			publish(PublishedAction.CREATING_DATE_LINES.text());
 			List<DatedLine> lines = dateLineOrganizer.getDatedLinesUsingFormat();
 			
-			publish(PublishedAction.DATE_BOUNDS.action());
+			publish(PublishedAction.DATE_BOUNDS.text());
 			lines = dateLineOrganizer.handleDateRanges(lines, minDateString, maxDateString);
 			
-			publish(PublishedAction.ORDERING.action());
+			publish(PublishedAction.ORDERING.text());
 			lines = dateLineOrganizer.getOrdereDatedLines(lines);
 			
-			publish(PublishedAction.UPDATING_DATE_LINES.action());
+			publish(PublishedAction.UPDATING_DATE_LINES.text());
 	    	dateLineOrganizer.updateMainWindowHolderWithDatedLines(lines);
 			
-	    	publish(PublishedAction.TO_FULL_TEXT.action());
+	    	publish(PublishedAction.TO_FULL_TEXT.text());
 			convertedString = dateLineOrganizer.returnCompleteTextFromDatedLines(lines);
 			
-			publish(PublishedAction.FINISHED.action());
+			publish(PublishedAction.FINISHED.text());
 		}
 		
 		return convertedString;

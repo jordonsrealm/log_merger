@@ -8,13 +8,13 @@ public enum PublishedAction {
 	TO_FULL_TEXT("Now converting dated lines into a full text..."),
 	FINISHED("Finished converting dated lines into full text...");
 	
-	private String action;
+	private String text;
 	
-	PublishedAction(String action) {
-		this.action = action;
+	PublishedAction(String text) {
+		this.text = text;
 	}
 	
-	public String action() {
-		return action;
+	public String text() {
+		return text;
 	}
 }
